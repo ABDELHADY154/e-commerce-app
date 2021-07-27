@@ -3,79 +3,9 @@ import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { Input } from "galio-framework";
 import { Button } from "galio-framework";
 import { Icon } from "react-native-elements";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { axios } from "../../Config/Axios";
 
-export default class SignIn extends Component {
-  state = {
-    emailInput: "",
-    passwordInput: "",
-    emailErr: "",
-    passwordErr: "",
-    userData: {},
-  };
-  async storeConfig(config) {
-    try {
-      const jsonValue = JSON.stringify(config);
-      await AsyncStorage.setItem("config", jsonValue);
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-  async storeToken(token) {
-    try {
-      await AsyncStorage.setItem("userToken", token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      // console.log(axios.defaults.headers.common);
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-
-  submit = () => {
-    this.setState({
-      emailErr: "",
-      passwordErr: "",
-    });
-    var body = {
-      email: this.state.emailInput,
-      password: this.state.passwordInput,
-    };
-
-    axios
-      .post("/clientLogin", body)
-      .then(response => {
-        this.setState({
-          userData: response.data.response.data,
-          emailErr: "",
-          passwordErr: "",
-        });
-        let config = {
-          headers: {
-            Authorization: "Bearer " + this.state.userData.token,
-          },
-        };
-        this.storeConfig(config);
-        this.storeToken(this.state.userData.token);
-        this.props.userLogin(this.state.emailInput, this.state.passwordInput);
-      })
-
-      .catch(error => {
-        if (error.response.data.errors.email) {
-          this.setState({
-            emailErr: error.response.data.errors.email,
-          });
-        }
-        if (error.response.data.errors.password) {
-          this.setState({
-            passwordErr: error.response.data.errors.password,
-          });
-        }
-      });
-  };
-
+export default class SignUp extends Component {
   render() {
-    console.log(this.state);
     return (
       <SafeAreaView
         style={{
@@ -95,9 +25,19 @@ export default class SignIn extends Component {
         >
           <View>
             <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Sign In</Text>
+              <Text style={styles.headerText}>Sign Up</Text>
             </View>
-
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Name</Text>
+              <Input
+                placeholder="Name"
+                placeholderTextColor="#ABB4BD"
+                bgColor="#2A2C36"
+                color="#F5F5F5"
+                // style={{ borderColor: "red" }}
+                rounded
+              />
+            </View>
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Email</Text>
               <Input
@@ -107,9 +47,6 @@ export default class SignIn extends Component {
                 bgColor="#2A2C36"
                 color="#F5F5F5"
                 rounded
-                onChangeText={e => {
-                  this.setState({ emailInput: e });
-                }}
               />
             </View>
             <View style={styles.inputContainer}>
@@ -123,9 +60,6 @@ export default class SignIn extends Component {
                 password
                 viewPass
                 iconColor="#f5f5f5f5"
-                onChangeText={e => {
-                  this.setState({ passwordInput: e });
-                }}
               />
             </View>
             <Button
@@ -139,13 +73,11 @@ export default class SignIn extends Component {
               size="large"
               // loading={true}
               loadingSize="small"
-              onPress={this.submit}
             >
-              Sign In
+              Sign Up
             </Button>
             <Button
               round
-              // uppercase
               style={{
                 alignSelf: "center",
                 // marginTop: "15%",
@@ -154,11 +86,8 @@ export default class SignIn extends Component {
               size="large"
               // loading={true}
               loadingSize="small"
-              onPress={() => {
-                this.props.navigation.navigate("SignUp");
-              }}
             >
-              Create New Account
+              Already Have an account
             </Button>
           </View>
 
@@ -182,7 +111,7 @@ export default class SignIn extends Component {
                 marginBottom: "4%",
               }}
             >
-              Or Sign In With Social Account
+              Or Sign Up With Social Account
             </Text>
             <View style={{ flexDirection: "row" }}>
               <Icon
