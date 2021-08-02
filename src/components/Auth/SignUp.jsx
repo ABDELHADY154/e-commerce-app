@@ -3,8 +3,101 @@ import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { Input } from "galio-framework";
 import { Button } from "galio-framework";
 import { Icon } from "react-native-elements";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { axios } from "../../Config/Axios";
 export default class SignUp extends Component {
+  state = {
+    nameBorder: "",
+    emailBorder: "",
+    passwordBorder: "",
+    name: "",
+    email: "",
+    password: "",
+    nameErr: "",
+    emailErr: "",
+    passwordErr: "",
+    userData: {},
+    loading: false,
+  };
+  async storeConfig(config) {
+    try {
+      const jsonValue = JSON.stringify(config);
+      await AsyncStorage.setItem("config", jsonValue);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  async storeToken(token) {
+    try {
+      await AsyncStorage.setItem("userToken", token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      // console.log(axios.defaults.headers.common);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  submit = () => {
+    this.setState({
+      emailErr: "",
+      passwordErr: "",
+      nameErr: "",
+      loading: true,
+      passwordBorder: "",
+      emailBorder: "",
+      nameBorder: "",
+    });
+    var body = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    axios
+      .post("/clientRegister", body)
+      .then(response => {
+        this.setState({
+          userData: response.data.response.data,
+          emailErr: "",
+          passwordErr: "",
+          nameErr: "",
+          loading: false,
+        });
+        let config = {
+          headers: {
+            Authorization: "Bearer " + this.state.userData.token,
+          },
+        };
+        this.storeConfig(config);
+        this.storeToken(this.state.userData.token);
+        this.props.userLogin(this.state.emailInput, this.state.passwordInput);
+      })
+
+      .catch(error => {
+        console.log(error.response.data);
+        if (error.response.data.errors.email) {
+          this.setState({
+            emailErr: error.response.data.errors.email,
+            emailBorder: "red",
+            loading: false,
+          });
+        }
+        if (error.response.data.errors.password) {
+          this.setState({
+            passwordErr: error.response.data.errors.password,
+            passwordBorder: "red",
+            loading: false,
+          });
+        }
+        if (error.response.data.errors.name) {
+          this.setState({
+            nameErr: error.response.data.errors.name,
+            nameBorder: "red",
+            loading: false,
+          });
+        }
+      });
+  };
   render() {
     return (
       <SafeAreaView
@@ -34,9 +127,17 @@ export default class SignUp extends Component {
                 placeholderTextColor="#ABB4BD"
                 bgColor="#2A2C36"
                 color="#F5F5F5"
-                // style={{ borderColor: "red" }}
+                style={{ borderColor: this.state.nameBorder }}
                 rounded
+                onChangeText={value => {
+                  this.setState({ name: value });
+                }}
               />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.nameErr}
+              </Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Email</Text>
@@ -46,8 +147,17 @@ export default class SignUp extends Component {
                 type="email-address"
                 bgColor="#2A2C36"
                 color="#F5F5F5"
+                style={{ borderColor: this.state.emailBorder }}
                 rounded
+                onChangeText={value => {
+                  this.setState({ email: value });
+                }}
               />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.emailErr}
+              </Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Password</Text>
@@ -58,9 +168,18 @@ export default class SignUp extends Component {
                 color="#F5F5F5"
                 rounded
                 password
+                style={{ borderColor: this.state.passwordBorder }}
                 viewPass
                 iconColor="#f5f5f5f5"
+                onChangeText={value => {
+                  this.setState({ password: value });
+                }}
               />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.passwordErr}
+              </Text>
             </View>
             <Button
               round
@@ -71,8 +190,9 @@ export default class SignUp extends Component {
               }}
               color="#28AE7B"
               size="large"
-              // loading={true}
+              loading={this.state.loading}
               loadingSize="small"
+              onPress={this.submit}
             >
               Sign Up
             </Button>
@@ -82,16 +202,19 @@ export default class SignUp extends Component {
                 alignSelf: "center",
                 // marginTop: "15%",
               }}
-              color="#F83F2D"
+              color="transparent"
               size="large"
               // loading={true}
               loadingSize="small"
+              onPress={() => {
+                this.props.navigation.navigate("SignIn");
+              }}
             >
               Already Have an account
             </Button>
           </View>
 
-          <View
+          {/* <View
             style={{
               // flex: 1,
               flexDirection: "column",
@@ -129,7 +252,7 @@ export default class SignUp extends Component {
                 onPress={() => console.log("hello")}
               />
             </View>
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
     );
@@ -149,7 +272,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputContainer: {
-    marginTop: "5%",
+    // marginTop: "5%",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "flex-start",

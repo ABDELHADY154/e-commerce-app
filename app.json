@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abdelhady154.e-commerce-app"
     },
     "android": {
       "adaptiveIcon": {

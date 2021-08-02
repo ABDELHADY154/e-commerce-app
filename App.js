@@ -11,6 +11,8 @@ import Home from "./src/components/Home";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "./src/Config/Axios";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import ForgetPass from "./src/components/Auth/forgetPassword";
+import PasswordVerify from "./src/components/Auth/passwordVerify";
 
 const AuthContext = React.createContext();
 const Stack = createStackNavigator();
@@ -19,6 +21,21 @@ function SignInScreen(props) {
   const navigation = useNavigation();
   const { signIn } = React.useContext(AuthContext);
   return <SignIn {...props} navigation={navigation} userLogin={signIn} />;
+}
+function SignUpScreen(props) {
+  const navigation = useNavigation();
+  const { signIn } = React.useContext(AuthContext);
+  return <SignUp {...props} navigation={navigation} userLogin={signIn} />;
+}
+function ForgetPasswordScreen(props) {
+  const navigation = useNavigation();
+  // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
+  return <ForgetPass {...props} navigation={navigation} />;
+}
+function PasswordVerifyScreen(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <PasswordVerify {...props} navigation={navigation} route={route} />;
 }
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
@@ -57,7 +74,7 @@ export default function App({ navigation }) {
       try {
         userToken = await AsyncStorage.getItem("userToken");
         axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
-        console.log(userToken);
+        // console.log(userToken);
       } catch (e) {
         console.log(e);
         // Restoring token failed
@@ -124,7 +141,27 @@ export default function App({ navigation }) {
                 />
                 <Stack.Screen
                   name="SignUp"
-                  component={SignUp}
+                  component={SignUpScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="ForgetPass"
+                  component={ForgetPasswordScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="VerifyPass"
+                  component={PasswordVerifyScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

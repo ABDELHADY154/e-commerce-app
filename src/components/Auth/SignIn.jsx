@@ -13,6 +13,9 @@ export default class SignIn extends Component {
     emailErr: "",
     passwordErr: "",
     userData: {},
+    emailBorder: "",
+    passwordBorder: "",
+    loading: false,
   };
   async storeConfig(config) {
     try {
@@ -36,6 +39,9 @@ export default class SignIn extends Component {
     this.setState({
       emailErr: "",
       passwordErr: "",
+      loading: true,
+      passwordBorder: "",
+      emailBorder: "",
     });
     var body = {
       email: this.state.emailInput,
@@ -49,6 +55,7 @@ export default class SignIn extends Component {
           userData: response.data.response.data,
           emailErr: "",
           passwordErr: "",
+          loading: false,
         });
         let config = {
           headers: {
@@ -61,21 +68,33 @@ export default class SignIn extends Component {
       })
 
       .catch(error => {
+        console.log(error.response.data);
         if (error.response.data.errors.email) {
           this.setState({
             emailErr: error.response.data.errors.email,
+            emailBorder: "red",
+            loading: false,
           });
         }
         if (error.response.data.errors.password) {
           this.setState({
             passwordErr: error.response.data.errors.password,
+            passwordBorder: "red",
+            loading: false,
+          });
+        }
+        if (error.response.data.errors.error) {
+          this.setState({
+            emailErr: error.response.data.errors.error,
+            emailBorder: "red",
+            loading: false,
           });
         }
       });
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <SafeAreaView
         style={{
@@ -106,11 +125,17 @@ export default class SignIn extends Component {
                 type="email-address"
                 bgColor="#2A2C36"
                 color="#F5F5F5"
+                style={{ borderColor: this.state.emailBorder }}
                 rounded
                 onChangeText={e => {
                   this.setState({ emailInput: e });
                 }}
               />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.emailErr}
+              </Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Password</Text>
@@ -120,6 +145,7 @@ export default class SignIn extends Component {
                 bgColor="#2A2C36"
                 color="#F5F5F5"
                 rounded
+                style={{ borderColor: this.state.passwordBorder }}
                 password
                 viewPass
                 iconColor="#f5f5f5f5"
@@ -127,6 +153,11 @@ export default class SignIn extends Component {
                   this.setState({ passwordInput: e });
                 }}
               />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.passwordErr}
+              </Text>
             </View>
             <Button
               round
@@ -137,7 +168,7 @@ export default class SignIn extends Component {
               }}
               color="#28AE7B"
               size="large"
-              // loading={true}
+              loading={this.state.loading}
               loadingSize="small"
               onPress={this.submit}
             >
@@ -148,9 +179,12 @@ export default class SignIn extends Component {
               // uppercase
               style={{
                 alignSelf: "center",
+                // borderWidth: 0,
+
                 // marginTop: "15%",
               }}
-              color="#F83F2D"
+              // color="#F83F2D"
+              color="transparent"
               size="large"
               // loading={true}
               loadingSize="small"
@@ -160,9 +194,29 @@ export default class SignIn extends Component {
             >
               Create New Account
             </Button>
+            <Button
+              round
+              // uppercase
+              style={{
+                alignSelf: "center",
+                borderWidth: 0,
+
+                // marginTop: "15%",
+              }}
+              // color="#F83F2D"
+              color="transparent"
+              size="large"
+              // loading={true}
+              loadingSize="small"
+              onPress={() => {
+                this.props.navigation.navigate("ForgetPass");
+              }}
+            >
+              Forget Your Password
+            </Button>
           </View>
 
-          <View
+          {/* <View
             style={{
               // flex: 1,
               flexDirection: "column",
@@ -170,7 +224,7 @@ export default class SignIn extends Component {
               alignSelf: "center",
               justifyContent: "center",
               alignItems: "center",
-              marginBottom: "5%",
+              // marginBottom: "5%",
               // justifySelf: "flex-end",
             }}
           >
@@ -200,7 +254,7 @@ export default class SignIn extends Component {
                 onPress={() => console.log("hello")}
               />
             </View>
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
     );
