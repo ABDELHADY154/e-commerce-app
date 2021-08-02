@@ -10,24 +10,37 @@ import { Input } from "galio-framework";
 import { Button, Icon } from "galio-framework";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../Config/Axios";
+import { Modal, Portal, Provider } from "react-native-paper";
+
 export default class SignUp extends Component {
   state = {
     emailBorder: "",
     name: "",
     email: "",
     emailErr: "",
+    token: "",
+    visible: false,
+    // token
     loading: false,
   };
 
-  async storeEmail(email) {
-    try {
-      await AsyncStorage.setItem("userEmail", email);
-      // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      // console.log(axios.defaults.headers.common);
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
+  async UNSAFE_componentWillMount() {
+    let email = await AsyncStorage.getItem("userEmail");
+    this.setState({
+      email: email,
+    });
   }
+  hideModal = () => {
+    this.setState({
+      visible: false,
+    });
+    this.props.verified();
+  };
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
   submit = () => {
     this.setState({
@@ -37,23 +50,26 @@ export default class SignUp extends Component {
     });
     var body = {
       email: this.state.email,
+      token: this.state.token,
     };
 
     axios
-      .post("/resetPass", body)
+      .post("/resetVerify", body)
       .then(response => {
         this.setState({
           emailErr: "",
           loading: false,
         });
-        this.storeToken(this.state.email);
+        this.showModal();
+        // this.storeToken(this.state.email);
       })
       .catch(error => {
         // console.log(error.response.data);
         if (error.response) {
-          if (error.response.data.errors.email) {
+          console.log(error.response.data.errors);
+          if (error.response.data.errors.token) {
             this.setState({
-              emailErr: error.response.data.errors.email,
+              emailErr: "The Verification Code Is Required",
               emailBorder: "red",
               loading: false,
             });
@@ -81,13 +97,18 @@ export default class SignUp extends Component {
         >
           <View>
             <View style={styles.headerContainer}>
-              <Text style={styles.headerText}>Forget </Text>
+              <Text style={styles.headerText}>Verify Your Email</Text>
+              <Text style={styles.headerText2}>
+                A verification Code Has been sent to {this.state.email}
+              </Text>
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Email</Text>
+              <Text style={styles.inputLabel}>
+                Enter Your Verification Code
+              </Text>
               <Input
-                placeholder="Email"
+                placeholder="Code"
                 placeholderTextColor="#ABB4BD"
                 type="email-address"
                 bgColor="#2A2C36"
@@ -95,7 +116,7 @@ export default class SignUp extends Component {
                 style={{ borderColor: this.state.emailBorder }}
                 rounded
                 onChangeText={value => {
-                  this.setState({ email: value });
+                  this.setState({ token: value });
                 }}
               />
               <Text
@@ -117,10 +138,39 @@ export default class SignUp extends Component {
               loadingSize="small"
               onPress={this.submit}
             >
-              Send
+              Verify
             </Button>
           </View>
         </View>
+        <Provider>
+          <Portal>
+            <Modal
+              visible={this.state.visible}
+              onDismiss={this.hideModal}
+              contentContainerStyle={{
+                backgroundColor: "#F6F6F6",
+                padding: 20,
+                height: "30%",
+                alignSelf: "center",
+                justifyContent: "center",
+                borderRadius: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                }}
+              >
+                A new password has been sent to your email
+              </Text>
+            </Modal>
+          </Portal>
+          {/* <Button style={{ marginTop: 30 }} onPress={this.showModal}>
+              Show
+            </Button> */}
+        </Provider>
       </SafeAreaView>
     );
   }
@@ -136,6 +186,12 @@ const styles = StyleSheet.create({
   headerText: {
     color: "#F6F6F6",
     fontSize: 34,
+    alignSelf: "flex-start",
+  },
+  headerText2: {
+    color: "#F6F6F6",
+    fontSize: 20,
+    marginTop: "3%",
     alignSelf: "flex-start",
   },
   inputContainer: {

@@ -27,16 +27,7 @@ function SignUpScreen(props) {
   const { signIn } = React.useContext(AuthContext);
   return <SignUp {...props} navigation={navigation} userLogin={signIn} />;
 }
-function ForgetPasswordScreen(props) {
-  const navigation = useNavigation();
-  // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
-  return <ForgetPass {...props} navigation={navigation} />;
-}
-function PasswordVerifyScreen(props) {
-  const navigation = useNavigation();
-  const route = useRoute();
-  return <PasswordVerify {...props} navigation={navigation} route={route} />;
-}
+
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -52,6 +43,14 @@ export default function App({ navigation }) {
             ...prevState,
             isSignout: false,
             userToken: action.token,
+            isVerified: false,
+          };
+        case "VERIFY":
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+            isVerified: true,
           };
         case "SIGN_OUT":
           return {
@@ -65,6 +64,7 @@ export default function App({ navigation }) {
       isLoading: true,
       isSignout: false,
       userToken: null,
+      isVerified: false,
     },
   );
 
@@ -121,44 +121,74 @@ export default function App({ navigation }) {
       />
     );
   };
+  const ForgetPasswordScreen = props => {
+    const navigation = useNavigation();
+    // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
+    return (
+      <ForgetPass
+        {...props}
+        navigation={navigation}
+        verify={() => {
+          dispatch({ type: "VERIFY" });
+        }}
+      />
+    );
+  };
 
+  const PasswordVerifyScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return (
+      <PasswordVerify
+        {...props}
+        navigation={navigation}
+        route={route}
+        verified={() => {
+          dispatch({ type: "SIGN_IN" });
+        }}
+      />
+    );
+  };
   return (
     <AuthContext.Provider value={authContext}>
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
             {state.userToken == null ? (
-              <>
-                <Stack.Screen
-                  name="SignIn"
-                  component={SignInScreen}
-                  options={{
-                    animationTypeForReplace: state.isSignout ? "pop" : "push",
-                    header: () => {
-                      "none";
-                    },
-                  }}
-                />
-                <Stack.Screen
-                  name="SignUp"
-                  component={SignUpScreen}
-                  options={{
-                    animationTypeForReplace: state.isSignout ? "pop" : "push",
-                    header: () => {
-                      "none";
-                    },
-                  }}
-                />
-                <Stack.Screen
-                  name="ForgetPass"
-                  component={ForgetPasswordScreen}
-                  options={{
-                    animationTypeForReplace: state.isSignout ? "pop" : "push",
-                    header: () => {
-                      "none";
-                    },
-                  }}
-                />
+              state.isVerified == false ? (
+                <>
+                  <Stack.Screen
+                    name="SignIn"
+                    component={SignInScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUpScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ForgetPass"
+                    component={ForgetPasswordScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                </>
+              ) : (
                 <Stack.Screen
                   name="VerifyPass"
                   component={PasswordVerifyScreen}
@@ -169,7 +199,7 @@ export default function App({ navigation }) {
                     },
                   }}
                 />
-              </>
+              )
             ) : (
               <Stack.Screen name="Home" component={HomeScreen} />
             )}

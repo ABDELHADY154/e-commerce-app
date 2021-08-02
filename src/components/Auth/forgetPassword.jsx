@@ -49,7 +49,7 @@ export default class SignUp extends Component {
           loading: false,
           isValid: true,
         });
-        this.storeToken(this.state.email);
+        this.storeEmail(this.state.email);
       })
       .catch(error => {
         // console.log(error.response.data);
@@ -66,9 +66,7 @@ export default class SignUp extends Component {
   };
   componentDidUpdate() {
     if (this.state.isValid == true) {
-      this.props.navigation.push("VerifyPass", {
-        email: this.state.email,
-      });
+      this.props.verify();
     }
   }
 
