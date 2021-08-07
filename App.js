@@ -1,10 +1,7 @@
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
 import SignUp from "./src/components/Auth/SignUp";
 import SignIn from "./src/components/Auth/SignIn";
 import Home from "./src/components/Home";
@@ -13,6 +10,16 @@ import { axios } from "./src/Config/Axios";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ForgetPass from "./src/components/Auth/forgetPassword";
 import PasswordVerify from "./src/components/Auth/passwordVerify";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#2A2C36",
+  },
+};
 
 const AuthContext = React.createContext();
 const Stack = createStackNavigator();
@@ -152,7 +159,7 @@ export default function App({ navigation }) {
   return (
     <AuthContext.Provider value={authContext}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme}>
           <Stack.Navigator>
             {state.userToken == null ? (
               state.isVerified == false ? (
@@ -201,10 +208,22 @@ export default function App({ navigation }) {
                 />
               )
             ) : (
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <>
+                <Stack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>
+        <StatusBar style="light" />
       </SafeAreaProvider>
     </AuthContext.Provider>
   );

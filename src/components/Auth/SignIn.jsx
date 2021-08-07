@@ -5,6 +5,7 @@ import { Button } from "galio-framework";
 import { Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../Config/Axios";
+import { StatusBar } from "expo-status-bar";
 
 export default class SignIn extends Component {
   state = {
@@ -256,6 +257,7 @@ export default class SignIn extends Component {
             </View>
           </View> */}
         </View>
+        <StatusBar style="light" />
       </SafeAreaView>
     );
   }
