@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   ImageBackground,
+  View,
   Platform,
 } from "react-native";
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
@@ -13,6 +14,8 @@ import { Component } from "react";
 import { axios } from "../../../Config/Axios";
 const { width, height } = Dimensions.get("screen");
 import { Avatar } from "react-native-elements";
+import { ListItem } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
@@ -21,6 +24,22 @@ class Profile extends Component {
     name: "",
     email: "",
     image: "",
+    pickedImage: "",
+  };
+
+  afterImageUpload = async () => {
+    await axios
+      .get("/clientProfile")
+      .then(res => {
+        this.setState({
+          name: res.data.response.data.name,
+          email: res.data.response.data.email,
+          image: res.data.response.data.image,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   async componentDidMount() {
@@ -37,81 +56,197 @@ class Profile extends Component {
         console.log(err);
       });
   }
+  uploadImage = async () => {
+    var formData = new FormData();
+    let uriParts = this.state.pickedImage.split(".");
+    let fileType = uriParts[uriParts.length - 1];
+    formData.append("image", {
+      uri: this.state.pickedImage,
+      name: `${this.state.name}.${fileType}`,
+      type: `image/${fileType}`,
+    });
+
+    await axios({
+      method: "post",
+      url: "/clientUpdateImage",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(e => {
+        // this.setState({ visible: false });
+        console.log(e);
+        this.afterImageUpload();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ pickedImage: result.uri });
+      this.uploadImage();
+    }
+  };
+
   render() {
+    console.log(this.state.image);
     return (
-      <Block
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <ImageBackground
-          // source={Images.ProfileBackground}
-          style={styles.profileContainer}
-          imageStyle={styles.profileBackground}
+      <>
+        <View
+          style={{
+            // flex: 1,
+            flexDirection: "column",
+            justifyContent: "space-between",
+            shadowColor: "#1E1F28",
+            shadowRadius: 20,
+            // shadowOffset: 0.2,
+            shadowOpacity: 0.7,
+          }}
         >
-          <Block flex style={styles.profileCard}>
-            <Block
-              style={{
-                width: width,
-              }}
+          <ImageBackground
+            // source={Images.ProfileBackground}
+            style={styles.profileContainer}
+            imageStyle={styles.profileBackground}
+          >
+            <View
+              flex
+              style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <Block middle style={{ top: height * 0.15 }}>
-                {/* <Image
-                  source={
-                    this.state.image !== "" ? { uri: this.state.image } : ""
-                  }
-                  style={styles.avatar}
-                /> */}
-                <Avatar
-                  size="xlarge"
-                  rounded
-                  source={
-                    this.state.image !== "" ? { uri: this.state.image } : ""
-                  }
+              <View>
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignSelf: "center",
+                  }}
                 >
-                  <Avatar.Accessory
-                    size={40}
-                    onPress={() => console.log("pressed")}
-                  />
-                </Avatar>
-              </Block>
-              <Block style={{ top: height * 0.2 }}>
-                <Block middle>
-                  <Text
-                    style={{
-                      // marginBottom: theme.SIZES.BASE / 2,
-                      fontWeight: "900",
-                      fontSize: 26,
-                      // marginTop: -30,
-                      alignSelf: "center",
-                    }}
-                    color="#ffffff"
-                  >
-                    {this.state.name}
-                  </Text>
+                  {this.state.image != "" ? (
+                    <Avatar
+                      size="xlarge"
+                      rounded
+                      source={
+                        this.state.image !== "" ? { uri: this.state.image } : ""
+                      }
+                    >
+                      <Avatar.Accessory size={35} onPress={this.pickImage} />
+                    </Avatar>
+                  ) : (
+                    <Text></Text>
+                  )}
+                </View>
+                <View
+                  style={{
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "5%",
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: "900",
+                        fontSize: 26,
+                        alignSelf: "center",
+                      }}
+                      color="#fff"
+                    >
+                      {this.state.name}
+                    </Text>
 
-                  <Text
-                    size={16}
-                    color="white"
-                    style={{
-                      marginTop: 5,
+                    <Text
+                      size={16}
+                      color="white"
+                      style={{
+                        marginTop: 5,
 
-                      lineHeight: 20,
-                      fontWeight: "bold",
-                      fontSize: 18,
-                      opacity: 0.8,
-                    }}
-                  >
-                    {this.state.email}
+                        lineHeight: 20,
+                        fontWeight: "bold",
+                        fontSize: 18,
+                        opacity: 0.6,
+                      }}
+                    >
+                      {this.state.email}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+        <ScrollView>
+          <View
+            style={{ flex: 1, justifyContent: "flex-start", marginTop: "2%" }}
+          >
+            <ListItem
+              bottomDivider
+              containerStyle={{ backgroundColor: "transparent" }}
+            >
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text style={{ color: "white" }}>My Orders</Text>
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  <Text style={{ color: "white" }}>already have 12 orders</Text>
+                </ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron color="white" />
+            </ListItem>
+            <ListItem
+              bottomDivider
+              containerStyle={{ backgroundColor: "transparent" }}
+            >
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text style={{ color: "white" }}>My Addresses</Text>
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  <Text style={{ color: "white" }}>
+                    already have 3 addresses
                   </Text>
-                </Block>
-              </Block>
-            </Block>
-          </Block>
-        </ImageBackground>
-      </Block>
+                </ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron color="white" />
+            </ListItem>
+            <ListItem
+              bottomDivider
+              containerStyle={{ backgroundColor: "transparent" }}
+            >
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text style={{ color: "white" }}>Settings</Text>
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  <Text style={{ color: "white" }}>
+                    Personal Information, Password
+                  </Text>
+                </ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron color="white" />
+            </ListItem>
+
+            <Button
+              onPress={() => {
+                this.props.logout();
+              }}
+              color="red"
+              round
+              style={{ alignSelf: "center", marginTop: "7%" }}
+            >
+              Logout
+            </Button>
+          </View>
+        </ScrollView>
+      </>
     );
   }
 }
@@ -119,9 +254,9 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   profileContainer: {
     width: "100%",
-    height: 400,
+    height: 350,
     padding: 0,
-    backgroundColor: "#1E1F28",
+    backgroundColor: "#2F7C6E",
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },

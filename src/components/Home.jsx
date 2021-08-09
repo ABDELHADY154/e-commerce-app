@@ -31,6 +31,19 @@ export default class Home extends Component {
       />
     );
   };
+  Profile = props => {
+    const navigation = useNavigation();
+    return (
+      <ProfileScreen
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          this.storeToken();
+          this.props.logout();
+        }}
+      />
+    );
+  };
   render() {
     return (
       // <View>
@@ -70,7 +83,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Shop"
-          component={ProfileScreen}
+          component={this.Profile}
           options={{
             tabBarIcon: () => (
               <Icon
@@ -87,7 +100,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Bag"
-          component={ProfileScreen}
+          component={this.Profile}
           options={{
             tabBarIcon: () => (
               <Icon
@@ -104,7 +117,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Favorites"
-          component={ProfileScreen}
+          component={this.Profile}
           options={{
             tabBarIcon: () => (
               <Icon
@@ -121,7 +134,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={this.Profile}
           options={{
             tabBarIcon: () => (
               <Icon
