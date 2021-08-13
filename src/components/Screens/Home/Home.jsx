@@ -6,24 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { Alert, View } from "react-native";
-import {
-  CardOne,
-  CardTwo,
-  CardThree,
-  CardFour,
-  CardFive,
-  CardSix,
-  CardSeven,
-  CardEight,
-  CardNine,
-  CardTen,
-  CardEleven,
-  CardTwelve,
-  CardEcomOne,
-  CardEcomTwo,
-  CardEcomThree,
-  CardEcomFour,
-} from "react-native-card-ui";
+import { CardEcomOne } from "react-native-card-ui";
 import { ScrollView } from "react-native-gesture-handler";
 export default class HomeScreen extends Component {
   async componentDidMount() {
@@ -48,16 +31,15 @@ export default class HomeScreen extends Component {
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
       >
         <ParallaxHeader
-          maxHeight={500}
+          maxHeight={300}
           minHeight={100}
           heroImage={require("../../../assets/images/image.png")}
+          //refactor header
         >
           <View
             style={{
               justifyContent: "center",
               alignItems: "center",
-              // flex: 1,
-              // width: "90%",
               marginHorizontal: "4%",
             }}
           >
@@ -66,7 +48,6 @@ export default class HomeScreen extends Component {
                 color: "white",
                 alignSelf: "flex-start",
                 fontSize: 34,
-                // marginHorizontal: "4%",
               }}
             >
               Sale

@@ -6,7 +6,7 @@ import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import HomeScreen from "./Screens/Home/Home";
 import ProfileScreen from "./Screens/Profile/Profile";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import ShopScreen from "./Screens/Shop/Shop";
 const Tabs = AnimatedTabBarNavigator();
 export default class Home extends Component {
   async storeToken() {
@@ -22,6 +22,19 @@ export default class Home extends Component {
     const navigation = useNavigation();
     return (
       <HomeScreen
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          this.storeToken();
+          this.props.logout();
+        }}
+      />
+    );
+  };
+  Shop = props => {
+    const navigation = useNavigation();
+    return (
+      <ShopScreen
         {...props}
         navigation={navigation}
         logout={() => {
@@ -83,7 +96,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Shop"
-          component={this.Profile}
+          component={this.Shop}
           options={{
             tabBarIcon: () => (
               <Icon
