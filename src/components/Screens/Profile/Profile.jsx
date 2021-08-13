@@ -73,8 +73,7 @@ class Profile extends Component {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(e => {
-        // this.setState({ visible: false });
-        console.log(e);
+        // console.log(e);
         this.afterImageUpload();
       })
       .catch(err => {
