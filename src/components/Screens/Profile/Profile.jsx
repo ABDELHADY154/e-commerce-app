@@ -12,13 +12,12 @@ import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
-const { width, height } = Dimensions.get("screen");
 import { Avatar } from "react-native-elements";
 import { ListItem } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 
+const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
-
 class Profile extends Component {
   state = {
     name: "",
@@ -117,68 +116,71 @@ class Profile extends Component {
             imageStyle={styles.profileBackground}
           >
             <View
-              flex
-              style={{ justifyContent: "center", alignItems: "center" }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
             >
-              <View>
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  {this.state.image != "" ? (
-                    <Avatar
-                      size="xlarge"
-                      rounded
-                      source={
-                        this.state.image !== "" ? { uri: this.state.image } : ""
-                      }
-                    >
-                      <Avatar.Accessory size={35} onPress={this.pickImage} />
-                    </Avatar>
-                  ) : (
-                    <Text></Text>
-                  )}
-                </View>
-                <View
-                  style={{
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "5%",
-                  }}
-                >
-                  <View>
-                    <Text
-                      style={{
-                        fontWeight: "900",
-                        fontSize: 26,
-                        alignSelf: "center",
-                      }}
-                      color="#fff"
-                    >
-                      {this.state.name}
-                    </Text>
+              {/* <View> */}
+              <View
+                style={{
+                  marginTop: "18%",
+                  alignSelf: "center",
+                }}
+              >
+                {this.state.image != "" ? (
+                  <Avatar
+                    size="xlarge"
+                    containerStyle={{ justifyContent: "flex-end" }}
+                    rounded
+                    source={
+                      this.state.image !== "" ? { uri: this.state.image } : ""
+                    }
+                  >
+                    <Avatar.Accessory size={35} onPress={this.pickImage} />
+                  </Avatar>
+                ) : (
+                  <Text></Text>
+                )}
+              </View>
+              <View
+                style={{
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: "5%",
+                }}
+              >
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: "900",
+                      fontSize: 26,
+                      alignSelf: "center",
+                    }}
+                    color="#fff"
+                  >
+                    {this.state.name}
+                  </Text>
 
-                    <Text
-                      size={16}
-                      color="white"
-                      style={{
-                        marginTop: 5,
+                  <Text
+                    size={16}
+                    color="white"
+                    style={{
+                      marginTop: 5,
 
-                        lineHeight: 20,
-                        fontWeight: "bold",
-                        fontSize: 18,
-                        opacity: 0.6,
-                      }}
-                    >
-                      {this.state.email}
-                    </Text>
-                  </View>
+                      lineHeight: 20,
+                      fontWeight: "bold",
+                      fontSize: 18,
+                      opacity: 0.6,
+                    }}
+                  >
+                    {this.state.email}
+                  </Text>
                 </View>
               </View>
+              {/* </View> */}
             </View>
           </ImageBackground>
         </View>
