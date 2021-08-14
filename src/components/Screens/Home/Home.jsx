@@ -9,6 +9,8 @@ import { Alert, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
+import StickyParallaxHeader from "react-native-sticky-parallax-header";
+import { Header } from "react-native-elements";
 export default class HomeScreen extends Component {
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
@@ -32,10 +34,38 @@ export default class HomeScreen extends Component {
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
       >
         <ParallaxHeader
-          maxHeight={300}
+          maxHeight={500}
           minHeight={100}
-          heroImage={require("../../../assets/images/image.png")}
-          //refactor header
+          renderHeader={() => {
+            return (
+              <Header
+                containerStyle={{ height: 510 }}
+                backgroundColor={"#2A2C36"}
+                backgroundImage={require("../../../assets/images/image.png")}
+                // leftContainerStyle={{
+                //   flexDirection: "column",
+                //   justifyContent: "flex-end",
+                //   alignSelf: "flex-end",
+                //   height: "100%",
+                // }}
+                // leftComponent={() => {
+                //   return (
+                //     <View>
+                //       {/* <Text
+                //         style={{ fontSize: 34, color: "white", width: "100%" }}
+                //       >
+                //         Fashion Sale
+                //       </Text> */}
+                //       {/* <Button color="#28AE7B" round>
+                //         Check Sales
+                //       </Button> */}
+                //     </View>
+                //   );
+                // }}
+              />
+            );
+          }}
+          // heroImage={require("../../../assets/images/image.png")}
         >
           <View
             style={{
@@ -58,8 +88,8 @@ export default class HomeScreen extends Component {
                 flexDirection: "row",
                 height: scale(400),
               }}
+              horizontal={true}
             >
-              {/* <View style={{ flexDirection: "row", height: 400 }}> */}
               <Card
                 title={"Porsche Rubber"}
                 subTitle={
@@ -120,7 +150,6 @@ export default class HomeScreen extends Component {
                 buttonColor={"#4383FF"}
                 onClickButton={() => Alert("Has clicked")}
               />
-              {/* </View> */}
             </ScrollView>
           </View>
           <View
@@ -147,6 +176,7 @@ export default class HomeScreen extends Component {
                 flexDirection: "row",
                 height: scale(400),
               }}
+              horizontal={true}
             >
               {/* <View style={{ flexDirection: "row", height: 400 }}> */}
               <Card

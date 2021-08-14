@@ -82,7 +82,7 @@ export default class CardEcomOne extends Component {
             source={image}
             style={{
               width: screenWidth - screenWidth * 0.35,
-              height: "100%",
+              height: "95%",
               resizeMode: "cover",
             }}
           />
@@ -190,59 +190,69 @@ export default class CardEcomOne extends Component {
               </View>
               <View
                 style={{
+                  justifyContent: "space-evenly",
+                  alignSelf: "center",
                   flexDirection: "row",
-                  justifyContent: "center",
                   alignItems: "center",
-                  alignSelf: "flex-start",
                 }}
               >
-                <Text
+                <View
                   style={{
-                    color: "#000",
-                    fontWeight: "bold",
-                    fontSize: scale(16),
-                    margin: scale(12),
-                    textDecorationLine: "line-through",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignSelf: "flex-start",
+                    // marginTop: "5%",
                   }}
                 >
-                  {price}
-                </Text>
-                <Text
+                  <Text
+                    style={{
+                      color: "#000",
+                      fontWeight: "bold",
+                      fontSize: scale(16),
+                      // margin: scale(12),
+                      textDecorationLine: "line-through",
+                    }}
+                  >
+                    {price}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "red",
+                      fontWeight: "bold",
+                      fontSize: scale(16),
+                      margin: scale(12),
+                      marginLeft: "4%",
+                    }}
+                  >
+                    {sale}
+                  </Text>
+                </View>
+                <View
                   style={{
-                    color: "red",
-                    fontWeight: "bold",
-                    fontSize: scale(16),
-                    margin: scale(12),
-                    marginLeft: "4%",
+                    backgroundColor: "#fff",
+                    // flex: 1,
+                    // position: "absolute",
+                    // bottom: scale(26),
+                    // right: 10,
+                    flexDirection: "row",
+                    borderBottomRightRadius: scale(12),
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // alignSelf: "flex-end",
                   }}
                 >
-                  {sale}
-                </Text>
+                  {[1, 2, 3, 4, 5].map((item, index) => (
+                    <Icon
+                      key={index}
+                      name={this.state.icon}
+                      style={{ margin: 2 }}
+                      color={nbStar >= index + 1 ? "gold" : "#bbb"}
+                      size={scale(15)}
+                    />
+                  ))}
+                </View>
               </View>
-            </View>
-            <View
-              style={{
-                backgroundColor: "#fff",
-                flex: 1,
-                position: "absolute",
-                bottom: "16%",
-                right: 10,
-                flexDirection: "row",
-                borderBottomRightRadius: scale(12),
-                justifyContent: "center",
-                alignItems: "center",
-                alignSelf: "flex-end",
-              }}
-            >
-              {[1, 2, 3, 4, 5].map((item, index) => (
-                <Icon
-                  key={index}
-                  name={this.state.icon}
-                  style={{ margin: 2 }}
-                  color={nbStar >= index + 1 ? "gold" : "#bbb"}
-                  size={scale(15)}
-                />
-              ))}
             </View>
           </View>
         </View>
