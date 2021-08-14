@@ -1456,7 +1456,7 @@
 
 "@fabfit/react-native-parallax-header@^0.4.0":
   version "0.4.0"
-  resolved "https://registry.npmjs.org/@fabfit/react-native-parallax-header/-/react-native-parallax-header-0.4.0.tgz"
+  resolved "https://registry.yarnpkg.com/@fabfit/react-native-parallax-header/-/react-native-parallax-header-0.4.0.tgz#9f36369017b9f5d2b201f970fe83d05764a5f20b"
   integrity sha512-gzC84X0baKJXR6Mk15/I5VPBR0aSg4l/dFdlKNjliyzWFzA1cwGtVQgGZj52rGTQJmPCNWijF/pSVClcs8xyLg==
 
 "@freakycoder/react-native-bounceable@^0.2.5":
@@ -5519,6 +5519,13 @@ react-native-size-matters@^0.3.1:
   resolved "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
   integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
 
+react-native-sticky-parallax-header@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-sticky-parallax-header/-/react-native-sticky-parallax-header-0.4.0.tgz#412f50f946dd9e14938ef0dc556608aab5e8a347"
+  integrity sha512-R2aYTxY/Gz/AKwqxsigY6ukxiXguXgLnletIuxmcKSYBK5R6UpgL9hfXrAsfFV3yhgiLsW5fsN9NhxzVGsIrYQ==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-svg@*, react-native-svg@12.1.1:
   version "12.1.1"
   resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.1.1.tgz"
@@ -5526,6 +5533,11 @@ react-native-svg@*, react-native-svg@12.1.1:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
+
+react-native-sync-scrollview@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-sync-scrollview/-/react-native-sync-scrollview-0.0.4.tgz#db467eda61f8d0afc3c6b254a7fd868ad8f16304"
+  integrity sha512-Z+Bobz0aYlwBUkZU0Pba/78008V/C84comC3cju2Qoinmc9m4qW4FYc163oBF8MuIMUDjc5UJURgVR71Ig2WXw==
 
 react-native-tab-view@^3.1.1:
   version "3.1.1"
