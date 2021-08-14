@@ -71,7 +71,12 @@ export default class ShopScreen extends Component {
                     width={scale(300)}
                     height={scale(80)}
                     imageSource={{ uri: e.brand_image }}
-                    onPress={() => alert(e.brand)}
+                    onPress={() =>
+                      this.props.navigation.push("category", {
+                        id: e.id,
+                        name: e.brand,
+                      })
+                    }
                   />
                 </View>
               );

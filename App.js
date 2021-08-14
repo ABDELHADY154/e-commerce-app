@@ -13,6 +13,7 @@ import PasswordVerify from "./src/components/Auth/passwordVerify";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
+import Categories from "./src/components/Screens/Shop/Categories";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -138,6 +139,11 @@ export default function App({ navigation }) {
       />
     );
   };
+  const CategoriesScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Categories {...props} navigation={navigation} route={route} />;
+  };
   const ForgetPasswordScreen = props => {
     const navigation = useNavigation();
     // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
@@ -222,6 +228,16 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="Home"
                   component={HomeScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="category"
+                  component={CategoriesScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

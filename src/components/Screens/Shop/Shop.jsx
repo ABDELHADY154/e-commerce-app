@@ -12,9 +12,18 @@ import { Header } from "react-native-elements/dist/header/Header";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import MenTab from "./Men";
 import WomenTab from "./Women";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator();
 
+const WomenScreenTab = props => {
+  const navigation = useNavigation();
+  return <WomenTab {...props} navigation={navigation} />;
+};
+const MenScreenTab = props => {
+  const navigation = useNavigation();
+  return <MenTab {...props} navigation={navigation} />;
+};
 export default class ShopScreen extends Component {
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
@@ -54,7 +63,7 @@ export default class ShopScreen extends Component {
         >
           <Tab.Screen
             name="WomenTab"
-            component={WomenTab}
+            component={WomenScreenTab}
             options={{
               tabBarLabel: "Women",
               tabBarIndicatorStyle: { backgroundColor: "#28AE7B" },
@@ -62,7 +71,7 @@ export default class ShopScreen extends Component {
           />
           <Tab.Screen
             name="MenTab"
-            component={MenTab}
+            component={MenScreenTab}
             options={{
               tabBarLabel: "Men",
               tabBarIndicatorStyle: { backgroundColor: "#28AE7B" },
