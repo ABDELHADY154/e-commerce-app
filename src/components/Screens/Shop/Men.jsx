@@ -10,8 +10,9 @@ import { CardEcomOne } from "react-native-card-ui";
 import { ScrollView } from "react-native-gesture-handler";
 import { Header } from "react-native-elements/dist/header/Header";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import CircularCard from "react-native-circular-card-view";
-
+// import CircularCard from "react-native-circular-card-view";
+import Card from "../../UI/CategoryCard/CategoryCard";
+import { scale } from "react-native-size-matters";
 const Tab = createMaterialTopTabNavigator();
 
 export default class ShopScreen extends Component {
@@ -60,22 +61,21 @@ export default class ShopScreen extends Component {
           >
             {this.state.brands.map(e => {
               return (
-                <View style={{ marginBottom: "3%" }}>
-                  <CircularCard
+                <View
+                  style={{
+                    marginBottom: "3%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  key={e.id}
+                >
+                  <Card
                     key={e.id}
-                    title={e.brand}
-                    titleStyle={{
-                      fontSize: 34,
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      marginTop: "15%",
-                    }}
-                    color={"white"}
-                    source={{ uri: e.brand_image }}
-                    priceText={""}
-                    description={""}
-                    // rippleColor={rippleColor}
-                    // style={{ alignSelf: "center" }}
+                    titleText={e.brand}
+                    width={scale(300)}
+                    height={scale(80)}
+                    imageSource={{ uri: e.brand_image }}
+                    onPress={() => alert(e.brand)}
                   />
                 </View>
               );

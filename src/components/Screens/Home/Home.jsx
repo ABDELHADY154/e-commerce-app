@@ -6,8 +6,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { Alert, View } from "react-native";
-import { CardEcomOne } from "react-native-card-ui";
+import Card from "../../UI/MainCard/MainCard";
 import { ScrollView } from "react-native-gesture-handler";
+import { scale } from "react-native-size-matters";
 export default class HomeScreen extends Component {
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
@@ -52,64 +53,74 @@ export default class HomeScreen extends Component {
             >
               Sale
             </Text>
-            <ScrollView>
-              <View style={{ flexDirection: "row", height: 400 }}>
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={4}
-                  sale={"$200"}
-                  price={"$100"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart-o"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={3}
-                  price={"$200"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={3}
-                  price={"$200"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-              </View>
+            <ScrollView
+              contentContainerStyle={{
+                flexDirection: "row",
+                height: scale(400),
+              }}
+            >
+              {/* <View style={{ flexDirection: "row", height: 400 }}> */}
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              {/* </View> */}
             </ScrollView>
           </View>
           <View
@@ -131,64 +142,74 @@ export default class HomeScreen extends Component {
             >
               New
             </Text>
-            <ScrollView>
-              <View style={{ flexDirection: "row", height: 400 }}>
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={3}
-                  sale={"$200"}
-                  price={"$100"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={3}
-                  price={"$200"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-                <CardEcomOne
-                  title={"Porsche Rubber"}
-                  subTitle={
-                    "Zermatt is famed as a mounering and ski destome banmdo liono"
-                  }
-                  nbStar={3}
-                  price={"$200"}
-                  image={require("../../../assets/images/image.png")}
-                  buttonText={"VIEW DETAILS"}
-                  icon1={"heart"}
-                  iconColor1={"#fff"}
-                  iconBackground1={"#2A2C36"}
-                  onClicked1={() => {
-                    alert("Hello!");
-                  }}
-                  buttonColor={"#4383FF"}
-                  onClickButton={() => Alert("Has clicked")}
-                />
-              </View>
+            <ScrollView
+              contentContainerStyle={{
+                flexDirection: "row",
+                height: scale(400),
+              }}
+            >
+              {/* <View style={{ flexDirection: "row", height: 400 }}> */}
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              {/* </View> */}
             </ScrollView>
           </View>
         </ParallaxHeader>

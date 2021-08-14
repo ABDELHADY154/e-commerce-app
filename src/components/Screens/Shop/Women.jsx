@@ -4,10 +4,12 @@ import { Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert, RefreshControl, View } from "react-native";
-import CircularCard from "react-native-circular-card-view";
-
+// import CircularCard from "react-native-circular-card-view";
+import BrandCard from "../../UI/MainCard/BrandCard";
 import { axios } from "../../../Config/Axios";
 import { ScrollView } from "react-native-gesture-handler";
+import Card from "../../UI/CategoryCard/CategoryCard";
+import { scale } from "react-native-size-matters";
 
 export default class ShopScreen extends Component {
   state = {
@@ -55,23 +57,21 @@ export default class ShopScreen extends Component {
           >
             {this.state.brands.map(e => {
               return (
-                <View style={{ marginBottom: "3%" }}>
-                  <CircularCard
+                <View
+                  style={{
+                    marginBottom: "3%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  key={e.id}
+                >
+                  <Card
                     key={e.id}
-                    title={e.brand}
-                    titleStyle={{
-                      fontSize: 34,
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      marginTop: "15%",
-                    }}
-                    color={"white"}
-                    source={{ uri: e.brand_image }}
-                    priceText={""}
-                    description={""}
+                    titleText={e.brand}
+                    width={scale(300)}
+                    height={scale(80)}
+                    imageSource={{ uri: e.brand_image }}
                     onPress={() => alert(e.brand)}
-                    // rippleColor={rippleColor}
-                    // style={{ alignSelf: "center" }}
                   />
                 </View>
               );
