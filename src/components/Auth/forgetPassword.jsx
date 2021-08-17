@@ -137,7 +137,7 @@ export default class SignUp extends Component {
 
             <Button
               round
-              uppercase
+              // uppercase
               style={{
                 alignSelf: "center",
               }}

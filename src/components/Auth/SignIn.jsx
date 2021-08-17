@@ -164,7 +164,7 @@ export default class SignIn extends Component {
             </View>
             <Button
               round
-              uppercase
+              // uppercase
               style={{
                 alignSelf: "center",
                 marginTop: "15%",
@@ -215,7 +215,7 @@ export default class SignIn extends Component {
                 this.props.navigation.navigate("ForgetPass");
               }}
             >
-              Forget Your Password
+              Forget Password
             </Button>
           </View>
 
