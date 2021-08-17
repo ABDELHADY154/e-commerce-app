@@ -74,30 +74,30 @@ export default class SignUp extends Component {
       })
 
       .catch(error => {
-        // console.log(error.response.data);
-        if (error.response) {
-          if (error.response.data.errors.email) {
-            this.setState({
-              emailErr: error.response.data.errors.email,
-              emailBorder: "red",
-              loading: false,
-            });
-          }
-          if (error.response.data.errors.password) {
-            this.setState({
-              passwordErr: error.response.data.errors.password,
-              passwordBorder: "red",
-              loading: false,
-            });
-          }
-          if (error.response.data.errors.name) {
-            this.setState({
-              nameErr: error.response.data.errors.name,
-              nameBorder: "red",
-              loading: false,
-            });
-          }
-        }
+        console.log(error.response);
+        // if (error.response) {
+        //   if (error.response.data.errors.email) {
+        //     this.setState({
+        //       emailErr: error.response.data.errors.email,
+        //       emailBorder: "red",
+        //       loading: false,
+        //     });
+        //   }
+        //   if (error.response.data.errors.password) {
+        //     this.setState({
+        //       passwordErr: error.response.data.errors.password,
+        //       passwordBorder: "red",
+        //       loading: false,
+        //     });
+        //   }
+        //   if (error.response.data.errors.name) {
+        //     this.setState({
+        //       nameErr: error.response.data.errors.name,
+        //       nameBorder: "red",
+        //       loading: false,
+        //     });
+        //   }
+        // }
       });
   };
   render() {
