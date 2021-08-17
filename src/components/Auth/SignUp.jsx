@@ -74,7 +74,7 @@ export default class SignUp extends Component {
       })
 
       .catch(error => {
-        console.log(error.response);
+        console.log(error.response.data);
         // if (error.response) {
         //   if (error.response.data.errors.email) {
         //     this.setState({
