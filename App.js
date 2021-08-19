@@ -14,6 +14,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
 import Categories from "./src/components/Screens/Shop/Categories";
+import ProductView from "./src/components/Screens/Home/ProductView";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -36,6 +37,7 @@ function SignUpScreen(props) {
   const { signIn } = React.useContext(AuthContext);
   return <SignUp {...props} navigation={navigation} userLogin={signIn} />;
 }
+
 
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
@@ -139,6 +141,19 @@ export default function App({ navigation }) {
       />
     );
   };
+  const ProductScreen = props => {
+    const navigation = useNavigation();
+    // const { signOut } = dispatch({ type: "SIGN_OUT" });
+    return (
+      <ProductView
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          dispatch({ type: "SIGN_OUT" });
+        }}
+      />
+    );
+  };
   const CategoriesScreen = props => {
     const navigation = useNavigation();
     const route = useRoute();
@@ -228,6 +243,16 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="Home"
                   component={HomeScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                     <Stack.Screen
+                  name="ProductView"
+                  component={ProductScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

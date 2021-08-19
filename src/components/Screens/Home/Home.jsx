@@ -80,9 +80,15 @@ export default class HomeScreen extends Component {
                 alignSelf: "flex-start",
                 fontSize: 34,
               }}
+              
             >
               Sale
             </Text>
+            <Button color="#28AE7B" round    onPress={() =>
+                  this.props.navigation.push("ProductView")
+                }>
+                       Check Sales
+                     </Button> 
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
@@ -109,6 +115,7 @@ export default class HomeScreen extends Component {
                 }}
                 buttonColor={"#4383FF"}
                 onClickButton={() => Alert("Has clicked")}
+             
               />
               <Card
                 title={"Porsche Rubber"}
@@ -129,6 +136,7 @@ export default class HomeScreen extends Component {
                 }}
                 buttonColor={"#4383FF"}
                 onClickButton={() => Alert("Has clicked")}
+              
               />
               <Card
                 title={"Porsche Rubber"}
