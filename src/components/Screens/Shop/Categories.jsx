@@ -71,7 +71,7 @@ class Profile extends Component {
           }}
           centerComponent={{
             text: this.props.route.params.name,
-            style: { color: "#fff", fontSize: 36 },
+            style: { color: "#fff", fontSize: scale(25) },
           }}
           leftComponent={{
             icon: "arrow-back",
@@ -109,7 +109,7 @@ class Profile extends Component {
                 >
                   <ListItem.Content>
                     <ListItem.Title>
-                      <Text style={{ color: "white" }} size={30}>
+                      <Text style={{ color: "white" }} size={25}>
                         All
                       </Text>
                     </ListItem.Title>
@@ -134,7 +134,7 @@ class Profile extends Component {
                     >
                       <ListItem.Content>
                         <ListItem.Title>
-                          <Text style={{ color: "white" }} size={30}>
+                          <Text style={{ color: "white" }} size={25}>
                             {e.category}
                           </Text>
                         </ListItem.Title>

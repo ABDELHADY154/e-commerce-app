@@ -35,8 +35,8 @@ export default class HomeScreen extends Component {
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
       >
         <ParallaxHeader
-          maxHeight={500}
-          minHeight={100}
+          maxHeight={400}
+          minHeight={80}
           renderHeader={() => {
             return (
               <Header
@@ -116,6 +116,12 @@ export default class HomeScreen extends Component {
                   alert("Hello!");
                 }}
                 buttonColor={"#4383FF"}
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
+                  alert("Hello!");
+                }}
                 onClickButton={() => Alert("Has clicked")}
               />
               <Card
@@ -136,6 +142,12 @@ export default class HomeScreen extends Component {
                   alert("Hello!");
                 }}
                 buttonColor={"#4383FF"}
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
+                  alert("Hello!");
+                }}
                 onClickButton={() => Alert("Has clicked")}
               />
               <Card
@@ -156,6 +168,12 @@ export default class HomeScreen extends Component {
                   alert("Hello!");
                 }}
                 buttonColor={"#4383FF"}
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
+                  alert("Hello!");
+                }}
                 onClickButton={() => Alert("Has clicked")}
               />
             </ScrollView>
@@ -204,24 +222,10 @@ export default class HomeScreen extends Component {
                 onClicked1={() => {
                   alert("Hello!");
                 }}
-                buttonColor={"#4383FF"}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
                   alert("Hello!");
                 }}
                 buttonColor={"#4383FF"}
@@ -242,6 +246,38 @@ export default class HomeScreen extends Component {
                 iconColor1={"#fff"}
                 iconBackground1={"#2A2C36"}
                 onClicked1={() => {
+                  alert("Hello!");
+                }}
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
+                  alert("Hello!");
+                }}
+                buttonColor={"#4383FF"}
+                onClickButton={() => Alert("Has clicked")}
+              />
+              <Card
+                title={"Porsche Rubber"}
+                subTitle={
+                  "Zermatt is famed as a mounering and ski destome banmdo liono"
+                }
+                nbStar={3}
+                sale={"$200"}
+                price={"$100"}
+                brand={"Hollister"}
+                image={require("../../../assets/images/image.png")}
+                buttonText={"VIEW DETAILS"}
+                icon1={"heart-o"}
+                iconColor1={"#fff"}
+                iconBackground1={"#2A2C36"}
+                onClicked1={() => {
+                  alert("Hello!");
+                }}
+                icon2={"cart-plus"}
+                iconColor2={"white"}
+                iconBackground2={"#28AE7B"}
+                onClicked2={() => {
                   alert("Hello!");
                 }}
                 buttonColor={"#4383FF"}

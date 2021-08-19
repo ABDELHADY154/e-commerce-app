@@ -15,6 +15,7 @@ export default class ShopScreen extends Component {
   state = {
     brands: [],
     refresh: true,
+    // message: "",
   };
 
   async componentDidMount() {

@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import { Badge, withBadge } from "react-native-elements";
 
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
@@ -86,6 +87,19 @@ export default class CardEcomOne extends Component {
               resizeMode: "cover",
             }}
           />
+          <Badge
+            status="error"
+            value={
+              this.props.discount ? "-" + this.props.discount + "%" : "New"
+            }
+            textStyle={{ fontSize: scale(12) }}
+            containerStyle={{
+              position: "absolute",
+              top: scale(10),
+              left: scale(10),
+              // borderWidth: 10,
+            }}
+          />
         </View>
         <View
           style={{
@@ -98,6 +112,31 @@ export default class CardEcomOne extends Component {
           }}
         >
           <TouchableOpacity
+            onPress={() => this.props.onClicked2()}
+            style={[
+              {
+                justifyContent: "center",
+                zIndex: 3,
+                alignItems: "center",
+                alignSelf: "flex-end",
+                width: scale(38),
+                height: scale(38),
+                margin: 5,
+                shadowRadius: 5,
+                borderRadius: scale(40),
+                backgroundColor: this.props.iconBackground2,
+              },
+            ]}
+          >
+            <Icon
+              name={this.props.icon2}
+              color={this.props.iconColor2}
+              size={scale(20)}
+              style={{ alignSelf: "center" }}
+              onPress={() => this.props.onClicked2()}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => this.props.onClicked1()}
             style={[
               {
@@ -105,9 +144,9 @@ export default class CardEcomOne extends Component {
                 zIndex: 3,
                 alignItems: "center",
                 alignSelf: "flex-end",
-                width: scale(50),
-                height: scale(50),
-                margin: 10,
+                width: scale(38),
+                height: scale(38),
+                margin: 5,
                 shadowRadius: 5,
                 borderRadius: scale(40),
                 backgroundColor: this.props.iconBackground1,
@@ -117,7 +156,9 @@ export default class CardEcomOne extends Component {
             <Icon
               name={this.props.icon1}
               color={this.props.iconColor1}
+              style={{ alignSelf: "center" }}
               size={scale(20)}
+              onPress={() => this.props.onClicked1()}
             />
           </TouchableOpacity>
         </View>

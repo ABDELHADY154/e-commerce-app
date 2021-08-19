@@ -13,6 +13,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import MenTab from "./Men";
 import WomenTab from "./Women";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { scale } from "react-native-size-matters";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -48,7 +49,7 @@ export default class ShopScreen extends Component {
           containerStyle={{ borderBottomColor: "transparent" }}
           centerComponent={{
             text: "Brands",
-            style: { color: "#fff", fontSize: 36 },
+            style: { color: "#fff", fontSize: scale(25) },
           }}
         />
         <Tab.Navigator
