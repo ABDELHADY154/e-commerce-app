@@ -55,7 +55,7 @@ export default class CardEcomOne extends Component {
           alignSelf: "center",
           margin: 10,
           flexDirection: "column",
-          width: screenWidth - screenWidth * 0.35,
+          width: screenWidth - screenWidth * 0.53,
           borderWidth: 0,
           borderRadius: 12,
           elevation: 2,
@@ -81,7 +81,7 @@ export default class CardEcomOne extends Component {
             borderTopLeftRadius={12}
             source={image}
             style={{
-              width: screenWidth - screenWidth * 0.35,
+              width: screenWidth - screenWidth * 0.53,
               height: "95%",
               resizeMode: "cover",
             }}
@@ -140,14 +140,17 @@ export default class CardEcomOne extends Component {
               style={{
                 backgroundColor: "transparent",
                 flex: 3,
+
                 justifyContent: "center",
               }}
             >
               <Text
                 style={{
                   color: "#000",
-                  fontSize: scale(18),
+                  marginTop: "5%",
+                  fontSize: scale(15),
                   marginLeft: scale(12),
+                  flexWrap: "wrap",
                 }}
               >
                 {title}
@@ -155,7 +158,7 @@ export default class CardEcomOne extends Component {
               <Text
                 style={{
                   color: "#000",
-                  fontSize: scale(14),
+                  fontSize: scale(11),
                   marginLeft: scale(12),
                 }}
               >
@@ -194,6 +197,7 @@ export default class CardEcomOne extends Component {
                   alignSelf: "center",
                   flexDirection: "row",
                   alignItems: "center",
+                  width: "100%",
                 }}
               >
                 <View
@@ -209,7 +213,7 @@ export default class CardEcomOne extends Component {
                     style={{
                       color: "#000",
                       fontWeight: "bold",
-                      fontSize: scale(16),
+                      fontSize: scale(12),
                       // margin: scale(12),
                       textDecorationLine: "line-through",
                     }}
@@ -220,7 +224,7 @@ export default class CardEcomOne extends Component {
                     style={{
                       color: "red",
                       fontWeight: "bold",
-                      fontSize: scale(16),
+                      fontSize: scale(12),
                       margin: scale(12),
                       marginLeft: "4%",
                     }}
@@ -248,7 +252,7 @@ export default class CardEcomOne extends Component {
                       name={this.state.icon}
                       style={{ margin: 2 }}
                       color={nbStar >= index + 1 ? "gold" : "#bbb"}
-                      size={scale(15)}
+                      size={scale(12)}
                     />
                   ))}
                 </View>

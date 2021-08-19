@@ -13,11 +13,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 // import CircularCard from "react-native-circular-card-view";
 import Card from "../../UI/CategoryCard/CategoryCard";
 import { scale } from "react-native-size-matters";
+import { RefreshControl } from "react-native";
 const Tab = createMaterialTopTabNavigator();
 
 export default class ShopScreen extends Component {
   state = {
     brands: [],
+    refresh: true,
   };
 
   async componentDidMount() {
@@ -38,12 +40,25 @@ export default class ShopScreen extends Component {
     await axios
       .get("/men-brands")
       .then(res => {
-        this.setState({ brands: res.data.response.data });
+        this.setState({ brands: res.data.response.data, refresh: false });
       })
       .catch(err => {
         console.log(err.data);
       });
   }
+  onRefresh = async () => {
+    this.setState({
+      refresh: true,
+    });
+    await axios
+      .get("/men-brands")
+      .then(res => {
+        this.setState({ brands: res.data.response.data, refresh: false });
+      })
+      .catch(err => {
+        console.log(err.data);
+      });
+  };
   render() {
     return (
       <>
@@ -55,9 +70,13 @@ export default class ShopScreen extends Component {
               justifyContent: "center",
               alignItems: "center",
             }}
-            // refreshControl={() => {
-            //   <RefreshControl  />;
-            // }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={this.onRefresh}
+                tintColor="white"
+              />
+            }
           >
             {this.state.brands.map(e => {
               return (

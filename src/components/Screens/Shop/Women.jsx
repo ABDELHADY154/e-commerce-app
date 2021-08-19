@@ -14,6 +14,7 @@ import { scale } from "react-native-size-matters";
 export default class ShopScreen extends Component {
   state = {
     brands: [],
+    refresh: true,
   };
 
   async componentDidMount() {
@@ -34,12 +35,26 @@ export default class ShopScreen extends Component {
     await axios
       .get("/women-brands")
       .then(res => {
-        this.setState({ brands: res.data.response.data });
+        this.setState({ brands: res.data.response.data, refresh: false });
       })
       .catch(err => {
         console.log(err.data);
       });
   }
+
+  onRefresh = async () => {
+    this.setState({
+      refresh: true,
+    });
+    await axios
+      .get("/women-brands")
+      .then(res => {
+        this.setState({ brands: res.data.response.data, refresh: false });
+      })
+      .catch(err => {
+        console.log(err.data);
+      });
+  };
   render() {
     return (
       <>
@@ -51,6 +66,13 @@ export default class ShopScreen extends Component {
               justifyContent: "center",
               alignItems: "center",
             }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={this.onRefresh}
+                tintColor="white"
+              />
+            }
             // refreshControl={() => {
             //   <RefreshControl  />;
             // }}

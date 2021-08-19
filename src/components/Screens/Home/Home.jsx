@@ -19,6 +19,7 @@ export default class HomeScreen extends Component {
       .get(`/clientProfile`)
       .then(res => {})
       .catch(err => {
+        console.log(err.response.data.status);
         if (err.response.data.status == 401) {
           AsyncStorage.removeItem("userData");
           AsyncStorage.removeItem("userToken");
@@ -80,19 +81,20 @@ export default class HomeScreen extends Component {
                 alignSelf: "flex-start",
                 fontSize: 34,
               }}
-              
             >
               Sale
             </Text>
-            <Button color="#28AE7B" round    onPress={() =>
-                  this.props.navigation.push("ProductView")
-                }>
-                       Check Sales
-                     </Button> 
+            {/* <Button
+              color="#28AE7B"
+              round
+              onPress={() => this.props.navigation.push("ProductView")}
+            >
+              Check Sales
+            </Button> */}
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
-                height: scale(400),
+                height: scale(300),
               }}
               horizontal={true}
             >
@@ -115,7 +117,6 @@ export default class HomeScreen extends Component {
                 }}
                 buttonColor={"#4383FF"}
                 onClickButton={() => Alert("Has clicked")}
-             
               />
               <Card
                 title={"Porsche Rubber"}
@@ -136,7 +137,6 @@ export default class HomeScreen extends Component {
                 }}
                 buttonColor={"#4383FF"}
                 onClickButton={() => Alert("Has clicked")}
-              
               />
               <Card
                 title={"Porsche Rubber"}
@@ -182,7 +182,7 @@ export default class HomeScreen extends Component {
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
-                height: scale(400),
+                height: scale(300),
               }}
               horizontal={true}
             >

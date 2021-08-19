@@ -19,47 +19,74 @@ import { SafeAreaView } from "react-native";
 import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
 import { RefreshControl } from "react-native";
+import Card from "../../UI/MainCard/MainCard";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Profile extends Component {
   state = {
-    categories: [],
+    products: [],
     refresh: true,
   };
 
   async componentDidMount() {
-    if (this.props.route.params.id) {
+    if (this.props.route.params.catId) {
       await axios
-        .get(`/brand-categories/${this.props.route.params.id}`)
+        .get(`/categoryProducts/${this.props.route.params.catId}`)
         .then(res => {
-          this.setState({ categories: res.data.response.data, refresh: false });
+          // console.log(res.data.response.data[0].images[0].image);
+          this.setState({ products: res.data.response.data, refresh: false });
         })
         .catch(err => {
           console.log(err);
         });
+    } else {
+      if (this.props.route.params.id) {
+        await axios
+          .get(`/allProduct/${this.props.route.params.id}`)
+          .then(res => {
+            // console.log(res.data.response.data[0].images[0].image);
+            this.setState({ products: res.data.response.data, refresh: false });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
-
-    console.log(this.props.route.params.name);
+    // console.log(this.props.route.params.name);
   }
 
   onRefresh = async () => {
     this.setState({
       refresh: true,
     });
-    if (this.props.route.params.id) {
+    if (this.props.route.params.catId) {
       await axios
-        .get(`/brand-categories/${this.props.route.params.id}`)
+        .get(`/categoryProducts/${this.props.route.params.catId}`)
         .then(res => {
-          this.setState({ categories: res.data.response.data, refresh: false });
+          // console.log(res.data.response.data[0].images[0].image);
+          this.setState({ products: res.data.response.data, refresh: false });
         })
         .catch(err => {
           console.log(err);
         });
+    } else {
+      if (this.props.route.params.id) {
+        await axios
+          .get(`/allProduct/${this.props.route.params.id}`)
+          .then(res => {
+            // console.log(res.data.response.data[0].images[0].image);
+            this.setState({ products: res.data.response.data, refresh: false });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   };
 
   render() {
+    // console.log()
     return (
       <>
         <Header
@@ -84,7 +111,12 @@ class Profile extends Component {
         />
         <SafeAreaView>
           <ScrollView
-            contentContainerStyle={{ height: "100%" }}
+            contentContainerStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+              // flexDirection: "row",
+              // flexWrap: "wrap",
+            }}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refresh}
@@ -94,53 +126,52 @@ class Profile extends Component {
             }
           >
             <View
-              style={{ flex: 1, justifyContent: "flex-start", marginTop: "2%" }}
+              style={{
+                height: "100%",
+                width: "100%",
+                flex: 1,
+                // justifyContent: "center",
+                alignItems: "center",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                marginBottom: "15%",
+                //
+                // flex: 1,
+                // justifyContent: "flex-start",
+                // flexDirection: "row",
+                // // marginTop: "2%",
+                // flexWrap: "wrap",
+              }}
             >
-              {this.state.categories.length !== 0 && (
-                <ListItem
-                  bottomDivider
-                  containerStyle={{ backgroundColor: "transparent" }}
-                  onPress={() => {
-                    this.props.navigation.push("products", {
-                      name: this.props.route.params.name,
-                      id: this.props.route.params.id,
-                    });
-                  }}
-                >
-                  <ListItem.Content>
-                    <ListItem.Title>
-                      <Text style={{ color: "white" }} size={30}>
-                        All
-                      </Text>
-                    </ListItem.Title>
-                  </ListItem.Content>
-                  <ListItem.Chevron color="white" />
-                </ListItem>
-              )}
-              {this.state.categories.length != 0 ? (
-                this.state.categories.map(e => {
+              {this.state.products.length != 0 ? (
+                this.state.products.map(e => {
                   return (
-                    <ListItem
-                      bottomDivider
-                      key={e.id}
-                      containerStyle={{ backgroundColor: "transparent" }}
-                      onPress={() => {
-                        this.props.navigation.push("products", {
-                          name: this.props.route.params.name,
-                          id: this.props.route.params.id,
-                          catId: e.id,
-                        });
+                    <View
+                      style={{
+                        height: scale(350),
+                        width: "50%",
+                        // marginBottom: "12%",
                       }}
                     >
-                      <ListItem.Content>
-                        <ListItem.Title>
-                          <Text style={{ color: "white" }} size={30}>
-                            {e.category}
-                          </Text>
-                        </ListItem.Title>
-                      </ListItem.Content>
-                      <ListItem.Chevron color="white" />
-                    </ListItem>
+                      <Card
+                        key={e.id}
+                        title={e.name}
+                        nbStar={3}
+                        sale={e.total_price}
+                        price={e.price}
+                        brand={e.brand}
+                        image={e.images[0] ? { uri: e.images[0].image } : ""}
+                        buttonText={"VIEW DETAILS"}
+                        icon1={"heart-o"}
+                        iconColor1={"#fff"}
+                        iconBackground1={"#2A2C36"}
+                        onClicked1={() => {
+                          alert("Hello!");
+                        }}
+                        buttonColor={"#4383FF"}
+                        onClickButton={() => Alert("Has clicked")}
+                      />
+                    </View>
                   );
                 })
               ) : (

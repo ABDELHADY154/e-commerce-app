@@ -15,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
 import Categories from "./src/components/Screens/Shop/Categories";
 import ProductView from "./src/components/Screens/Home/ProductView";
+import Products from "./src/components/Screens/Shop/Products";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -37,7 +38,6 @@ function SignUpScreen(props) {
   const { signIn } = React.useContext(AuthContext);
   return <SignUp {...props} navigation={navigation} userLogin={signIn} />;
 }
-
 
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
@@ -159,6 +159,11 @@ export default function App({ navigation }) {
     const route = useRoute();
     return <Categories {...props} navigation={navigation} route={route} />;
   };
+  const ProductsScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Products {...props} navigation={navigation} route={route} />;
+  };
   const ForgetPasswordScreen = props => {
     const navigation = useNavigation();
     // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
@@ -250,7 +255,7 @@ export default function App({ navigation }) {
                     },
                   }}
                 />
-                     <Stack.Screen
+                <Stack.Screen
                   name="ProductView"
                   component={ProductScreen}
                   options={{
@@ -263,6 +268,16 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="category"
                   component={CategoriesScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="products"
+                  component={ProductsScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

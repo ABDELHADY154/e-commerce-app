@@ -33,6 +33,7 @@ export default {
   imageStyle: {
     width: "90%",
     height: "90%",
+    borderRadius: 200,
   },
   textContainer: {
     height: 50,
