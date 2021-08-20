@@ -87,19 +87,22 @@ export default class CardEcomOne extends Component {
               resizeMode: "cover",
             }}
           />
-          <Badge
-            status="error"
-            value={
-              this.props.discount ? "-" + this.props.discount + "%" : "New"
-            }
-            textStyle={{ fontSize: scale(12) }}
-            containerStyle={{
-              position: "absolute",
-              top: scale(10),
-              left: scale(10),
-              // borderWidth: 10,
-            }}
-          />
+          {this.props.saleStatus == true ? (
+            <Badge
+              status="error"
+              value={
+                this.props.discount ? "-" + this.props.discount + "%" : "New"
+              }
+              textStyle={{ fontSize: scale(12) }}
+              containerStyle={{
+                position: "absolute",
+                top: scale(10),
+                left: scale(10),
+              }}
+            />
+          ) : (
+            <Text></Text>
+          )}
         </View>
         <View
           style={{
@@ -116,11 +119,11 @@ export default class CardEcomOne extends Component {
             style={[
               {
                 justifyContent: "center",
-                zIndex: 3,
+                // zIndex: 2,
                 alignItems: "center",
                 alignSelf: "flex-end",
-                width: scale(38),
-                height: scale(38),
+                width: scale(35),
+                height: scale(35),
                 margin: 5,
                 shadowRadius: 5,
                 borderRadius: scale(40),
@@ -141,11 +144,11 @@ export default class CardEcomOne extends Component {
             style={[
               {
                 justifyContent: "center",
-                zIndex: 3,
+                // zIndex: 3,
                 alignItems: "center",
                 alignSelf: "flex-end",
-                width: scale(38),
-                height: scale(38),
+                width: scale(35),
+                height: scale(35),
                 margin: 5,
                 shadowRadius: 5,
                 borderRadius: scale(40),
@@ -241,38 +244,62 @@ export default class CardEcomOne extends Component {
                   width: "100%",
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    alignSelf: "flex-start",
-                    // marginTop: "5%",
-                  }}
-                >
-                  <Text
+                {this.props.saleStatus == true ? (
+                  <View
                     style={{
-                      color: "#000",
-                      fontWeight: "bold",
-                      fontSize: scale(12),
-                      // margin: scale(12),
-                      textDecorationLine: "line-through",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignSelf: "flex-start",
+                      // marginTop: "5%",
                     }}
                   >
-                    {price}
-                  </Text>
-                  <Text
+                    <Text
+                      style={{
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: scale(12),
+                        // margin: scale(12),
+                        textDecorationLine: "line-through",
+                      }}
+                    >
+                      {price}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "red",
+                        fontWeight: "bold",
+                        fontSize: scale(12),
+                        margin: scale(12),
+                        marginLeft: "4%",
+                      }}
+                    >
+                      {sale}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      color: "red",
-                      fontWeight: "bold",
-                      fontSize: scale(12),
-                      margin: scale(12),
-                      marginLeft: "4%",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignSelf: "flex-start",
+                      // marginTop: "5%",
                     }}
                   >
-                    {sale}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        color: "#000",
+                        fontWeight: "bold",
+                        fontSize: scale(12),
+                        // margin: scale(12),
+                        // textDecorationLine: "line-through",
+                      }}
+                    >
+                      {price}
+                    </Text>
+                  </View>
+                )}
                 <View
                   style={{
                     backgroundColor: "#fff",

@@ -31,73 +31,36 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    if (this.props.route.params.catId) {
-      await axios
-        .get(`/categoryProducts/${this.props.route.params.catId}`)
-        .then(res => {
-          this.setState({
-            products: res.data.response.data,
-            refresh: false,
-            message: res.data.response.data.length == 0 ? "No Results !" : "",
-          });
-        })
-        .catch(err => {
-          console.log(err);
+    await axios
+      .get(`/favorite`)
+      .then(res => {
+        this.setState({
+          products: res.data.response.data,
+          refresh: false,
+          message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
-    } else {
-      if (this.props.route.params.id) {
-        await axios
-          .get(`/allProduct/${this.props.route.params.id}`)
-          .then(res => {
-            // console.log(res.data.response.data[0].images[0].image);
-            this.setState({
-              products: res.data.response.data,
-              refresh: false,
-              message: res.data.response.data.length == 0 ? "No Results !" : "",
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    }
-    // console.log(this.props.route.params.name);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   onRefresh = async () => {
     this.setState({
       refresh: true,
     });
-    if (this.props.route.params.catId) {
-      await axios
-        .get(`/categoryProducts/${this.props.route.params.catId}`)
-        .then(res => {
-          this.setState({
-            products: res.data.response.data,
-            refresh: false,
-            message: res.data.response.data.length == 0 ? "No Results !" : "",
-          });
-        })
-        .catch(err => {
-          console.log(err);
+    await axios
+      .get(`/favorite`)
+      .then(res => {
+        this.setState({
+          products: res.data.response.data,
+          refresh: false,
+          message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
-    } else {
-      if (this.props.route.params.id) {
-        await axios
-          .get(`/allProduct/${this.props.route.params.id}`)
-          .then(res => {
-            // console.log(res.data.response.data[0].images[0].image);
-            this.setState({
-              products: res.data.response.data,
-              refresh: false,
-              message: res.data.response.data.length == 0 ? "No Results !" : "",
-            });
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   favoriteProduct = async id => {
     await axios
@@ -130,19 +93,10 @@ class Profile extends Component {
             width: "98%",
           }}
           centerComponent={{
-            text: this.props.route.params.name,
+            text: "Favorites",
             style: { color: "#fff", fontSize: scale(25) },
           }}
-          leftComponent={{
-            icon: "arrow-back",
-            color: "#fff",
-            size: scale(30),
-            onPress: () => {
-              this.props.navigation.goBack();
-            },
-          }}
         />
-        {/* <SafeAreaView> */}
         <ScrollView
           contentContainerStyle={{
             justifyContent: "center",

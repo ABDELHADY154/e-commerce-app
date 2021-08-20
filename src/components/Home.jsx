@@ -7,6 +7,7 @@ import HomeScreen from "./Screens/Home/Home";
 import ProfileScreen from "./Screens/Profile/Profile";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ShopScreen from "./Screens/Shop/Shop";
+import Favorite from "./Screens/Favorite/Favorite";
 const Tabs = AnimatedTabBarNavigator();
 export default class Home extends Component {
   async storeToken() {
@@ -48,6 +49,19 @@ export default class Home extends Component {
     const navigation = useNavigation();
     return (
       <ProfileScreen
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          this.storeToken();
+          this.props.logout();
+        }}
+      />
+    );
+  };
+  FavoriteScreen = props => {
+    const navigation = useNavigation();
+    return (
+      <Favorite
         {...props}
         navigation={navigation}
         logout={() => {
@@ -130,7 +144,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Favorites"
-          component={this.Profile}
+          component={this.FavoriteScreen}
           options={{
             tabBarIcon: () => (
               <Icon
