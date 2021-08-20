@@ -21,6 +21,7 @@ import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
 import { Entypo } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Pages } from "react-native-pages";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -53,8 +54,8 @@ class ProductView extends Component {
         />
         {/* <SafeAreaView> */}
         <ScrollView contentContainerStyle={{ height: "100%" }}>
-          <View
-            style={
+          {/*  <View 
+           style={
               {
                 // flex: 1,
                 // justifyContent: "center",
@@ -62,139 +63,178 @@ class ProductView extends Component {
               }
             }
           >
-            <Image
-              borderTopRightRadius={12}
-              borderTopLeftRadius={12}
+          {/* <Image
               source={require("../../../assets/images/image2.png")}
               style={{
-                height: "70%",
-                // resizeMode: "cover",
+                height: "80%",
+              }}
+            /> */}
+          <Pages containerStyle={{}}>
+            <Image
+              source={require("../../../assets/images/image2.png")}
+              style={{
+                // height: 700,
+                width: "100%",
               }}
             />
-            <View style={{ marginLeft: 10, flex: 1 }}>
-              <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
-                <Button
-                  style={{
-                    borderColor: "red",
-                    borderWidth: 1,
-                    // borderRadius: 8,
-                    backgroundColor: "transparent",
-                    height: 50,
-                    width: 150,
-                  }}
-                >
-                  <Text style={{ color: "#fff", fontSize: 22 }}>
-                    size
-                    <Entypo
-                      name="chevron-small-down"
-                      size={30}
-                      color="#fff"
-                      // style={{ marginRight: 15 }}
-                    />
-                  </Text>
-                </Button>
-                <Button
-                  style={{
-                    borderColor: "#000",
-                    borderWidth: 1,
-                    // borderRadius: 8,
-                    backgroundColor: "transparent",
-                    height: 50,
-                    width: 150,
-                  }}
-                >
-                  <Text style={{ color: "#fff", fontSize: 22 }}>
-                    size
-                    <Entypo
-                      name="chevron-small-down"
-                      size={30}
-                      color="#fff"
-                      // style={{ marginRight: 15 }}
-                    />
-                  </Text>
-                </Button>
-                <TouchableOpacity
-                  onPress={() => this.props.onClicked1()}
-                  style={[
-                    {
-                      justifyContent: "center",
-                      zIndex: 3,
-                      alignItems: "center",
-                      alignSelf: "flex-end",
-                      width: scale(50),
-                      height: scale(50),
-                      margin: 10,
-                      shadowRadius: 5,
-                      borderRadius: scale(40),
-                      backgroundColor: "#000",
-                    },
-                  ]}
-                >
-                  <Text>
-                    <Icon name="heart-o" color="#fff" size={scale(20)} />
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 25,
-                    fontWeight: "bold",
-                    // marginTop: 10,
-                    marginLeft: 10,
-                  }}
-                >
-                  Brand Name
-                </Text>
-              </View>
+            <Image
+              source={require("../../../assets/images/image.png")}
+              style={{
+                // height: "100%",
+                width: "100%",
+              }}
+            />
+            <Image
+              source={require("../../../assets/images/image2.png")}
+              style={{
+                // height: "100%",
+                width: "100%",
+              }}
+            />
+          </Pages>
+
+          {/* <View style={{ marginLeft: 10, flex: 1 }}> */}
+          <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
+            <Button
+              style={{
+                borderColor: "red",
+                borderWidth: 1,
+                borderRadius: 10,
+                backgroundColor: "transparent",
+                height: 50,
+                width: 150,
+                alignItems: "flex-start",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 20,
+                  marginLeft: 10,
+                }}
+              >
+                size
+                <Entypo
+                  name="chevron-small-down"
+                  size={24}
+                  color="#D6D6D7"
+                  style={{}}
+                />
+              </Text>
+            </Button>
+            <Button
+              style={{
+                borderColor: "#D6D6D7",
+                borderWidth: 1,
+                borderRadius: 10,
+                backgroundColor: "transparent",
+                height: 50,
+                width: 150,
+                alignItems: "flex-start",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 20,
+                  marginLeft: 10,
+                }}
+              >
+                Color
+                <Entypo
+                  name="chevron-small-down"
+                  size={24}
+                  color="#D6D6D7"
+                  style={{}}
+                />
+              </Text>
+            </Button>
+            <TouchableOpacity
+              // onPress={() => this.props.onClicked1()}
+              style={[
+                {
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: 44,
+                  height: 44,
+                  marginLeft: 6,
+                  marginTop: 10,
+                  shadowRadius: 5,
+                  borderRadius: 40,
+                  backgroundColor: "#000",
+                },
+              ]}
+            >
+              <Text>
+                <Icon name="heart-o" color="#D6D6D7" size={scale(18)} />
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* </View> */}
+          <View
+            style={{
+              marginLeft: 10,
+              flex: 1,
+              flexDirection: "row",
+              marginTop: 50,
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 23,
+                  fontWeight: "bold",
+                  justifyContent: "flex-start",
+                }}
+              >
+                Brand Name
+              </Text>
+              <Text
+                style={{
+                  color: "#D6D6D7",
+                  fontSize: 14,
+                }}
+              >
+                Short black dress
+              </Text>
+            </View>
+            <View style={{ justifyContent: "flex-end" }}>
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 23,
+                  fontWeight: "bold",
+                }}
+              >
+                250 E.P
+              </Text>
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 16,
+                marginLeft: 10,
+                // fontWeight: "bold",
+                // justifyContent: "center",
+              }}
+            >
+              Short dress in soft cotton jersey with decorative buttons down the
+              front and a wide, frill-trimmed square neckline with concealed
+              elastication. Elasticated seam under the bust and short puff
+              sleeves with a small frill trim.
+            </Text>
+          </View>
+          {/* </View> */}
         </ScrollView>
         {/* </SafeAreaView> */}
       </>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  profileContainer: {
-    width: "100%",
-    height: 350,
-    padding: 0,
-    backgroundColor: "#2F7C6E",
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
-  },
-  profileBackground: {
-    width: "100%",
-    height: 120,
-  },
-
-  info: {
-    marginTop: 30,
-    // paddingHorizontal: 10,
-    height: height * 0.8,
-  },
-  avatar: {
-    width: thumbMeasure,
-    height: thumbMeasure,
-    borderRadius: 50,
-    borderWidth: 0,
-  },
-
-  thumb: {
-    borderRadius: 4,
-    marginVertical: 4,
-    alignSelf: "center",
-    width: thumbMeasure,
-    height: thumbMeasure,
-  },
-  social: {
-    justifyContent: "center",
-    zIndex: 99,
-    marginHorizontal: 5,
-  },
-});
 
 export default ProductView;

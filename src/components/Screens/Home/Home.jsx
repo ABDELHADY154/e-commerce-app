@@ -17,8 +17,8 @@ export default class HomeScreen extends Component {
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/clientProfile`)
-      .then(res => {})
-      .catch(err => {
+      .then((res) => {})
+      .catch((err) => {
         console.log(err.response.data.status);
         if (err.response.data.status == 401) {
           AsyncStorage.removeItem("userData");
@@ -84,13 +84,13 @@ export default class HomeScreen extends Component {
             >
               Sale
             </Text>
-            {/* <Button
+            <Button
               color="#28AE7B"
               round
               onPress={() => this.props.navigation.push("ProductView")}
             >
               Check Sales
-            </Button> */}
+            </Button>
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
