@@ -4,11 +4,11 @@
     "slug": "Beam",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2A2C36"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -16,17 +16,17 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.abdelhady154.e-commerce-app"
+      "bundleIdentifier": "com.abdelhady154.beam"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#2A2C36"
       },
-      "package": "com.abdelhady154.ecommerceapp"
+      "package": "com.abdelhady154.beam"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     }
   }
 }

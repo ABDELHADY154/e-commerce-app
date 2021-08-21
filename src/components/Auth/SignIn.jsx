@@ -69,30 +69,30 @@ export default class SignIn extends Component {
       })
 
       .catch(error => {
-        console.log(error.response.data);
-        //   if (error.response) {
-        //     if (error.response.data.errors.email) {
-        //       this.setState({
-        //         emailErr: error.response.data.errors.email,
-        //         emailBorder: "red",
-        //         loading: false,
-        //       });
-        //     }
-        //     if (error.response.data.errors.password) {
-        //       this.setState({
-        //         passwordErr: error.response.data.errors.password,
-        //         passwordBorder: "red",
-        //         loading: false,
-        //       });
-        //     }
-        //     if (error.response.data.errors.error) {
-        //       this.setState({
-        //         emailErr: error.response.data.errors.error,
-        //         emailBorder: "red",
-        //         loading: false,
-        //       });
-        //     }
-        //   }
+        // console.log(error.response.data);
+        if (error.response) {
+          if (error.response.data.errors.email) {
+            this.setState({
+              emailErr: error.response.data.errors.email,
+              emailBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.password) {
+            this.setState({
+              passwordErr: error.response.data.errors.password,
+              passwordBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.error) {
+            this.setState({
+              emailErr: error.response.data.errors.error,
+              emailBorder: "red",
+              loading: false,
+            });
+          }
+        }
       });
   };
 
