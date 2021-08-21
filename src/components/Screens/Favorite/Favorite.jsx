@@ -137,6 +137,9 @@ class Profile extends Component {
                       id={e.id}
                       title={e.name}
                       nbStar={3}
+                      onPress={() => {
+                        this.props.navigation.push("ProductView", { id: e.id });
+                      }}
                       saleStatus={e.sale}
                       favourited={e.favourited}
                       sale={e.total_price}

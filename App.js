@@ -130,6 +130,7 @@ export default function App({ navigation }) {
   );
   const HomeScreen = props => {
     const navigation = useNavigation();
+
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
     return (
       <Home
@@ -143,16 +144,9 @@ export default function App({ navigation }) {
   };
   const ProductScreen = props => {
     const navigation = useNavigation();
+    const route = useRoute();
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
-    return (
-      <ProductView
-        {...props}
-        navigation={navigation}
-        logout={() => {
-          dispatch({ type: "SIGN_OUT" });
-        }}
-      />
-    );
+    return <ProductView {...props} navigation={navigation} route={route} />;
   };
   const CategoriesScreen = props => {
     const navigation = useNavigation();

@@ -12,13 +12,18 @@ import { scale } from "react-native-size-matters";
 import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
 export default class HomeScreen extends Component {
+  state = {
+    saleProducts: [],
+    newProducts: [],
+  };
+
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/clientProfile`)
-      .then((res) => {})
-      .catch((err) => {
+      .then(res => {})
+      .catch(err => {
         console.log(err.response.data.status);
         if (err.response.data.status == 401) {
           AsyncStorage.removeItem("userData");
@@ -28,8 +33,57 @@ export default class HomeScreen extends Component {
           this.props.logout();
         }
       });
+    await axios
+      .get("/saleproduct")
+      .then(res => {
+        // console.log(res.data.response.data, "hady");
+        this.setState({ saleProducts: res.data.response.data });
+      })
+      .catch(err => {});
+    await axios
+      .get("/newproduct")
+      .then(res => {
+        // console.log(res.data.response.data, "hady");
+        this.setState({ newProducts: res.data.response.data });
+      })
+      .catch(err => {});
   }
+  onRefresh = async () => {
+    await axios
+      .get("/saleproduct")
+      .then(res => {
+        // console.log(res.data.response.data, "hady");
+        this.setState({ saleProducts: res.data.response.data });
+      })
+      .catch(err => {});
+    await axios
+      .get("/newproduct")
+      .then(res => {
+        // console.log(res.data.response.data, "hady");
+        this.setState({ newProducts: res.data.response.data });
+      })
+      .catch(err => {});
+  };
+  favoriteProduct = async id => {
+    await axios
+      .post("/favorite", { product_id: id })
+      .then(res => {
+        console.log(res.data);
+        this.onRefresh();
+      })
+      .catch(err => {});
+  };
+  unfavoriteProduct = async id => {
+    await axios
+      .post("/unfavorite", { product_id: id })
+      .then(res => {
+        console.log(res.data);
+        this.onRefresh();
+      })
+      .catch(err => {});
+  };
   render() {
+    // console.log(this.state.saleProducts);
     return (
       <SafeAreaView
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
@@ -84,98 +138,57 @@ export default class HomeScreen extends Component {
             >
               Sale
             </Text>
-            <Button
-              color="#28AE7B"
-              round
-              onPress={() => this.props.navigation.push("ProductView")}
-            >
-              Check Sales
-            </Button>
+
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
-                height: scale(300),
+                height: scale(320),
               }}
               horizontal={true}
             >
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                onClickButton={() => Alert("Has clicked")}
-              />
+              {this.state.saleProducts.length != 0 ? (
+                this.state.saleProducts.map(e => {
+                  return (
+                    <Card
+                      key={e.id}
+                      id={e.id}
+                      title={e.name}
+                      nbStar={3}
+                      saleStatus={e.sale}
+                      favourited={e.favourited}
+                      sale={e.total_price}
+                      price={e.price}
+                      brand={e.brand}
+                      onPress={() => {
+                        this.props.navigation.push("ProductView", { id: e.id });
+                      }}
+                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      buttonText={"VIEW DETAILS"}
+                      icon1={"heart"}
+                      iconColor1={e.favourited == true ? "white" : "#fff"}
+                      iconBackground1={e.favourited == true ? "red" : "#2A2C36"}
+                      onClicked1={() => {
+                        e.favourited == false
+                          ? this.favoriteProduct(e.id)
+                          : this.unfavoriteProduct(e.id);
+                      }}
+                      discount={e.discount}
+                      icon2={"cart-plus"}
+                      iconColor2={"white"}
+                      iconBackground2={"#28AE7B"}
+                      onClicked2={() => {
+                        alert("Hello!");
+                      }}
+                      buttonColor={"#4383FF"}
+                      onClickButton={() => Alert("Has clicked")}
+                    />
+                  );
+                })
+              ) : (
+                <Text style={{ color: "white", alignSelf: "center" }}>
+                  No Results !
+                </Text>
+              )}
             </ScrollView>
           </View>
           <View
@@ -200,90 +213,55 @@ export default class HomeScreen extends Component {
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",
-                height: scale(300),
+                height: scale(320),
               }}
               horizontal={true}
             >
               {/* <View style={{ flexDirection: "row", height: 400 }}> */}
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              <Card
-                title={"Porsche Rubber"}
-                subTitle={
-                  "Zermatt is famed as a mounering and ski destome banmdo liono"
-                }
-                nbStar={3}
-                sale={"$200"}
-                price={"$100"}
-                brand={"Hollister"}
-                image={require("../../../assets/images/image.png")}
-                buttonText={"VIEW DETAILS"}
-                icon1={"heart-o"}
-                iconColor1={"#fff"}
-                iconBackground1={"#2A2C36"}
-                onClicked1={() => {
-                  alert("Hello!");
-                }}
-                icon2={"cart-plus"}
-                iconColor2={"white"}
-                iconBackground2={"#28AE7B"}
-                onClicked2={() => {
-                  alert("Hello!");
-                }}
-                buttonColor={"#4383FF"}
-                onClickButton={() => Alert("Has clicked")}
-              />
-              {/* </View> */}
+              {this.state.newProducts.length != 0 ? (
+                this.state.newProducts.map(e => {
+                  return (
+                    <Card
+                      key={e.id}
+                      id={e.id}
+                      onPress={() => {
+                        this.props.navigation.push("ProductView", { id: e.id });
+                      }}
+                      title={e.name}
+                      badgeStatus={"new"}
+                      nbStar={3}
+                      saleStatus={e.sale}
+                      favourited={e.favourited}
+                      sale={e.total_price}
+                      price={e.price}
+                      brand={e.brand}
+                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      buttonText={"VIEW DETAILS"}
+                      icon1={"heart"}
+                      iconColor1={e.favourited == true ? "white" : "#fff"}
+                      iconBackground1={e.favourited == true ? "red" : "#2A2C36"}
+                      onClicked1={() => {
+                        e.favourited == false
+                          ? this.favoriteProduct(e.id)
+                          : this.unfavoriteProduct(e.id);
+                      }}
+                      discount={e.discount}
+                      icon2={"cart-plus"}
+                      iconColor2={"white"}
+                      iconBackground2={"#28AE7B"}
+                      onClicked2={() => {
+                        alert("Hello!");
+                      }}
+                      buttonColor={"#4383FF"}
+                      onClickButton={() => Alert("Has clicked")}
+                    />
+                  );
+                })
+              ) : (
+                <Text style={{ color: "white", alignSelf: "center" }}>
+                  No Results !
+                </Text>
+              )}
             </ScrollView>
           </View>
         </ParallaxHeader>

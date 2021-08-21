@@ -50,7 +50,7 @@ export default class CardEcomOne extends Component {
     } = this.props;
     const { color } = this.state;
     return (
-      <View
+      <TouchableOpacity
         style={{
           backgroundColor: "transparent",
           alignSelf: "center",
@@ -68,6 +68,7 @@ export default class CardEcomOne extends Component {
             width: 0,
           },
         }}
+        onPress={this.props.onPress}
       >
         <View
           style={{
@@ -93,6 +94,17 @@ export default class CardEcomOne extends Component {
               value={
                 this.props.discount ? "-" + this.props.discount + "%" : "New"
               }
+              textStyle={{ fontSize: scale(12) }}
+              containerStyle={{
+                position: "absolute",
+                top: scale(10),
+                left: scale(10),
+              }}
+            />
+          ) : this.props.badgeStatus ? (
+            <Badge
+              status="error"
+              value={"New"}
               textStyle={{ fontSize: scale(12) }}
               containerStyle={{
                 position: "absolute",
@@ -168,7 +180,7 @@ export default class CardEcomOne extends Component {
         <View
           style={{
             backgroundColor: "#fff",
-            height: "30%",
+            height: "35%",
             marginTop: scale(-12),
             borderBottomLeftRadius: scale(12),
             borderBottomRightRadius: scale(12),
@@ -191,7 +203,7 @@ export default class CardEcomOne extends Component {
               <Text
                 style={{
                   color: "#000",
-                  marginTop: "5%",
+                  marginTop: scale(15),
                   fontSize: scale(15),
                   marginLeft: scale(12),
                   flexWrap: "wrap",
@@ -210,9 +222,34 @@ export default class CardEcomOne extends Component {
               </Text>
               <View
                 style={{
+                  backgroundColor: "#fff",
+                  // flex: 1,
+                  // position: "absolute",
+                  // bottom: scale(26),
+                  // right: 10,
+                  marginLeft: scale(11),
                   flexDirection: "row",
-                  marginLeft: scale(12),
-                  marginTop: scale(5),
+                  borderBottomRightRadius: scale(12),
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  // alignSelf: "flex-end",
+                }}
+              >
+                {[1, 2, 3, 4, 5].map((item, index) => (
+                  <Icon
+                    key={index}
+                    name={this.state.icon}
+                    style={{ margin: 2 }}
+                    color={nbStar >= index + 1 ? "gold" : "#bbb"}
+                    size={scale(12)}
+                  />
+                ))}
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  // marginLeft: scale(12),
+                  // marginTop: scale(5),
                 }}
               >
                 {/* {colorList.map((item, index) => {
@@ -263,7 +300,7 @@ export default class CardEcomOne extends Component {
                         textDecorationLine: "line-through",
                       }}
                     >
-                      {price}
+                      {price} EGP
                     </Text>
                     <Text
                       style={{
@@ -274,7 +311,7 @@ export default class CardEcomOne extends Component {
                         marginLeft: "4%",
                       }}
                     >
-                      {sale}
+                      {sale} EGP
                     </Text>
                   </View>
                 ) : (
@@ -284,7 +321,7 @@ export default class CardEcomOne extends Component {
                       justifyContent: "center",
                       alignItems: "center",
                       alignSelf: "flex-start",
-                      // marginTop: "5%",
+                      marginTop: "5%",
                     }}
                   >
                     <Text
@@ -296,39 +333,15 @@ export default class CardEcomOne extends Component {
                         // textDecorationLine: "line-through",
                       }}
                     >
-                      {price}
+                      {price} EGP
                     </Text>
                   </View>
                 )}
-                <View
-                  style={{
-                    backgroundColor: "#fff",
-                    // flex: 1,
-                    // position: "absolute",
-                    // bottom: scale(26),
-                    // right: 10,
-                    flexDirection: "row",
-                    borderBottomRightRadius: scale(12),
-                    justifyContent: "center",
-                    alignItems: "center",
-                    // alignSelf: "flex-end",
-                  }}
-                >
-                  {[1, 2, 3, 4, 5].map((item, index) => (
-                    <Icon
-                      key={index}
-                      name={this.state.icon}
-                      style={{ margin: 2 }}
-                      color={nbStar >= index + 1 ? "gold" : "#bbb"}
-                      size={scale(12)}
-                    />
-                  ))}
-                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
