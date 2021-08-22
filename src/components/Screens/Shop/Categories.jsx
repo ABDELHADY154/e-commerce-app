@@ -32,10 +32,10 @@ class Profile extends Component {
     if (this.props.route.params.id) {
       await axios
         .get(`/brand-categories/${this.props.route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.setState({ categories: res.data.response.data, refresh: false });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -50,10 +50,10 @@ class Profile extends Component {
     if (this.props.route.params.id) {
       await axios
         .get(`/brand-categories/${this.props.route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.setState({ categories: res.data.response.data, refresh: false });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -71,7 +71,7 @@ class Profile extends Component {
           }}
           centerComponent={{
             text: this.props.route.params.name,
-            style: { color: "#fff", fontSize: scale(25) },
+            style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
             icon: "arrow-back",
@@ -118,7 +118,7 @@ class Profile extends Component {
                 </ListItem>
               )}
               {this.state.categories.length != 0 ? (
-                this.state.categories.map(e => {
+                this.state.categories.map((e) => {
                   return (
                     <ListItem
                       bottomDivider
