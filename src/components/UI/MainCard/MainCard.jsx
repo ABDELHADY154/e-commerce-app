@@ -31,7 +31,7 @@ export default class CardEcomOne extends Component {
       color: this.props.selectColor,
     };
   }
-  colorSelect = (color) => {
+  colorSelect = color => {
     this.props.getSelectColor(color);
     this.setState({ color: color });
   };
@@ -68,6 +68,7 @@ export default class CardEcomOne extends Component {
             width: 0,
           },
         }}
+        activeOpacity={100}
         onPress={this.props.onPress}
       >
         <View
@@ -296,7 +297,7 @@ export default class CardEcomOne extends Component {
                         color: "#000",
                         fontWeight: "bold",
                         fontSize: scale(12),
-                        // margin: scale(12),
+                        margin: scale(12),
                         textDecorationLine: "line-through",
                       }}
                     >

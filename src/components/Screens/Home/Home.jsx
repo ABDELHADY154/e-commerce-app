@@ -11,6 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
 import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
+import { RefreshControl } from "react-native";
 export default class HomeScreen extends Component {
   state = {
     saleProducts: [],
@@ -145,6 +146,7 @@ export default class HomeScreen extends Component {
                 height: scale(320),
               }}
               horizontal={true}
+              showsHorizontalScrollIndicator={false}
             >
               {this.state.saleProducts.length != 0 ? (
                 this.state.saleProducts.map(e => {
@@ -216,6 +218,7 @@ export default class HomeScreen extends Component {
                 height: scale(320),
               }}
               horizontal={true}
+              showsHorizontalScrollIndicator={false}
             >
               {/* <View style={{ flexDirection: "row", height: 400 }}> */}
               {this.state.newProducts.length != 0 ? (
