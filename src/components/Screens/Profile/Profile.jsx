@@ -29,14 +29,14 @@ class Profile extends Component {
   afterImageUpload = async () => {
     await axios
       .get("/clientProfile")
-      .then(res => {
+      .then((res) => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -44,14 +44,14 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get("/clientProfile")
-      .then(res => {
+      .then((res) => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -71,11 +71,11 @@ class Profile extends Component {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then(e => {
+      .then((e) => {
         // console.log(e);
         this.afterImageUpload();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -132,13 +132,18 @@ class Profile extends Component {
                 {this.state.image != "" ? (
                   <Avatar
                     size="xlarge"
+                    color="#ABB4BD"
                     containerStyle={{ justifyContent: "flex-end" }}
                     rounded
                     source={
                       this.state.image !== "" ? { uri: this.state.image } : ""
                     }
                   >
-                    <Avatar.Accessory size={35} onPress={this.pickImage} />
+                    <Avatar.Accessory
+                      size={30}
+                      color="#2A2C36"
+                      onPress={this.pickImage}
+                    />
                   </Avatar>
                 ) : (
                   <Text></Text>

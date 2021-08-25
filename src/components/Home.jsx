@@ -92,7 +92,7 @@ export default class Home extends Component {
         tabBarOptions={{
           activeTintColor: "white",
           inactiveTintColor: "white",
-          activeBackgroundColor: "#2F7C6E",
+          activeBackgroundColor: "#28AE7B",
           tabStyle: {
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
@@ -114,7 +114,7 @@ export default class Home extends Component {
               <Icon
                 name="home"
                 family="Feather"
-                size={24}
+                size={26}
                 color="white"
                 // focused={focused}
                 // color={color}
@@ -130,7 +130,7 @@ export default class Home extends Component {
               <Icon
                 name="shop"
                 family="Entypo"
-                size={24}
+                size={26}
                 color="white"
                 // color={focused ? color : "#222222"}
                 // focused={focused}
@@ -147,7 +147,7 @@ export default class Home extends Component {
               <Icon
                 name="shopping-bag"
                 family="Feather"
-                size={24}
+                size={26}
                 color="white"
                 // color={focused ? color : "#222222"}
                 // focused={focused}
@@ -164,7 +164,7 @@ export default class Home extends Component {
               <Icon
                 name="hearto"
                 family="AntDesign"
-                size={24}
+                size={26}
                 color="white"
                 // color={focused ? color : "#222222"}
                 // focused={focused}
@@ -181,7 +181,7 @@ export default class Home extends Component {
               <Icon
                 name="user"
                 family="AntDesign"
-                size={24}
+                size={26}
                 color="white"
                 // color={focused ? color : "#222222"}
                 // focused={focused}

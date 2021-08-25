@@ -9,17 +9,14 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import { Block, Text, theme, Button as GaButton } from "galio-framework";
-import { Button } from "galio-framework";
+import { Block, Text, theme, Button as GaButton, Input } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
-import { Avatar } from "react-native-elements";
-import { ListItem } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
 import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
 import { AntDesign } from "@expo/vector-icons";
-
+// import { Button, Menu, Divider, Provider, TextInput } from "react-native-paper";
+import { Entypo } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Bag extends Component {
@@ -103,13 +100,18 @@ class Bag extends Component {
                     L
                   </Text>
                 </View>
-                <View style={{ flex: 1, flexDirection: "row", marginLeft: 20 }}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    marginLeft: 20,
+                    marginBottom: 15,
+                  }}
+                >
                   <View
                     style={{
-                      // justifyContent: "flex-start",
-
+                      justifyContent: "flex-start",
                       alignItems: "center",
-                      marginBottom: 10,
                       // flex: 1,
                       flexDirection: "row",
                     }}
@@ -135,7 +137,6 @@ class Bag extends Component {
                     >
                       1
                     </Text>
-
                     <TouchableOpacity
                       style={{
                         backgroundColor: "#2A2C36",
@@ -162,6 +163,84 @@ class Bag extends Component {
                 </View>
               </View>
             </View>
+            <View style={{ marginTop: 30, width: "95%" }}>
+              <Input
+                placeholder="Enter Your Promo Code"
+                placeholderTextColor="#ABB4BD"
+                right
+                icon="chevron-right"
+                family="Entypo"
+                iconSize={26}
+                iconColor="#ABB4BD"
+                style={{ backgroundColor: "#1E1F28", borderWidth: 0 }}
+              />
+              {/* <TouchableOpacity
+                style={{
+                  backgroundColor: "#ABB4BD",
+                  borderRadius: 50,
+                  height: 40,
+                  width: 40,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Entypo name="chevron-right" size={24} color="black" />
+              </TouchableOpacity> */}
+            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Text
+                style={{
+                  color: "#ABB4BD",
+                  fontSize: 18,
+                  marginLeft: 20,
+                  marginTop: 10,
+                  textAlign: "left",
+                  // alignItems: "flex-start",
+                  // alignSelf: "flex-start",
+                  // alignContent: "flex-start",
+                  // justifyContent: "flex-start",
+                }}
+              >
+                Total amount
+              </Text>
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 19,
+                  // marginLeft: 20,
+                  marginTop: 10,
+                  textAlign: "right",
+                  // alignItems: "flex-end",
+                  // alignSelf: "flex-end",
+                  // alignContent: "flex-end",
+                  // justifyContent: "flex-end",
+                }}
+              >
+                150
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#28AE7B",
+                borderRadius: 50,
+                // height: 40,
+                width: "90%",
+                paddingVertical: 15,
+                marginTop: 20,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 18,
+                  textTransform: "uppercase",
+                }}
+              >
+                Check out
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </>
