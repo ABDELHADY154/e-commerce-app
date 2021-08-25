@@ -17,11 +17,11 @@ import { scale } from "react-native-size-matters";
 
 const Tab = createMaterialTopTabNavigator();
 
-const WomenScreenTab = props => {
+const WomenScreenTab = (props) => {
   const navigation = useNavigation();
   return <WomenTab {...props} navigation={navigation} />;
 };
-const MenScreenTab = props => {
+const MenScreenTab = (props) => {
   const navigation = useNavigation();
   return <MenTab {...props} navigation={navigation} />;
 };
@@ -31,8 +31,8 @@ export default class ShopScreen extends Component {
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/clientProfile`)
-      .then(res => {})
-      .catch(err => {
+      .then((res) => {})
+      .catch((err) => {
         if (err.response.data.status == 401) {
           AsyncStorage.removeItem("userData");
           AsyncStorage.removeItem("userToken");
@@ -49,7 +49,7 @@ export default class ShopScreen extends Component {
           containerStyle={{ borderBottomColor: "transparent" }}
           centerComponent={{
             text: "Brands",
-            style: { color: "#fff", fontSize: scale(25) },
+            style: { color: "#fff", fontSize: scale(20) },
           }}
         />
         <Tab.Navigator

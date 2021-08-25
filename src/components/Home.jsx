@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import HomeScreen from "./Screens/Home/Home";
 import ProfileScreen from "./Screens/Profile/Profile";
+import BagScreen from "./Screens/Bag/Bag";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import ShopScreen from "./Screens/Shop/Shop";
 import Favorite from "./Screens/Favorite/Favorite";
@@ -19,7 +20,7 @@ export default class Home extends Component {
       console.log("Something went wrong", error);
     }
   }
-  Home = props => {
+  Home = (props) => {
     const navigation = useNavigation();
     return (
       <HomeScreen
@@ -32,7 +33,7 @@ export default class Home extends Component {
       />
     );
   };
-  Shop = props => {
+  Shop = (props) => {
     const navigation = useNavigation();
     return (
       <ShopScreen
@@ -45,7 +46,7 @@ export default class Home extends Component {
       />
     );
   };
-  Profile = props => {
+  Profile = (props) => {
     const navigation = useNavigation();
     return (
       <ProfileScreen
@@ -58,7 +59,20 @@ export default class Home extends Component {
       />
     );
   };
-  FavoriteScreen = props => {
+  Bag = (props) => {
+    const navigation = useNavigation();
+    return (
+      <BagScreen
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          this.storeToken();
+          this.props.logout();
+        }}
+      />
+    );
+  };
+  FavoriteScreen = (props) => {
     const navigation = useNavigation();
     return (
       <Favorite
@@ -127,7 +141,7 @@ export default class Home extends Component {
         />
         <Tabs.Screen
           name="Bag"
-          component={this.Profile}
+          component={this.Bag}
           options={{
             tabBarIcon: () => (
               <Icon
