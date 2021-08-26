@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import Categories from "./src/components/Screens/Shop/Categories";
 import ProductView from "./src/components/Screens/Home/ProductView";
 import Products from "./src/components/Screens/Shop/Products";
+import { ModalPortal } from "react-native-modals";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -284,6 +285,7 @@ export default function App({ navigation }) {
           </Stack.Navigator>
         </NavigationContainer>
         <StatusBar style="light" />
+        <ModalPortal />
       </SafeAreaProvider>
     </AuthContext.Provider>
   );

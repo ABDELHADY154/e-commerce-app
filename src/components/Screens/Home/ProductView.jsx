@@ -1,4 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
+import {
+  Modal,
+  SlideAnimation,
+  ModalContent,
+  BottomModal,
+} from "react-native-modals";
+
 import {
   StyleSheet,
   Dimensions,
@@ -25,6 +32,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Pages } from "react-native-pages";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { RefreshControl } from "react-native";
+import { Modalize } from "react-native-modalize";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -35,6 +43,7 @@ class ProductView extends Component {
       icon: "star",
       nbStar: 0,
       product: {},
+      visible: false,
     };
   }
 
@@ -78,6 +87,9 @@ class ProductView extends Component {
       })
       .catch(err => {});
   };
+  onOpen = () => {
+    this.state.modalizeRef.current?.open();
+  };
   render() {
     const { nbStar } = this.props;
     const onShare = async () => {
@@ -98,6 +110,12 @@ class ProductView extends Component {
         alert(error.message);
       }
     };
+    const modalizeRef = useRef < Modalize > null;
+
+    const onOpen = () => {
+      modalizeRef.current?.open();
+    };
+
     return (
       <>
         <Header
@@ -203,6 +221,7 @@ class ProductView extends Component {
                       {this.state.product.brand}
                     </Text>
                   </View>
+
                   <View
                     style={{ justifyContent: "flex-end", flexDirection: "row" }}
                   >
@@ -221,7 +240,7 @@ class ProductView extends Component {
                         backgroundColor: "#28AE7B",
                       }}
                       onPress={() => {
-                        alert("Hello!");
+                        this.setState({ visible: true });
                       }}
                     >
                       <Icon
@@ -229,7 +248,7 @@ class ProductView extends Component {
                         color="#fff"
                         size={scale(18)}
                         onPress={() => {
-                          alert("Hello!");
+                          this.setState({ visible: true });
                         }}
                       />
                     </TouchableOpacity>
@@ -396,6 +415,7 @@ class ProductView extends Component {
                     <Text></Text>
                   )}
                 </View>
+
                 <View
                   style={{
                     // backgroundColor: "#fff",
@@ -422,6 +442,7 @@ class ProductView extends Component {
                     />
                   ))}
                 </View>
+
                 <View style={{ flex: 1 }}>
                   <Text
                     style={{
@@ -430,13 +451,99 @@ class ProductView extends Component {
                       marginLeft: scale(10),
                       marginTop: scale(10),
                       lineHeight: scale(20),
+                      marginBottom: scale(30),
                     }}
                   >
                     {this.state.product.desc}
                   </Text>
                 </View>
               </View>
-              <View>
+
+              <BottomModal
+                visible={this.state.visible}
+                onTouchOutside={() => this.setState({ visible: false })}
+                height={scale(280)}
+                width={1}
+                onSwipeOut={() => this.setState({ visible: false })}
+                // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
+              >
+                <ModalContent
+                  style={{
+                    flex: 1,
+                    backgroundColor: "#1E1F28",
+                    // flexDirection: "row",
+                  }}
+                >
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginBottom: scale(10),
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontSize: 30 }}>
+                      Select Size
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {this.state.product.sizes ? (
+                      this.state.product.sizes.map((e, i) => {
+                        return (
+                          <Button
+                            key={i}
+                            style={{
+                              borderColor: "#D6D6D7",
+                              borderWidth: 1,
+                              borderRadius: 50,
+                              backgroundColor: "transparent",
+                              width: scale(50),
+                              height: scale(50),
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                color: "#fff",
+                                fontSize: 15,
+                                // marginLeft: 10,
+                              }}
+                            >
+                              {e.size}
+                            </Text>
+                          </Button>
+                        );
+                      })
+                    ) : (
+                      <Text></Text>
+                    )}
+                  </View>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: scale(10),
+                    }}
+                  >
+                    <Button
+                      color="#28AE7B"
+                      style={{ width: "90%" }}
+                      size="large"
+                      round
+                    >
+                      Add To Cart
+                    </Button>
+                  </View>
+                </ModalContent>
+              </BottomModal>
+
+              {/* <View>
                 <ListItem
                   bottomDivider
                   containerStyle={{ backgroundColor: "transparent" }}
@@ -463,7 +570,7 @@ class ProductView extends Component {
                   </ListItem.Content>
                   <ListItem.Chevron color="white" size={scale(20)} />
                 </ListItem>
-              </View>
+              </View> */}
               {/* <View>
             <Text style={{ color: "white", fontSize: 18 }}>
               You Can Also Like This
