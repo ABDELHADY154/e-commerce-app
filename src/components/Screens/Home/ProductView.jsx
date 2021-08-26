@@ -4,6 +4,7 @@ import {
   SlideAnimation,
   ModalContent,
   BottomModal,
+  ModalTitle,
 } from "react-native-modals";
 
 import {
@@ -17,6 +18,8 @@ import {
   Platform,
   Share,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
 import { Component } from "react";
@@ -44,6 +47,9 @@ class ProductView extends Component {
       nbStar: 0,
       product: {},
       visible: false,
+      sizeId: 0,
+      quantity: 1,
+      sizeErr: "",
     };
   }
 
@@ -87,9 +93,39 @@ class ProductView extends Component {
       })
       .catch(err => {});
   };
-  onOpen = () => {
-    this.state.modalizeRef.current?.open();
+  addToCart = async () => {
+    this.setState({
+      sizeErr: "",
+    });
+    let data = {
+      product_id: this.state.product.id,
+      size_id: this.state.sizeId,
+      quantity: this.state.quantity,
+    };
+    await axios
+      .post("/addtocart", data)
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          sizeId: 0,
+          quantity: 1,
+          visible: false,
+        });
+      })
+      .catch(err => {
+        // console.log(err.response.data.errors);
+        if (err.response) {
+          if (err.response.data.errors.size_id) {
+            this.setState({
+              sizeErr: "Please Select A Size",
+              sizeId: 0,
+              quantity: 1,
+            });
+          }
+        }
+      });
   };
+
   render() {
     const { nbStar } = this.props;
     const onShare = async () => {
@@ -110,12 +146,8 @@ class ProductView extends Component {
         alert(error.message);
       }
     };
-    const modalizeRef = useRef < Modalize > null;
 
-    const onOpen = () => {
-      modalizeRef.current?.open();
-    };
-
+    console.log(this.state.product);
     return (
       <>
         <Header
@@ -169,7 +201,7 @@ class ProductView extends Component {
                             key={i}
                             source={{ uri: e.image }}
                             style={{
-                              height: "100%",
+                              height: "120%",
                               width: "100%",
                             }}
                           />
@@ -380,6 +412,7 @@ class ProductView extends Component {
                     flexDirection: "row",
                     marginTop: 10,
                     marginLeft: 5,
+                    flexWrap: "wrap",
                   }}
                 >
                   {this.state.product.sizes ? (
@@ -462,7 +495,7 @@ class ProductView extends Component {
               <BottomModal
                 visible={this.state.visible}
                 onTouchOutside={() => this.setState({ visible: false })}
-                height={scale(280)}
+                height={scale(350)}
                 width={1}
                 onSwipeOut={() => this.setState({ visible: false })}
                 // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
@@ -481,7 +514,7 @@ class ProductView extends Component {
                       marginBottom: scale(10),
                     }}
                   >
-                    <Text style={{ color: "#fff", fontSize: 30 }}>
+                    <Text style={{ color: "#fff", fontSize: 25 }}>
                       Select Size
                     </Text>
                   </View>
@@ -490,15 +523,19 @@ class ProductView extends Component {
                       flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
+                      flexWrap: "wrap",
                     }}
                   >
                     {this.state.product.sizes ? (
-                      this.state.product.sizes.map((e, i) => {
+                      this.state.product.sizes.map(e => {
                         return (
                           <Button
-                            key={i}
+                            key={e.id}
                             style={{
-                              borderColor: "#D6D6D7",
+                              borderColor:
+                                this.state.sizeId === e.id
+                                  ? "#28AE7B"
+                                  : "#D6D6D7",
                               borderWidth: 1,
                               borderRadius: 50,
                               backgroundColor: "transparent",
@@ -507,10 +544,16 @@ class ProductView extends Component {
                               justifyContent: "center",
                               alignItems: "center",
                             }}
+                            onPress={() => {
+                              this.setState({ sizeId: e.id });
+                            }}
                           >
                             <Text
                               style={{
-                                color: "#fff",
+                                color:
+                                  this.state.sizeId === e.id
+                                    ? "#28AE7B"
+                                    : "#fff",
                                 fontSize: 15,
                                 // marginLeft: 10,
                               }}
@@ -524,6 +567,97 @@ class ProductView extends Component {
                       <Text></Text>
                     )}
                   </View>
+                  <Text
+                    style={{ fontSize: 15, color: "red", alignSelf: "center" }}
+                  >
+                    {this.state.sizeErr}
+                  </Text>
+                  <View
+                    style={{
+                      borderBottomColor: "#ABB4BD",
+                      borderBottomWidth: 1,
+                      marginTop: scale(5),
+                      width: "100%",
+                      alignSelf: "center",
+                      marginBottom: scale(5),
+                    }}
+                  />
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginBottom: scale(10),
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontSize: 25 }}>
+                      Quantity
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      // flex: 1,
+                      flexDirection: "row",
+                      marginBottom: scale(5),
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: "#2A2C36",
+                        borderRadius: 50,
+                        height: 40,
+                        width: 40,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onPress={() => {
+                        if (this.state.quantity > 1) {
+                          this.setState({
+                            quantity: this.state.quantity - 1,
+                          });
+                        }
+                      }}
+                    >
+                      <AntDesign name="minus" size={24} color="#fff" />
+                    </TouchableOpacity>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 18,
+                        marginHorizontal: 20,
+                      }}
+                    >
+                      {this.state.quantity}
+                    </Text>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: "#2A2C36",
+                        borderRadius: 50,
+                        height: 40,
+                        width: 40,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onPress={() => {
+                        this.setState({
+                          quantity: this.state.quantity + 1,
+                        });
+                      }}
+                    >
+                      <AntDesign name="plus" size={24} color="#fff" />
+                    </TouchableOpacity>
+                  </View>
+                  <View
+                    style={{
+                      borderBottomColor: "#ABB4BD",
+                      borderBottomWidth: 1,
+                      marginTop: scale(5),
+                      width: "100%",
+                      alignSelf: "center",
+                      marginBottom: scale(5),
+                    }}
+                  />
                   <View
                     style={{
                       justifyContent: "center",
@@ -535,6 +669,7 @@ class ProductView extends Component {
                       color="#28AE7B"
                       style={{ width: "90%" }}
                       size="large"
+                      onPress={this.addToCart}
                       round
                     >
                       Add To Cart

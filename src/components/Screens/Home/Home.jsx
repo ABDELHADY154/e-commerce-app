@@ -25,8 +25,8 @@ export default class HomeScreen extends Component {
       .get(`/clientProfile`)
       .then(res => {})
       .catch(err => {
-        console.log(err.response.data.status);
-        if (err.response.data.status == 401) {
+        console.log(err.response.status);
+        if (err.response.status == 401) {
           AsyncStorage.removeItem("userData");
           AsyncStorage.removeItem("userToken");
           AsyncStorage.removeItem("config");
@@ -253,7 +253,7 @@ export default class HomeScreen extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        alert("Hello!");
+                        this.props.navigation.push("ProductView", { id: e.id });
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}

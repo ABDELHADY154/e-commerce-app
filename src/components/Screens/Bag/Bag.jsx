@@ -17,10 +17,64 @@ import { scale } from "react-native-size-matters";
 import { AntDesign } from "@expo/vector-icons";
 // import { Button, Menu, Divider, Provider, TextInput } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
+import BagItem from "./BagItem";
+import { RefreshControl } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
+
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Bag extends Component {
-  state = {};
+  state = {
+    products: [],
+    quantity: 0,
+    total_price: 0,
+    refresh: false,
+  };
+
+  onRefresh = () => {
+    this.setState({
+      refresh: true,
+    });
+    axios
+      .get("cart")
+      .then(res => {
+        // console.log(res.data.response.data);
+        this.setState({
+          products: res.data.response.data.products,
+          quantity: res.data.response.data.quantity,
+          total_price: res.data.response.data.total_price,
+          refresh: false,
+        });
+      })
+      .catch(err => {});
+  };
+  async componentDidMount() {
+    axios
+      .get("cart")
+      .then(res => {
+        // console.log(res.data.response.data);
+        this.setState({
+          products: res.data.response.data.products,
+          quantity: res.data.response.data.quantity,
+          total_price: res.data.response.data.total_price,
+        });
+      })
+      .catch(err => {});
+  }
+
+  deleteItem = (productId, sizeId) => {
+    axios
+      .post("deleteItem", {
+        product_id: productId,
+        size_id: sizeId,
+      })
+      .then(res => {
+        this.onRefresh();
+      })
+      .catch(err => {
+        this.onRefresh();
+      });
+  };
 
   render() {
     return (
@@ -36,133 +90,71 @@ class Bag extends Component {
             text: "My Bag",
             style: { color: "#fff", fontSize: scale(20) },
           }}
-          rightComponent={{
-            icon: "search",
-            color: "#fff",
-            size: scale(30),
-            onPress: () => {
-              this.props.navigation.goBack();
-            },
-          }}
+          // rightComponent={{
+          //   icon: "search",
+          //   color: "#fff",
+          //   size: scale(30),
+          //   onPress: () => {
+          //     this.props.navigation.goBack();
+          //   },
+          // }}
         />
 
-        <ScrollView>
-          <View style={{ alignItems: "center", marginTop: 20 }}>
+        {/* <ScrollView> */}
+
+        <ScrollView
+          contentContainerStyle={{
+            // height: "70%",
+            width: "97%",
+            alignSelf: "center",
+            justifyContent: "space-between",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refresh}
+              onRefresh={this.onRefresh}
+              tintColor="white"
+            />
+          }
+          showsVerticalScrollIndicator={false}
+        >
+          {this.state.products.length !== 0 ? (
+            this.state.products.map((e, i) => {
+              return (
+                <BagItem
+                  key={i}
+                  image={e.images[0].image}
+                  name={e.name}
+                  price={e.price}
+                  quantity={e.quantity}
+                  size={e.size}
+                  deleteOnPress={() => {
+                    this.deleteItem(e.id, e.size.id);
+                  }}
+                />
+              );
+            })
+          ) : (
             <View
               style={{
-                backgroundColor: "#1E1F28",
-                width: "95%",
-                height: 130,
-                borderRadius: 5,
                 flex: 1,
-                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                alignSelf: "center",
+                marginTop: "50%",
               }}
             >
-              <Image
-                source={require("../../../assets/images/image2.png")}
-                style={{
-                  height: 130,
-                  width: 120,
-                  borderRadius: 5,
-                  marginBottom: 0,
-                }}
-              />
-              <View>
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 20,
-                    marginLeft: 20,
-                    marginTop: 10,
-                  }}
-                >
-                  T-Shirt
-                </Text>
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <Text
-                    style={{
-                      color: "#ABB4BD",
-                      fontSize: 15,
-                      marginLeft: 20,
-                      marginTop: 10,
-                    }}
-                  >
-                    Size
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#fff",
-                      fontSize: 15,
-                      marginLeft: 20,
-                      marginTop: 10,
-                    }}
-                  >
-                    L
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    marginLeft: 20,
-                    marginBottom: 15,
-                  }}
-                >
-                  <View
-                    style={{
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                      // flex: 1,
-                      flexDirection: "row",
-                    }}
-                  >
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#2A2C36",
-                        borderRadius: 50,
-                        height: 40,
-                        width: 40,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <AntDesign name="minus" size={24} color="#fff" />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 18,
-                        marginHorizontal: 20,
-                      }}
-                    >
-                      1
-                    </Text>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#2A2C36",
-                        borderRadius: 50,
-                        height: 40,
-                        width: 40,
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <AntDesign name="plus" size={24} color="#fff" />
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      justifyContent: "flex-end",
-                      alignItems: "flex-end",
-                      alignSelf: "flex-end",
-                      alignContent: "flex-end",
-                    }}
-                  >
-                    <Text style={{ color: "white", fontSize: 18 }}>50$</Text>
-                  </View>
-                </View>
-              </View>
+              <Text color="white">Your Bag Is Empty</Text>
             </View>
+          )}
+        </ScrollView>
+        <KeyboardAvoidingView
+          // style={styles.container}
+          behavior="padding"
+        >
+          <View style={{ alignItems: "center", marginBottom: scale(15) }}>
             <View style={{ marginTop: 30, width: "95%" }}>
               <Input
                 placeholder="Enter Your Promo Code"
@@ -174,25 +166,21 @@ class Bag extends Component {
                 iconColor="#ABB4BD"
                 style={{ backgroundColor: "#1E1F28", borderWidth: 0 }}
               />
-              {/* <TouchableOpacity
-                style={{
-                  backgroundColor: "#ABB4BD",
-                  borderRadius: 50,
-                  height: 40,
-                  width: 40,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Entypo name="chevron-right" size={24} color="black" />
-              </TouchableOpacity> */}
             </View>
-            <View style={{ flex: 1, flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                alignSelf: "flex-start",
+                marginLeft: scale(14),
+              }}
+            >
               <Text
                 style={{
                   color: "#ABB4BD",
                   fontSize: 18,
-                  marginLeft: 20,
+                  // marginLeft: 20,
                   marginTop: 10,
                   textAlign: "left",
                   // alignItems: "flex-start",
@@ -201,22 +189,27 @@ class Bag extends Component {
                   // justifyContent: "flex-start",
                 }}
               >
-                Total amount
+                Bag Price:{" "}
+                {this.state.total_price
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                EGP
               </Text>
               <Text
                 style={{
-                  color: "#fff",
-                  fontSize: 19,
+                  color: "#ABB4BD",
+                  fontSize: 18,
                   // marginLeft: 20,
                   marginTop: 10,
-                  textAlign: "right",
+                  textAlign: "left",
+
                   // alignItems: "flex-end",
                   // alignSelf: "flex-end",
                   // alignContent: "flex-end",
                   // justifyContent: "flex-end",
                 }}
               >
-                150
+                Count: {this.state.quantity}
               </Text>
             </View>
             <TouchableOpacity
@@ -242,7 +235,9 @@ class Bag extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </KeyboardAvoidingView>
+
+        {/* </ScrollView> */}
       </>
     );
   }

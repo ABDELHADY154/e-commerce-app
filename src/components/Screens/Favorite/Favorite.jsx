@@ -33,14 +33,14 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get(`/favorite`)
-      .then((res) => {
+      .then(res => {
         this.setState({
           products: res.data.response.data,
           refresh: false,
           message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
@@ -51,34 +51,34 @@ class Profile extends Component {
     });
     await axios
       .get(`/favorite`)
-      .then((res) => {
+      .then(res => {
         this.setState({
           products: res.data.response.data,
           refresh: false,
           message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-  favoriteProduct = async (id) => {
+  favoriteProduct = async id => {
     await axios
       .post("/favorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  unfavoriteProduct = async (id) => {
+  unfavoriteProduct = async id => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
 
   render() {
@@ -124,7 +124,7 @@ class Profile extends Component {
             }}
           >
             {this.state.products.length != 0 ? (
-              this.state.products.map((e) => {
+              this.state.products.map(e => {
                 return (
                   <View
                     style={{
@@ -160,7 +160,7 @@ class Profile extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        alert("Hello!");
+                        this.props.navigation.push("ProductView", { id: e.id });
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}

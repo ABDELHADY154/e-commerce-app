@@ -206,7 +206,7 @@ class Profile extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        alert("Hello!");
+                        this.props.navigation.push("ProductView", { id: e.id });
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}
