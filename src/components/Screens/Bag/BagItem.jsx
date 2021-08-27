@@ -133,6 +133,8 @@ class Bag extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+                  disabled={this.props.buttonDisable}
+                  onPress={this.props.subButton}
                 >
                   <AntDesign name="minus" size={24} color="#fff" />
                 </TouchableOpacity>
@@ -154,6 +156,8 @@ class Bag extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+                  disabled={this.props.buttonDisable}
+                  onPress={this.props.addButton}
                 >
                   <AntDesign name="plus" size={24} color="#fff" />
                 </TouchableOpacity>

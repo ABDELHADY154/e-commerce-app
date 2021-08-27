@@ -29,6 +29,7 @@ class Bag extends Component {
     quantity: 0,
     total_price: 0,
     refresh: false,
+    buttonDisable: false,
   };
 
   onRefresh = () => {
@@ -64,7 +65,7 @@ class Bag extends Component {
 
   deleteItem = (productId, sizeId) => {
     axios
-      .post("deleteItem", {
+      .post("/deleteItem", {
         product_id: productId,
         size_id: sizeId,
       })
@@ -74,6 +75,56 @@ class Bag extends Component {
       .catch(err => {
         this.onRefresh();
       });
+  };
+  addQuantity = (productId, sizeId, quantity) => {
+    if (quantity >= 1) {
+      this.setState({
+        buttonDisable: true,
+      });
+      axios
+        .post("/updateCart", {
+          product_id: productId,
+          size_id: sizeId,
+          quantity: quantity + 1,
+        })
+        .then(res => {
+          this.onRefresh();
+          this.setState({
+            buttonDisable: false,
+          });
+        })
+        .catch(err => {
+          this.onRefresh();
+          this.setState({
+            buttonDisable: false,
+          });
+        });
+    }
+  };
+  minusQuantity = (productId, sizeId, quantity) => {
+    if (quantity > 1) {
+      this.setState({
+        buttonDisable: true,
+      });
+      axios
+        .post("/updateCart", {
+          product_id: productId,
+          size_id: sizeId,
+          quantity: quantity - 1,
+        })
+        .then(res => {
+          this.onRefresh();
+          this.setState({
+            buttonDisable: false,
+          });
+        })
+        .catch(err => {
+          this.onRefresh();
+          this.setState({
+            buttonDisable: false,
+          });
+        });
+    }
   };
 
   render() {
@@ -130,6 +181,13 @@ class Bag extends Component {
                   price={e.price}
                   quantity={e.quantity}
                   size={e.size}
+                  buttonDisable={this.state.buttonDisable}
+                  addButton={() => {
+                    this.addQuantity(e.id, e.size.id, e.quantity);
+                  }}
+                  subButton={() => {
+                    this.minusQuantity(e.id, e.size.id, e.quantity);
+                  }}
                   deleteOnPress={() => {
                     this.deleteItem(e.id, e.size.id);
                   }}
