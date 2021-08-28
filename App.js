@@ -17,12 +17,14 @@ import Categories from "./src/components/Screens/Shop/Categories";
 import ProductView from "./src/components/Screens/Home/ProductView";
 import Products from "./src/components/Screens/Shop/Products";
 import { ModalPortal } from "react-native-modals";
+import ClientAddress from "./src/components/Screens/Profile/ClientAddress";
+import CreateAddress from "./src/components/Screens/Profile/CreateAddress";
 
 const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "#2A2C36",
+    background: "#1E1F28",
   },
 };
 
@@ -139,6 +141,18 @@ export default function App({ navigation }) {
     const route = useRoute();
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
     return <ProductView {...props} navigation={navigation} route={route} />;
+  };
+  const ClientAddressScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+
+    return <ClientAddress {...props} navigation={navigation} route={route} />;
+  };
+  const CreateAddressScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+
+    return <CreateAddress {...props} navigation={navigation} route={route} />;
   };
   const CategoriesScreen = props => {
     const navigation = useNavigation();
@@ -264,6 +278,26 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="products"
                   component={ProductsScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="clientAddresses"
+                  component={ClientAddressScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="createAddress"
+                  component={CreateAddressScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

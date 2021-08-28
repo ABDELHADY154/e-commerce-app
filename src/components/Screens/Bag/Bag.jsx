@@ -214,7 +214,7 @@ class Bag extends Component {
         >
           <View style={{ alignItems: "center", marginBottom: scale(15) }}>
             <View style={{ marginTop: 30, width: "95%" }}>
-              <Input
+              {/* <Input
                 placeholder="Enter Your Promo Code"
                 placeholderTextColor="#ABB4BD"
                 right
@@ -223,7 +223,7 @@ class Bag extends Component {
                 iconSize={26}
                 iconColor="#ABB4BD"
                 style={{ backgroundColor: "#1E1F28", borderWidth: 0 }}
-              />
+              /> */}
             </View>
             <View
               style={{

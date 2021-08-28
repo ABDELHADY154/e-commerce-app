@@ -20,7 +20,7 @@ export default class Home extends Component {
       console.log("Something went wrong", error);
     }
   }
-  Home = (props) => {
+  Home = props => {
     const navigation = useNavigation();
     return (
       <HomeScreen
@@ -33,7 +33,7 @@ export default class Home extends Component {
       />
     );
   };
-  Shop = (props) => {
+  Shop = props => {
     const navigation = useNavigation();
     return (
       <ShopScreen
@@ -46,8 +46,9 @@ export default class Home extends Component {
       />
     );
   };
-  Profile = (props) => {
+  Profile = props => {
     const navigation = useNavigation();
+
     return (
       <ProfileScreen
         {...props}
@@ -59,7 +60,7 @@ export default class Home extends Component {
       />
     );
   };
-  Bag = (props) => {
+  Bag = props => {
     const navigation = useNavigation();
     return (
       <BagScreen
@@ -72,7 +73,7 @@ export default class Home extends Component {
       />
     );
   };
-  FavoriteScreen = (props) => {
+  FavoriteScreen = props => {
     const navigation = useNavigation();
     return (
       <Favorite
@@ -102,7 +103,7 @@ export default class Home extends Component {
           },
         }}
         appearance={{
-          tabBarBackground: "#1E1F28",
+          tabBarBackground: "#2A2C36",
           shadow: true,
         }}
       >

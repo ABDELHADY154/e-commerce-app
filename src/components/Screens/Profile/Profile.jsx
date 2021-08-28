@@ -221,6 +221,9 @@ class Profile extends Component {
             <ListItem
               bottomDivider
               containerStyle={{ backgroundColor: "transparent" }}
+              onPress={() => {
+                this.props.navigation.push("clientAddresses");
+              }}
             >
               <ListItem.Content>
                 <ListItem.Title>
