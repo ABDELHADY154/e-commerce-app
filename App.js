@@ -96,15 +96,6 @@ export default function App({ navigation }) {
       dispatch({ type: "RESTORE_TOKEN", token: userToken });
     };
     bootstrapAsync();
-    (async () => {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Sorry, we need camera roll permissions to make this work!");
-        }
-      }
-    })();
   }, []);
 
   const authContext = React.useMemo(
