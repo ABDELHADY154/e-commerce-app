@@ -19,6 +19,8 @@ import Products from "./src/components/Screens/Shop/Products";
 import { ModalPortal } from "react-native-modals";
 import ClientAddress from "./src/components/Screens/Profile/ClientAddress";
 import CreateAddress from "./src/components/Screens/Profile/CreateAddress";
+import Checkout from "./src/components/Screens/Bag/Checkout";
+import Success from "./src/components/Screens/Bag/Success";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -79,7 +81,7 @@ export default function App({ navigation }) {
       isSignout: false,
       userToken: null,
       isVerified: false,
-    },
+    }
   );
 
   React.useEffect(() => {
@@ -102,7 +104,7 @@ export default function App({ navigation }) {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async data => {
+      signIn: async (data) => {
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore`
@@ -111,7 +113,7 @@ export default function App({ navigation }) {
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
-      signUp: async data => {
+      signUp: async (data) => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `SecureStore`
@@ -120,9 +122,9 @@ export default function App({ navigation }) {
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
     }),
-    [],
+    []
   );
-  const HomeScreen = props => {
+  const HomeScreen = (props) => {
     const navigation = useNavigation();
 
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
@@ -136,35 +138,45 @@ export default function App({ navigation }) {
       />
     );
   };
-  const ProductScreen = props => {
+  const ProductScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
     return <ProductView {...props} navigation={navigation} route={route} />;
   };
-  const ClientAddressScreen = props => {
+  const ClientAddressScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
 
     return <ClientAddress {...props} navigation={navigation} route={route} />;
   };
-  const CreateAddressScreen = props => {
+  const CreateAddressScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
 
     return <CreateAddress {...props} navigation={navigation} route={route} />;
   };
-  const CategoriesScreen = props => {
+  const CategoriesScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Categories {...props} navigation={navigation} route={route} />;
   };
-  const ProductsScreen = props => {
+  const ProductsScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Products {...props} navigation={navigation} route={route} />;
   };
-  const ForgetPasswordScreen = props => {
+  const CheckoutScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Checkout {...props} navigation={navigation} route={route} />;
+  };
+  const SuccessScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Success {...props} navigation={navigation} route={route} />;
+  };
+  const ForgetPasswordScreen = (props) => {
     const navigation = useNavigation();
     // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
     return (
@@ -178,7 +190,7 @@ export default function App({ navigation }) {
     );
   };
 
-  const PasswordVerifyScreen = props => {
+  const PasswordVerifyScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return (
@@ -299,6 +311,26 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="createAddress"
                   component={CreateAddressScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Checkout"
+                  component={CheckoutScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Success"
+                  component={SuccessScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

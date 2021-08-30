@@ -288,6 +288,9 @@ class Bag extends Component {
                   fontSize: 18,
                   textTransform: "uppercase",
                 }}
+                onPress={() => {
+                  this.props.navigation.push("Checkout");
+                }}
               >
                 Check out
               </Text>

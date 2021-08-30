@@ -55,6 +55,7 @@ class Bag extends Component {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "center",
                 width: scale(220),
                 // width: "100%",
               }}
@@ -75,10 +76,10 @@ class Bag extends Component {
                   color: "white",
                   fontSize: 20,
                   marginLeft: 20,
-                  marginTop: 10,
+
                   // width: "50%",
                 }}
-                color="red"
+                color="#EB2020"
                 name="delete"
                 onPress={this.props.deleteOnPress}
               />
@@ -126,50 +127,47 @@ class Bag extends Component {
               >
                 <TouchableOpacity
                   style={{
-                    backgroundColor: "#2A2C36",
+                    backgroundColor: "#000",
                     borderRadius: 50,
-                    height: 40,
-                    width: 40,
+                    height: 34,
+                    width: 34,
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                   disabled={this.props.buttonDisable}
                   onPress={this.props.subButton}
                 >
-                  <AntDesign name="minus" size={24} color="#fff" />
+                  <AntDesign name="minus" size={20} color="#fff" />
                 </TouchableOpacity>
                 <Text
                   style={{
                     color: "white",
                     fontSize: 18,
-                    // marginHorizontal: 0,
+                    marginHorizontal: 8,
                   }}
                 >
                   {this.props.quantity}
                 </Text>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: "#2A2C36",
+                    backgroundColor: "#000",
                     borderRadius: 50,
-                    height: 40,
-                    width: 40,
+                    height: 34,
+                    width: 34,
                     justifyContent: "center",
                     alignItems: "center",
                   }}
                   disabled={this.props.buttonDisable}
                   onPress={this.props.addButton}
                 >
-                  <AntDesign name="plus" size={24} color="#fff" />
+                  <AntDesign name="plus" size={20} color="#fff" />
                 </TouchableOpacity>
                 <Text
                   style={{
                     color: "white",
-                    fontSize: 18,
-                    width: "50%",
-                    fontSize: 20,
-                    marginLeft: 10,
 
-                    // marginTop: 10,
+                    fontSize: 18,
+                    marginLeft: 12,
                   }}
                 >
                   {this.props.price

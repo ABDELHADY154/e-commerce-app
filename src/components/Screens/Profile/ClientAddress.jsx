@@ -145,8 +145,16 @@ class Profile extends Component {
                       }}
                     >
                       <Card.Content>
-                        <Title style={{ color: "#fff" }}>{e.name}</Title>
-                        <Paragraph style={{ color: "#fff" }}>
+                        <Title style={{ color: "#fff", fontSize: 16 }}>
+                          {e.name}
+                        </Title>
+                        <Paragraph
+                          style={{
+                            color: "#fff",
+                            fontSize: 16,
+                            lineHeight: 25,
+                          }}
+                        >
                           {e.city}, {e.region}, {e.street_name}, {e.building_no}
                           , {e.floor} floor, Appartment Number {e.appartment_no}
                         </Paragraph>
