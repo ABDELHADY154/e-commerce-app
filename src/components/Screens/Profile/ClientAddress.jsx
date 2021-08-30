@@ -74,6 +74,20 @@ class Profile extends Component {
         console.log(err);
       });
   };
+  onDelete = id => {
+    axios
+      .delete(`/clientAddress/${id}}`)
+      .then(res => {
+        // this.setState({
+        //   // addresses: res.data.response.data.addresses,
+        //   refresh: false,
+        // });
+        this.onRefresh();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
