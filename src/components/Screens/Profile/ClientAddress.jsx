@@ -60,31 +60,31 @@ class Profile extends Component {
         console.log(err);
       });
   };
-  onDelete = id => {
+  onDelete = (id) => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then(res => {
+      .then((res) => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  onDelete = id => {
+  onDelete = (id) => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then(res => {
+      .then((res) => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -104,7 +104,7 @@ class Profile extends Component {
             style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
-            icon: "arrow-back",
+            icon: "chevron-left",
             color: "#fff",
             size: scale(30),
             onPress: () => {

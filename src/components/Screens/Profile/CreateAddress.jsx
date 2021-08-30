@@ -76,14 +76,14 @@ export default class SignUp extends Component {
 
     axios
       .post("/clientAddress", body)
-      .then(response => {
+      .then((response) => {
         this.setState({
           loading: false,
         });
         this.props.navigation.goBack("Home");
       })
 
-      .catch(error => {
+      .catch((error) => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -138,20 +138,20 @@ export default class SignUp extends Component {
         }
       });
   };
-  setOpen = open => {
+  setOpen = (open) => {
     this.setState({
       open,
     });
   };
 
-  setValue = callback => {
-    this.setState(state => ({
+  setValue = (callback) => {
+    this.setState((state) => ({
       city: callback(state.value),
     }));
   };
 
-  setItems = callback => {
-    this.setState(state => ({
+  setItems = (callback) => {
+    this.setState((state) => ({
       items: callback(state.items),
     }));
   };
@@ -171,7 +171,7 @@ export default class SignUp extends Component {
             style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
-            icon: "arrow-back",
+            icon: "chevron-left",
             color: "#fff",
             size: scale(30),
             onPress: () => {
@@ -206,7 +206,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.nameBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ name: value });
                     }}
                   />
@@ -283,7 +283,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.regionBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ region: value });
                     }}
                   />
@@ -306,7 +306,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.streetNameBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ streetName: value });
                     }}
                   />
@@ -329,7 +329,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.buildingNumberBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ buildingNumber: value });
                     }}
                   />
@@ -352,7 +352,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.floorBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ floor: value });
                     }}
                   />
@@ -375,7 +375,7 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.appartmentNumberBorder }}
                     rounded
-                    onChangeText={value => {
+                    onChangeText={(value) => {
                       this.setState({ appartmentNumber: value });
                     }}
                   />
@@ -431,7 +431,7 @@ export default class SignUp extends Component {
                   loadingSize="small"
                   onPress={this.submit}
                 >
-                  Add
+                  Save Adress
                 </Button>
               </View>
 
