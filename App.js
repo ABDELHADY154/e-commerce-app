@@ -288,6 +288,7 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="clientAddresses"
                   component={ClientAddressScreen}
+                  initialParams={{ refresh: false }}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

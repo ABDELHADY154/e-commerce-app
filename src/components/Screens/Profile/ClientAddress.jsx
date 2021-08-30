@@ -13,7 +13,7 @@ import { Button } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
 import { ListItem } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native";
 import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
@@ -30,6 +30,7 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
+    console.log(this.props.route.params.refresh);
     await axios
       .get("/clientAddress")
       .then(res => {
@@ -41,7 +42,6 @@ class Profile extends Component {
       .catch(err => {
         console.log(err);
       });
-    // }
   }
 
   onRefresh = async () => {
@@ -60,6 +60,20 @@ class Profile extends Component {
         console.log(err);
       });
   };
+  onDelete = id => {
+    axios
+      .delete(`/clientAddress/${id}}`)
+      .then(res => {
+        // this.setState({
+        //   // addresses: res.data.response.data.addresses,
+        //   refresh: false,
+        // });
+        this.onRefresh();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     return (
@@ -72,7 +86,7 @@ class Profile extends Component {
             width: "98%",
           }}
           centerComponent={{
-            text: "Shipping Addresses",
+            text: "Shipping Address",
             style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
@@ -103,9 +117,7 @@ class Profile extends Component {
               />
             }
           >
-            <View
-              style={{ flex: 1, justifyContent: "flex-start", marginTop: "2%" }}
-            >
+            <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
               {this.state.addresses.length != 0 ? (
                 this.state.addresses.map(e => {
                   return (
@@ -115,6 +127,7 @@ class Profile extends Component {
                         width: "96%",
                         alignSelf: "center",
                         backgroundColor: "#2A2C36",
+                        marginTop: "3%",
                       }}
                     >
                       <Card.Content>
@@ -140,7 +153,7 @@ class Profile extends Component {
                         </View>
 
                         <View style={{ flexDirection: "row" }}>
-                          <Button
+                          {/* <Button
                             onlyIcon
                             icon="edit"
                             iconFamily="fontawsome"
@@ -148,9 +161,14 @@ class Profile extends Component {
                             color="#28AE7B"
                             iconColor="#fff"
                             style={{ width: 40, height: 40 }}
+                            onPress={() => {
+                              this.props.navigation.push("createAddress", {
+                                id: e.id,
+                              });
+                            }}
                           >
                             warning
-                          </Button>
+                          </Button> */}
 
                           <Button
                             onlyIcon
@@ -160,6 +178,9 @@ class Profile extends Component {
                             color="red"
                             iconColor="#fff"
                             style={{ width: 40, height: 40 }}
+                            onPress={() => {
+                              this.onDelete(e.id);
+                            }}
                           >
                             warning
                           </Button>
@@ -171,13 +192,14 @@ class Profile extends Component {
               ) : (
                 <View
                   style={{
-                    flex: 1,
+                    // flex: 1,
                     justifyContent: "center",
                     alignItems: "center",
+                    marginTop: "80%",
                   }}
                 >
                   <Text style={{ color: "white" }} size={30}>
-                    {"No Resluts !"}
+                    No Address !
                   </Text>
                 </View>
               )}

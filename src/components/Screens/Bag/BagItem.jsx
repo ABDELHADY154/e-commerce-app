@@ -31,7 +31,7 @@ class Bag extends Component {
       <>
         <View
           style={{
-            backgroundColor: "#1E1F28",
+            backgroundColor: "#2A2C36",
             width: "100%",
             height: 130,
             borderRadius: 5,
