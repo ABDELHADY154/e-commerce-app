@@ -38,7 +38,7 @@ class Bag extends Component {
     });
     axios
       .get("cart")
-      .then(res => {
+      .then((res) => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -47,12 +47,12 @@ class Bag extends Component {
           refresh: false,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
   async componentDidMount() {
     axios
       .get("cart")
-      .then(res => {
+      .then((res) => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -60,7 +60,7 @@ class Bag extends Component {
           total_price: res.data.response.data.total_price,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   }
 
   deleteItem = (productId, sizeId) => {
@@ -69,10 +69,10 @@ class Bag extends Component {
         product_id: productId,
         size_id: sizeId,
       })
-      .then(res => {
+      .then((res) => {
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         this.onRefresh();
       });
   };
@@ -87,13 +87,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity + 1,
         })
-        .then(res => {
+        .then((res) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -112,13 +112,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity - 1,
         })
-        .then(res => {
+        .then((res) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -138,7 +138,7 @@ class Bag extends Component {
             width: "98%",
           }}
           centerComponent={{
-            text: "My Bag",
+            text: "My Cart",
             style: { color: "#fff", fontSize: scale(20) },
           }}
           // rightComponent={{
@@ -204,7 +204,7 @@ class Bag extends Component {
                 marginTop: "50%",
               }}
             >
-              <Text color="white">Your Bag Is Empty</Text>
+              <Text color="white">Your Cart Is Empty</Text>
             </View>
           )}
         </ScrollView>
@@ -247,7 +247,7 @@ class Bag extends Component {
                   // justifyContent: "flex-start",
                 }}
               >
-                Bag Price:{" "}
+                Cart Price:{" "}
                 {this.state.total_price
                   .toFixed(2)
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}

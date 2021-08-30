@@ -5657,6 +5657,11 @@
   dependencies:
     "warn-once" "^0.1.0"
 
+"react-native-select-dropdown@^1.1.0":
+  "integrity" "sha512-76XFBc/axByFw8ilgaC6iA4bBYKdxPFZifiQfhrFnwJmwFXE+9XhrlvMMww5seXukrEMOp0JkLasgINSEr6kwQ=="
+  "resolved" "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-1.1.0.tgz"
+  "version" "1.1.0"
+
 "react-native-size-matters@^0.1.0":
   "integrity" "sha512-LxU2UnQKt69EddSjmcWIqL5GD8RFuwyHGstXqBym+8IIqEWDRVIuZpySVOW11hrQXFj8YF3EGL86fGFqPT+9qA=="
   "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.1.7.tgz"
