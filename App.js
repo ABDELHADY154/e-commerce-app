@@ -21,6 +21,8 @@ import ClientAddress from "./src/components/Screens/Profile/ClientAddress";
 import CreateAddress from "./src/components/Screens/Profile/CreateAddress";
 import Checkout from "./src/components/Screens/Bag/Checkout";
 import Success from "./src/components/Screens/Bag/Success";
+import Order from "./src/components/Screens/Profile/Order";
+import OrderDetailes from "./src/components/Screens/Profile/OrderDetailes";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -175,6 +177,16 @@ export default function App({ navigation }) {
     const navigation = useNavigation();
     const route = useRoute();
     return <Success {...props} navigation={navigation} route={route} />;
+  };
+  const OrderScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Order {...props} navigation={navigation} route={route} />;
+  };
+  const OrderDetailesrScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <OrderDetailes {...props} navigation={navigation} route={route} />;
   };
   const ForgetPasswordScreen = (props) => {
     const navigation = useNavigation();
@@ -331,6 +343,26 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="Success"
                   component={SuccessScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Order"
+                  component={OrderScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="OrderDetailes"
+                  component={OrderDetailesScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {
