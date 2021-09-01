@@ -65,7 +65,7 @@ export default class Order extends Component {
           // }}
         />
         <ScrollView
-          contentContainerStyle={{ height: "100%" }}
+          contentContainerStyle={{}}
           // refreshControl={
           //   <RefreshControl
           //     refreshing={this.state.refresh}
@@ -74,7 +74,7 @@ export default class Order extends Component {
           //   />
           // }
         >
-          <View style={{ marginHorizontal: "5%" }}>
+          <View style={{ marginHorizontal: "5%", marginTop: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -123,7 +123,6 @@ export default class Order extends Component {
                   borderRadius: 5,
                   marginTop: scale(5),
                   marginBottom: scale(5),
-                  // flex: 1,
                   flexDirection: "row",
                 }}
               >
@@ -136,36 +135,40 @@ export default class Order extends Component {
                     marginBottom: 0,
                   }}
                 />
-                <View>
-                  <View
+                <View
+                  style={{
+                    justifyContent: "space-between",
+                    width: scale(180),
+                    marginLeft: 20,
+                  }}
+                >
+                  <Text
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: scale(220),
-                      // width: "100%",
+                      color: "white",
+                      fontSize: 20,
+                      marginTop: 8,
                     }}
                   >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        marginLeft: 20,
-                        marginTop: 10,
-                        // width: "50%",
-                      }}
-                    >
-                      {/* {this.props.name} */}
-                      name
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1, flexDirection: "row" }}>
+                    {/* {this.props.name} */}
+                    name
+                  </Text>
+                  <Text
+                    style={{
+                      color: "#ABB4BD",
+                      fontSize: 15,
+                      marginLeft: -4,
+                      marginTop: 6,
+                    }}
+                  >
+                    {/* {this.props.size.size} */} Brand name
+                  </Text>
+
+                  <View style={{ flex: 1, flexDirection: "row", marginTop: 8 }}>
                     <Text
                       style={{
                         color: "#ABB4BD",
                         fontSize: 15,
-                        marginLeft: 20,
-                        marginTop: 10,
+                        marginRight: 10,
                       }}
                     >
                       Size:
@@ -174,8 +177,6 @@ export default class Order extends Component {
                       style={{
                         color: "#fff",
                         fontSize: 15,
-                        marginLeft: 10,
-                        marginTop: 10,
                       }}
                     >
                       {/* {this.props.size.size} */}L
@@ -183,12 +184,10 @@ export default class Order extends Component {
                   </View>
                   <View
                     style={{
-                      // flex: 1,
                       flexDirection: "row",
-                      marginLeft: 20,
-                      // marginBottom: 15,
-                      // alignItems: "center",
+
                       justifyContent: "space-between",
+                      marginBottom: 8,
                     }}
                   >
                     <View style={{ flexDirection: "row" }}>
@@ -196,8 +195,7 @@ export default class Order extends Component {
                         style={{
                           color: "#ABB4BD",
                           fontSize: 15,
-                          // marginLeft: 20,
-                          // marginTop: 10,
+                          marginRight: 10,
                         }}
                       >
                         Units:
@@ -206,8 +204,6 @@ export default class Order extends Component {
                         style={{
                           color: "#fff",
                           fontSize: 15,
-                          marginLeft: 10,
-                          // marginTop: 10,
                         }}
                       >
                         {/* {this.props.size.size} */}L
@@ -218,7 +214,6 @@ export default class Order extends Component {
                         color: "white",
 
                         fontSize: 18,
-                        // marginLeft: 12,
                       }}
                     >
                       54
@@ -230,6 +225,187 @@ export default class Order extends Component {
                   </View>
                 </View>
               </View>
+            </View>
+            <Text style={{ color: "#fff", fontSize: 16, marginTop: 25 }}>
+              Order Information
+            </Text>
+            <View style={{}}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 25,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 15,
+                  }}
+                >
+                  Shipping Address:
+                </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 15,
+                    lineHeight: 25,
+                    width: scale(190),
+                  }}
+                >
+                  3 Newbridge Court ,Chino Hills, CA 91709, United States
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 25,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 15,
+                  }}
+                >
+                  Payment Method:
+                </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 15,
+                    width: scale(190),
+                  }}
+                >
+                  Cash On Delivery
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 25,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 15,
+                  }}
+                >
+                  Delivery Method:
+                </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 15,
+                    width: scale(190),
+                  }}
+                >
+                  2 Days, 15EGP
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 25,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 15,
+                  }}
+                >
+                  Discount:
+                </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 15,
+                    width: scale(190),
+                  }}
+                >
+                  -
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginTop: 25,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 15,
+                  }}
+                >
+                  Total Amount:
+                </Text>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 15,
+                    width: scale(190),
+                  }}
+                >
+                  300EGP
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 30,
+              }}
+            >
+              <Button
+                color="error"
+                style={{
+                  width: scale(150),
+                  height: 40,
+                  borderWidth: 1,
+                  borderRadius: 18,
+                  backgroundColor: "transparent",
+                  borderColor: "#EB2020",
+                  color: "#EB2020",
+                  // justifyContent: "flex-start",
+                }}
+                // onPress={() => {
+                //   this.props.navigation.push("OrderDetailes");
+                // }}
+              >
+                <Text style={{ color: "#EB2020", fontSize: 16 }}>Cancel</Text>
+              </Button>
+              <Button
+                color="#28AE7B"
+                style={{
+                  width: scale(150),
+                  height: 40,
+                  // borderWidth: 1,
+                  borderRadius: 18,
+                  backgroundColor: "#28AE7B",
+                  // borderColor: "#28AE7B",
+                  // justifyContent: "flex-start",
+                }}
+                // onPress={() => {
+                //   this.props.navigation.push("OrderDetailes");
+                // }}
+              >
+                <Text style={{ color: "#fff", fontSize: 16 }}>
+                  Leave Feedback
+                </Text>
+              </Button>
             </View>
           </View>
         </ScrollView>
