@@ -76,14 +76,14 @@ export default class SignUp extends Component {
 
     axios
       .post("/clientAddress", body)
-      .then((response) => {
+      .then(response => {
         this.setState({
           loading: false,
         });
-        this.props.navigation.goBack("Home");
+        this.props.navigation.push("clientAddresses", { refresh: true });
       })
 
-      .catch((error) => {
+      .catch(error => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -138,22 +138,136 @@ export default class SignUp extends Component {
         }
       });
   };
-  setOpen = (open) => {
+  componentDidMount() {
+    if (this.props.route.params.id) {
+      axios
+        .get(`clientAddress/${this.props.route.params.id}`)
+        .then(res => {
+          this.setState({
+            name: res.data.response.data.address.name,
+            region: res.data.response.data.address.region,
+            city: res.data.response.data.address.city,
+            streetName: res.data.response.data.address.street_name,
+            buildingNumber: res.data.response.data.address.building_no,
+            floor: res.data.response.data.address.floor,
+            appartmentNumber: res.data.response.data.address.appartment_no,
+            checkBox:
+              res.data.response.data.address.default == 1 ? true : false,
+          });
+        })
+        .catch(err => {});
+    }
+  }
+  setOpen = open => {
     this.setState({
       open,
     });
   };
 
-  setValue = (callback) => {
-    this.setState((state) => ({
+  setValue = callback => {
+    this.setState(state => ({
       city: callback(state.value),
     }));
   };
 
-  setItems = (callback) => {
-    this.setState((state) => ({
+  setItems = callback => {
+    this.setState(state => ({
       items: callback(state.items),
     }));
+  };
+
+  onUpdateHandler = id => {
+    this.setState({
+      nameErr: "",
+      loading: true,
+      nameBorder: "",
+      cityErr: "",
+      cityBorder: "",
+      regionBorder: "",
+      regionErr: "",
+      streetNameBorder: "",
+      streetNameErr: "",
+      buildingNumberBorder: "",
+      buildingNumberErr: "",
+      floorBorder: "",
+      floorErr: "",
+      appartmentNumberBorder: "",
+      appartmentNumberErr: "",
+    });
+    var body = {
+      name: this.state.name,
+      city: this.state.city,
+      building_no: this.state.buildingNumber,
+      floor: this.state.floor,
+      appartment_no: this.state.appartmentNumber,
+      region: this.state.region,
+      street_name: this.state.streetName,
+      default: this.state.checkBox,
+    };
+
+    axios
+      .put(`/clientAddress/${id}`, body)
+      .then(response => {
+        this.setState({
+          loading: false,
+        });
+        this.props.navigation.push("clientAddresses", { refresh: true });
+      })
+
+      .catch(error => {
+        // console.log(error.response.data);
+        if (error.response) {
+          if (error.response.data.errors.name) {
+            this.setState({
+              nameErr: error.response.data.errors.name,
+              nameBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.city) {
+            this.setState({
+              cityErr: error.response.data.errors.city,
+              cityBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.region) {
+            this.setState({
+              regionErr: error.response.data.errors.region,
+              regionBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.street_name) {
+            this.setState({
+              streetNameErr: error.response.data.errors.street_name,
+              streetNameBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.building_no) {
+            this.setState({
+              buildingNumberErr: error.response.data.errors.building_no,
+              buildingNumberBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.floor) {
+            this.setState({
+              floorErr: error.response.data.errors.floor,
+              floorBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.appartment_no) {
+            this.setState({
+              appartmentNumberErr: error.response.data.errors.appartment_no,
+              appartmentNumberBorder: "red",
+              loading: false,
+            });
+          }
+        }
+      });
   };
 
   render() {
@@ -167,7 +281,7 @@ export default class SignUp extends Component {
             width: "98%",
           }}
           centerComponent={{
-            text: "Shipping Addresses",
+            text: "Shipping Address",
             style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
@@ -206,7 +320,8 @@ export default class SignUp extends Component {
                     color="#F5F5F5"
                     style={{ borderColor: this.state.nameBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    value={this.state.name}
+                    onChangeText={value => {
                       this.setState({ name: value });
                     }}
                   />
@@ -280,10 +395,11 @@ export default class SignUp extends Component {
                     placeholder="Region"
                     placeholderTextColor="#ABB4BD"
                     bgColor="#2A2C36"
+                    value={this.state.region}
                     color="#F5F5F5"
                     style={{ borderColor: this.state.regionBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    onChangeText={value => {
                       this.setState({ region: value });
                     }}
                   />
@@ -303,10 +419,11 @@ export default class SignUp extends Component {
                     placeholder="Street Name"
                     placeholderTextColor="#ABB4BD"
                     bgColor="#2A2C36"
+                    value={this.state.streetName}
                     color="#F5F5F5"
                     style={{ borderColor: this.state.streetNameBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    onChangeText={value => {
                       this.setState({ streetName: value });
                     }}
                   />
@@ -327,9 +444,10 @@ export default class SignUp extends Component {
                     placeholderTextColor="#ABB4BD"
                     bgColor="#2A2C36"
                     color="#F5F5F5"
+                    value={this.state.buildingNumber}
                     style={{ borderColor: this.state.buildingNumberBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    onChangeText={value => {
                       this.setState({ buildingNumber: value });
                     }}
                   />
@@ -349,10 +467,11 @@ export default class SignUp extends Component {
                     placeholder="Floor"
                     placeholderTextColor="#ABB4BD"
                     bgColor="#2A2C36"
+                    value={this.state.floor}
                     color="#F5F5F5"
                     style={{ borderColor: this.state.floorBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    onChangeText={value => {
                       this.setState({ floor: value });
                     }}
                   />
@@ -373,9 +492,10 @@ export default class SignUp extends Component {
                     placeholderTextColor="#ABB4BD"
                     bgColor="#2A2C36"
                     color="#F5F5F5"
+                    value={this.state.appartmentNumber}
                     style={{ borderColor: this.state.appartmentNumberBorder }}
                     rounded
-                    onChangeText={(value) => {
+                    onChangeText={value => {
                       this.setState({ appartmentNumber: value });
                     }}
                   />
@@ -390,24 +510,26 @@ export default class SignUp extends Component {
                     {this.state.appartmentNumberErr}
                   </Text>
                 </View>
-                <View style={styles.inputContainer}>
-                  {/* <Text style={styles.inputLabel}>Appartment Number</Text> */}
-                  <Checkbox
-                    color="white"
-                    checkboxStyle={{ marginLeft: scale(5) }}
-                    iconFamily="font-awesome"
-                    iconName="check"
-                    iconColor="#2A2C36"
-                    initialValue={this.state.checkBox}
-                    label="Use as the default shipping address"
-                    labelStyle={{ color: "#fff" }}
-                    onChange={() => {
-                      this.setState({
-                        checkBox: !this.state.checkBox,
-                      });
-                    }}
-                  />
-                  {/* <Text
+                {!this.props.route.params.id ? (
+                  <View style={styles.inputContainer}>
+                    {/* <Text style={styles.inputLabel}>Appartment Number</Text> */}
+                    <Checkbox
+                      color="white"
+                      checkboxStyle={{ marginLeft: scale(5) }}
+                      iconFamily="font-awesome"
+                      iconName="check"
+                      iconColor="#2A2C36"
+                      initialValue={this.state.checkBox}
+                      value={this.state.checkBox}
+                      label="Use as the default shipping address"
+                      labelStyle={{ color: "#fff" }}
+                      onChange={() => {
+                        this.setState({
+                          checkBox: !this.state.checkBox,
+                        });
+                      }}
+                    />
+                    {/* <Text
                     style={{
                       fontSize: 15,
                       color: "red",
@@ -416,23 +538,47 @@ export default class SignUp extends Component {
                   >
                     {this.state.nameErr}
                   </Text> */}
-                </View>
-                <Button
-                  round
-                  // uppercase
-                  style={{
-                    alignSelf: "center",
-                    marginTop: "5%",
-                    marginBottom: "10%",
-                  }}
-                  color="#28AE7B"
-                  size="large"
-                  loading={this.state.loading}
-                  loadingSize="small"
-                  onPress={this.submit}
-                >
-                  Save Adress
-                </Button>
+                  </View>
+                ) : (
+                  <Text></Text>
+                )}
+                {this.props.route.params.id ? (
+                  <Button
+                    round
+                    // uppercase
+                    style={{
+                      alignSelf: "center",
+                      marginTop: "5%",
+                      marginBottom: "10%",
+                    }}
+                    color="#28AE7B"
+                    size="large"
+                    loading={this.state.loading}
+                    loadingSize="small"
+                    onPress={() => {
+                      this.onUpdateHandler(this.props.route.params.id);
+                    }}
+                  >
+                    Save Adress
+                  </Button>
+                ) : (
+                  <Button
+                    round
+                    // uppercase
+                    style={{
+                      alignSelf: "center",
+                      marginTop: "5%",
+                      marginBottom: "10%",
+                    }}
+                    color="#28AE7B"
+                    size="large"
+                    loading={this.state.loading}
+                    loadingSize="small"
+                    onPress={this.submit}
+                  >
+                    Add Adress
+                  </Button>
+                )}
               </View>
 
               {/* <View

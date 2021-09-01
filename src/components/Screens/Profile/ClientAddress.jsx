@@ -30,18 +30,21 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props.route.params.refresh);
     await axios
       .get("/clientAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
+    if (this.props.route.params.refresh == true) {
+      this.onRefresh();
+      this.props.route.params.refresh = false;
+    }
   }
 
   onRefresh = async () => {
@@ -50,45 +53,79 @@ class Profile extends Component {
     });
     await axios
       .get("/clientAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-  onDelete = (id) => {
+  onDelete = id => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then((res) => {
+      .then(res => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-  onDelete = (id) => {
+  onDelete = id => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then((res) => {
+      .then(res => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
+  onUpdate = async (
+    id,
+    checked,
+    name,
+    city,
+    buildingNumber,
+    floor,
+    appartmentNumber,
+    region,
+    streetName,
+  ) => {
+    var body = {
+      name: name,
+      city: city,
+      building_no: buildingNumber,
+      floor: floor,
+      appartment_no: appartmentNumber,
+      region: region,
+      street_name: streetName,
+      default: !checked,
+    };
+    axios
+      .put(`/clientAddress/${id}}`, body)
+      .then(res => {
+        // this.setState({
+        //   // addresses: res.data.response.data.addresses,
+        //   refresh: false,
+        // });
+        this.onRefresh();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   render() {
     return (
       <>
@@ -108,7 +145,7 @@ class Profile extends Component {
             color: "#fff",
             size: scale(30),
             onPress: () => {
-              this.props.navigation.goBack();
+              this.props.navigation.push("Home", { screen: "Profile" });
             },
           }}
           rightComponent={{
@@ -116,7 +153,7 @@ class Profile extends Component {
             color: "#fff",
             size: scale(30),
             onPress: () => {
-              this.props.navigation.push("createAddress");
+              this.props.navigation.push("createAddress", { refresh: true });
             },
           }}
         />
@@ -133,7 +170,7 @@ class Profile extends Component {
           >
             <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
               {this.state.addresses.length != 0 ? (
-                this.state.addresses.map((e) => {
+                this.state.addresses.map(e => {
                   return (
                     <Card
                       key={e.id}
@@ -171,18 +208,31 @@ class Profile extends Component {
                             initialValue={e.default == true ? true : false}
                             label="Use as the shipping address"
                             labelStyle={{ color: "#fff" }}
+                            onChange={() => {
+                              this.onUpdate(
+                                e.id,
+                                e.default == true ? true : false,
+                                e.name,
+                                e.city,
+                                e.building_no,
+                                e.floor,
+                                e.appartment_no,
+                                e.region,
+                                e.street_name,
+                              );
+                            }}
                           />
                         </View>
 
                         <View style={{ flexDirection: "row" }}>
-                          {/* <Button
+                          <Button
                             onlyIcon
                             icon="edit"
                             iconFamily="fontawsome"
-                            iconSize={25}
+                            iconSize={20}
                             color="#28AE7B"
                             iconColor="#fff"
-                            style={{ width: 40, height: 40 }}
+                            style={{ width: 35, height: 35 }}
                             onPress={() => {
                               this.props.navigation.push("createAddress", {
                                 id: e.id,
@@ -190,16 +240,16 @@ class Profile extends Component {
                             }}
                           >
                             warning
-                          </Button> */}
+                          </Button>
 
                           <Button
                             onlyIcon
                             icon="delete"
                             iconFamily="fontawsome"
-                            iconSize={25}
+                            iconSize={20}
                             color="#EB2020"
                             iconColor="#fff"
-                            style={{ width: 40, height: 40 }}
+                            style={{ width: 35, height: 35 }}
                             onPress={() => {
                               this.onDelete(e.id);
                             }}

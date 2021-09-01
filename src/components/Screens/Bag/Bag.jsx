@@ -38,7 +38,7 @@ class Bag extends Component {
     });
     axios
       .get("cart")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -47,12 +47,12 @@ class Bag extends Component {
           refresh: false,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
   async componentDidMount() {
     axios
       .get("cart")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -60,7 +60,7 @@ class Bag extends Component {
           total_price: res.data.response.data.total_price,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
   }
 
   deleteItem = (productId, sizeId) => {
@@ -69,10 +69,10 @@ class Bag extends Component {
         product_id: productId,
         size_id: sizeId,
       })
-      .then((res) => {
+      .then(res => {
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         this.onRefresh();
       });
   };
@@ -87,13 +87,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity + 1,
         })
-        .then((res) => {
+        .then(res => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -112,13 +112,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity - 1,
         })
-        .then((res) => {
+        .then(res => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -281,15 +281,15 @@ class Bag extends Component {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPress={() => {
+                this.props.navigation.push("Checkout");
+              }}
             >
               <Text
                 style={{
                   color: "#fff",
                   fontSize: 18,
                   textTransform: "uppercase",
-                }}
-                onPress={() => {
-                  this.props.navigation.push("Checkout");
                 }}
               >
                 Check out

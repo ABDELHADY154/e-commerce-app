@@ -220,7 +220,7 @@ export default function App({ navigation }) {
     <AuthContext.Provider value={authContext}>
       <SafeAreaProvider>
         <NavigationContainer theme={MyTheme}>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
             {state.userToken == null ? (
               state.isVerified == false ? (
                 <>
@@ -232,6 +232,7 @@ export default function App({ navigation }) {
                       header: () => {
                         "none";
                       },
+                      gestureEnabled: true,
                     }}
                   />
                   <Stack.Screen
@@ -242,6 +243,7 @@ export default function App({ navigation }) {
                       header: () => {
                         "none";
                       },
+                      gestureEnabled: true,
                     }}
                   />
                   <Stack.Screen
@@ -252,6 +254,7 @@ export default function App({ navigation }) {
                       header: () => {
                         "none";
                       },
+                      gestureEnabled: true,
                     }}
                   />
                 </>
@@ -287,6 +290,7 @@ export default function App({ navigation }) {
                     header: () => {
                       "none";
                     },
+                    gestureEnabled: true,
                   }}
                 />
                 <Stack.Screen
