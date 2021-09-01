@@ -57,41 +57,41 @@ class ProductView extends Component {
     if (this.props.route.params.id) {
       await axios
         .get(`/product/${this.props.route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.setState({
             product: res.data.response.data,
           });
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   }
   onRefresh = async () => {
     if (this.props.route.params.id) {
       await axios
         .get(`/product/${this.props.route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.setState({
             product: res.data.response.data,
           });
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   };
-  favoriteProduct = async (id) => {
+  favoriteProduct = async id => {
     await axios
       .post("/favorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  unfavoriteProduct = async (id) => {
+  unfavoriteProduct = async id => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
   addToCart = async () => {
     this.setState({
@@ -104,7 +104,7 @@ class ProductView extends Component {
     };
     await axios
       .post("/addtocart", data)
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.setState({
           sizeId: 0,
@@ -112,7 +112,7 @@ class ProductView extends Component {
           visible: false,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err.response.data.errors);
         if (err.response) {
           if (err.response.data.errors.size_id) {
@@ -487,7 +487,7 @@ class ProductView extends Component {
               <BottomModal
                 visible={this.state.visible}
                 onTouchOutside={() => this.setState({ visible: false })}
-                height={scale(350)}
+                height={scale(400)}
                 width={1}
                 onSwipeOut={() => this.setState({ visible: false })}
                 // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
@@ -519,7 +519,7 @@ class ProductView extends Component {
                     }}
                   >
                     {this.state.product.sizes ? (
-                      this.state.product.sizes.map((e) => {
+                      this.state.product.sizes.map(e => {
                         return (
                           <Button
                             key={e.id}

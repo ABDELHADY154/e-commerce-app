@@ -47,29 +47,7 @@ class Success extends Component {
     total_price: 0,
   };
 
-  async componentDidMount() {
-    // console.log(this.props.route.params.refresh);
-    // await axios
-    //   .get("/clientAddress")
-    //   .then((res) => {
-    //     this.setState({
-    //       addresses: res.data.response.data.addresses,
-    //       refresh: false,
-    //     });
-    //   })
-    //   .get("cart")
-    //   .then((res) => {
-    //     // console.log(res.data.response.data);
-    //     this.setState({
-    //       products: res.data.response.data.products,
-    //       quantity: res.data.response.data.quantity,
-    //       total_price: res.data.response.data.total_price,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }
+  async componentDidMount() {}
 
   render() {
     return (
@@ -150,8 +128,12 @@ class Success extends Component {
                 width: "90%",
                 paddingVertical: 15,
                 marginTop: 20,
+                marginBottom: "10%",
                 justifyContent: "center",
                 alignItems: "center",
+              }}
+              onPress={() => {
+                this.props.navigation.push("Home");
               }}
             >
               <Text
@@ -159,9 +141,6 @@ class Success extends Component {
                   color: "#fff",
                   fontSize: 18,
                   textTransform: "uppercase",
-                }}
-                onPress={() => {
-                  this.props.navigation.push("Home");
                 }}
               >
                 CONTINUE SHOPPING

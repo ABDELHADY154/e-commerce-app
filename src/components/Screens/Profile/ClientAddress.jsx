@@ -50,6 +50,7 @@ class Profile extends Component {
   onRefresh = async () => {
     this.setState({
       refresh: true,
+      addresses: [],
     });
     await axios
       .get("/clientAddress")
@@ -145,7 +146,9 @@ class Profile extends Component {
             color: "#fff",
             size: scale(30),
             onPress: () => {
-              this.props.navigation.push("Home", { screen: "Profile" });
+              // this.props.route.params.from == "checkout"
+              this.props.navigation.goBack();
+              // : this.props.navigation.push("Home", { screen: "Profile" });
             },
           }}
           rightComponent={{

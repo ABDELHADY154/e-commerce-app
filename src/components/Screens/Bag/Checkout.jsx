@@ -40,36 +40,86 @@ const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Checkout extends Component {
   state = {
-    addresses: [],
-    // refresh: true,
+    address: null,
+    refresh: false,
     products: [],
     quantity: 0,
+    delivery: 30,
+    price: 0,
     total_price: 0,
+    addressErr: "",
   };
 
   async componentDidMount() {
-    // console.log(this.props.route.params.refresh);
-    // await axios
-    //   .get("/clientAddress")
-    //   .then(res => {
-    //     this.setState({
-    //       addresses: res.data.response.data.addresses,
-    //       refresh: false,
-    //     });
-    //   })
-    //   .get("cart")
-    //   .then(res => {
-    //     // console.log(res.data.response.data);
-    //     this.setState({
-    //       products: res.data.response.data.products,
-    //       quantity: res.data.response.data.quantity,
-    //       total_price: res.data.response.data.total_price,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    if (this.props.route.params) {
+      this.setState({
+        products: this.props.route.params.products,
+        price: this.props.route.params.price,
+        total_price: this.props.route.params.price + this.state.delivery,
+      });
+    }
+    await axios
+      .get("/defaultAddress")
+      .then(res => {
+        this.setState({
+          address: res.data.response.data.address,
+        });
+      })
+      .catch(err => {});
   }
+  onRefresh = async () => {
+    this.setState({
+      refresh: true,
+      addressErr: "",
+    });
+    if (this.props.route.params) {
+      this.setState({
+        products: this.props.route.params.products,
+        price: this.props.route.params.price,
+        total_price: this.props.route.params.price + this.state.delivery,
+      });
+    }
+    await axios
+      .get("/defaultAddress")
+      .then(res => {
+        this.setState({
+          address: res.data.response.data.address,
+          refresh: false,
+        });
+      })
+      .catch(err => {});
+  };
+
+  submitOrder = async () => {
+    var products = [];
+    this.state.products.map(e => {
+      products.push({
+        product_id: e.id,
+        size_id: e.size.id,
+        quantity: e.quantity,
+      });
+    });
+    var data = {
+      address_id: this.state.address.id,
+      price: this.state.price,
+      delivery: this.state.delivery,
+      products: products,
+    };
+    await axios
+      .post("/checkoutorder", data)
+      .then(res => {
+        this.props.navigation.push("Success");
+      })
+      .catch(err => {
+        if (err.response.data.errors) {
+          if (err.response.data.errors.address_id) {
+            this.setState({
+              addressErr: "Please Choose An Address",
+            });
+          }
+        }
+      });
+  };
 
   render() {
     return (
@@ -136,45 +186,86 @@ class Checkout extends Component {
           >
             Shipping Address
           </Text>
-          <Card
-            // key={e.id}
+          <Text
             style={{
-              width: "96%",
-              alignSelf: "center",
-              backgroundColor: "#2A2C36",
-              marginTop: "3%",
+              fontSize: 15,
+              color: "red",
+              alignSelf: "flex-start",
+              marginLeft: 10,
             }}
           >
-            <Card.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Title style={{ color: "#fff", fontSize: 16 }}>
-                  address name
-                </Title>
-                <Button
-                  // icon="camera"
-                  mode="text"
-                  color="#28AE7B"
-                  onPress={() => {
-                    this.props.navigation.push("clientAddresses");
+            {this.state.addressErr}
+          </Text>
+          {this.state.address ? (
+            <Card
+              // key={e.id}
+              style={{
+                width: "96%",
+                alignSelf: "center",
+                backgroundColor: "#2A2C36",
+                marginTop: "3%",
+              }}
+            >
+              <Card.Content>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  Change
-                </Button>
-              </View>
+                  <Title style={{ color: "#fff", fontSize: 16 }}>
+                    {this.state.address.name}
+                  </Title>
+                  <Button
+                    // icon="camera"
+                    mode="text"
+                    color="#28AE7B"
+                    onPress={() => {
+                      this.props.navigation.push("clientAddresses");
+                    }}
+                  >
+                    Change
+                  </Button>
+                </View>
 
-              <Paragraph
-                style={{ color: "#fff", fontSize: 16, lineHeight: 25 }}
+                <Paragraph
+                  style={{ color: "#fff", fontSize: 16, lineHeight: 25 }}
+                >
+                  {this.state.address.city}, {this.state.address.region},{" "}
+                  {this.state.address.street_name},{" "}
+                  {this.state.address.building_no}, {this.state.address.floor}{" "}
+                  floor, Appartment Number {this.state.address.appartment_no}
+                </Paragraph>
+              </Card.Content>
+            </Card>
+          ) : (
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#28AE7B",
+                borderRadius: 50,
+                // height: 40,
+                width: "90%",
+                paddingVertical: 15,
+                marginTop: 20,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                this.props.navigation.push("clientAddresses");
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  fontSize: 18,
+                  textTransform: "uppercase",
+                }}
               >
-                address content
-              </Paragraph>
-            </Card.Content>
-          </Card>
+                Add Address
+              </Text>
+            </TouchableOpacity>
+          )}
           <View
             style={{
               justifyContent: "flex-start",
@@ -202,7 +293,7 @@ class Checkout extends Component {
                 flexDirection: "row",
               }}
             >
-              <RadioButton
+              <RadioButton.IOS
                 value="first"
                 color="#28AE7B"
                 style={{ marginBottom: -5 }}
@@ -221,18 +312,13 @@ class Checkout extends Component {
                 Cash On Delivery
               </Text>
             </View>
-            <View style={{ marginTop: 8, flex: 1, flexDirection: "row" }}>
-              <RadioButton
+            <View style={{ marginTop: 8, flexDirection: "row" }}>
+              <RadioButton.IOS
                 value="second"
                 uncheckedColor="#ABB4BD"
                 style={{ marginBottom: -5 }}
                 status="unchecked"
-                // onPress={() => setChecked("second")}
-                // onPress={() => setShow(!isShow)}
               />
-              {/* <Toast isShow={isShow} positionIndicator="bottom" color="warning">
-                This is a bottom positioned toast
-              </Toast> */}
 
               <View
                 style={{
@@ -261,7 +347,7 @@ class Checkout extends Component {
                     marginTop: 5,
                   }}
                 >
-                  Unavilable
+                  SOON
                 </Text>
               </View>
             </View>
@@ -296,7 +382,7 @@ class Checkout extends Component {
                 }}
               >
                 Order:{" "}
-                {this.state.total_price
+                {this.state.price
                   .toFixed(2)
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
                 EGP
@@ -311,7 +397,7 @@ class Checkout extends Component {
                 }}
               >
                 Delivery:{" "}
-                {this.state.total_price
+                {this.state.delivery
                   .toFixed(2)
                   .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
                 EGP
@@ -325,7 +411,11 @@ class Checkout extends Component {
                   textAlign: "left",
                 }}
               >
-                Summary: {this.state.quantity}
+                Summary:{" "}
+                {this.state.total_price
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                EGP
               </Text>
             </View>
             <TouchableOpacity
@@ -336,9 +426,11 @@ class Checkout extends Component {
                 width: "90%",
                 paddingVertical: 15,
                 marginTop: 20,
+                marginBottom: "10%",
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPress={this.submitOrder}
             >
               <Text
                 style={{
@@ -346,11 +438,11 @@ class Checkout extends Component {
                   fontSize: 18,
                   textTransform: "uppercase",
                 }}
-                onPress={() => {
-                  this.props.navigation.push("Success");
-                }}
+                // onPress={() => {
+                //   this.props.navigation.push("Success");
+                // }}
               >
-                Check out
+                Submit Order
               </Text>
             </TouchableOpacity>
           </View>

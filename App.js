@@ -342,6 +342,7 @@ export default function App({ navigation }) {
                     header: () => {
                       "none";
                     },
+                    gestureEnabled: true,
                   }}
                 />
                 <Stack.Screen

@@ -80,7 +80,7 @@ export default class SignUp extends Component {
         this.setState({
           loading: false,
         });
-        this.props.navigation.push("clientAddresses", { refresh: true });
+        this.props.navigation.goBack(); //push("clientAddresses", { refresh: true });
       })
 
       .catch(error => {
@@ -211,7 +211,7 @@ export default class SignUp extends Component {
         this.setState({
           loading: false,
         });
-        this.props.navigation.push("clientAddresses", { refresh: true });
+        this.props.navigation.goBack(); //("clientAddresses", { refresh: true });
       })
 
       .catch(error => {

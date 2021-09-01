@@ -128,6 +128,7 @@ class Bag extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <>
         <Header
@@ -270,31 +271,60 @@ class Bag extends Component {
                 Count: {this.state.quantity}
               </Text>
             </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#28AE7B",
-                borderRadius: 50,
-                // height: 40,
-                width: "90%",
-                paddingVertical: 15,
-                marginTop: 20,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => {
-                this.props.navigation.push("Checkout");
-              }}
-            >
-              <Text
+
+            {this.state.products.length !== 0 ? (
+              <TouchableOpacity
                 style={{
-                  color: "#fff",
-                  fontSize: 18,
-                  textTransform: "uppercase",
+                  backgroundColor: "#28AE7B",
+                  borderRadius: 50,
+                  // height: 40,
+                  width: "90%",
+                  paddingVertical: 15,
+                  marginTop: 20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  this.props.navigation.push("Checkout", {
+                    price: this.state.total_price,
+                    products: this.state.products,
+                  });
                 }}
               >
-                Check out
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 18,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Check out
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#28AE7B",
+                  borderRadius: 50,
+                  // height: 40,
+                  width: "90%",
+                  paddingVertical: 15,
+                  marginTop: 20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 18,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Check out
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </KeyboardAvoidingView>
 
