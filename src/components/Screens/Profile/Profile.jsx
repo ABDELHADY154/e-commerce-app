@@ -7,6 +7,7 @@ import {
   ImageBackground,
   View,
   Platform,
+  Alert,
 } from "react-native";
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
@@ -55,6 +56,45 @@ class Profile extends Component {
         console.log(err);
       });
   }
+  grantAccess = async () => {
+    if (Platform.OS !== "web") {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        alert(
+          "Sorry, we need camera roll permissions to upload your profile image!",
+        );
+      }
+      if (status == "granted") {
+        this.pickImage();
+      }
+    }
+  };
+  getGalleryAccess = async () => {
+    const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    if (status == "undetermined") {
+      Alert.alert(
+        "Gallery Access",
+        "please allow us to access your gallery to upload your new profile image !",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              this.grantAccess();
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    } else {
+      this.pickImage();
+    }
+  };
   uploadImage = async () => {
     var formData = new FormData();
     let uriParts = this.state.pickedImage.split(".");
@@ -81,27 +121,15 @@ class Profile extends Component {
   };
   pickImage = async () => {
     if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert(
-          "Sorry, we need camera roll permissions to upload your profile image!",
-        );
-      }
-      if (status == "granted") {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 4],
-          quality: 1,
-        });
-
-        console.log(result);
-
-        if (!result.cancelled) {
-          this.setState({ pickedImage: result.uri });
-          this.uploadImage();
-        }
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ pickedImage: result.uri });
+        this.uploadImage();
       }
     }
   };
@@ -153,7 +181,7 @@ class Profile extends Component {
                     <Avatar.Accessory
                       size={30}
                       color="#2A2C36"
-                      onPress={this.pickImage}
+                      onPress={this.getGalleryAccess}
                     />
                   </Avatar>
                 ) : (
