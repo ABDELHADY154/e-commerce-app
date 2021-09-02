@@ -5,7 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
-import { Alert, View, Image, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  View,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
 import { CardEcomOne } from "react-native-card-ui";
 import { ScrollView } from "react-native-gesture-handler";
 import { Header } from "react-native-elements/dist/header/Header";
@@ -17,23 +23,32 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { scale } from "react-native-size-matters";
 
 export default class Order extends Component {
+  state = {
+    refresh: false,
+    order: {},
+    address: {},
+    products: [],
+    delivery: 0,
+    total_price: 0,
+  };
   async componentDidMount() {
-    var userToken = await AsyncStorage.getItem("userToken");
-    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
-    await axios
-      .get(`/clientProfile`)
-      .then((res) => {})
-      .catch((err) => {
-        if (err.response.data.status == 401) {
-          AsyncStorage.removeItem("userData");
-          AsyncStorage.removeItem("userToken");
-          AsyncStorage.removeItem("config");
-          axios.defaults.headers.common["Authorization"] = ``;
-          this.props.logout();
-        }
-      });
+    if (this.props.route.params.id) {
+      await axios
+        .get(`/order/${this.props.route.params.id}`)
+        .then(res => {
+          this.setState({
+            order: res.data.response.data,
+            products: res.data.response.data.products,
+            address: res.data.response.data.address,
+            delivery: res.data.response.data.delivery,
+            total_price: res.data.response.data.total_price,
+          });
+        })
+        .catch(err => {});
+    }
   }
   render() {
+    console.log(this.state.products);
     return (
       <>
         <Header
@@ -66,13 +81,13 @@ export default class Order extends Component {
         />
         <ScrollView
           contentContainerStyle={{}}
-          // refreshControl={
-          //   <RefreshControl
-          //     refreshing={this.state.refresh}
-          //     onRefresh={this.onRefresh}
-          //     tintColor="white"
-          //   />
-          // }
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refresh}
+              onRefresh={this.onRefresh}
+              tintColor="white"
+            />
+          }
         >
           <View style={{ marginHorizontal: "5%", marginTop: 10 }}>
             <View
@@ -83,9 +98,11 @@ export default class Order extends Component {
               }}
             >
               <Text style={{ color: "#fff", fontSize: 16 }}>
-                Order No. 1312587
+                Order No. {this.state.order.order_num}
               </Text>
-              <Text style={{ color: "#ABB4BD", fontSize: 16 }}>05-6-2021</Text>
+              <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                {this.state.order.created_at}
+              </Text>
             </View>
             <View
               style={{
@@ -108,123 +125,128 @@ export default class Order extends Component {
                   // alignItems: "flex-end",
                 }}
               >
-                Delivered
+                {this.state.order.status}
               </Text>
             </View>
             <Text style={{ color: "#fff", fontSize: 16, marginVertical: 10 }}>
-              3 Items
+              {this.state.order.quantity}{" "}
+              {this.state.order.quantity > 1 ? "items" : "item"}
             </Text>
             <View>
-              <View
-                style={{
-                  backgroundColor: "#2A2C36",
-                  width: "100%",
-                  height: 130,
-                  borderRadius: 5,
-                  marginTop: scale(5),
-                  marginBottom: scale(5),
-                  flexDirection: "row",
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/image2.png")}
-                  style={{
-                    height: "100%",
-                    width: scale(110),
-                    borderRadius: 5,
-                    marginBottom: 0,
-                  }}
-                />
-                <View
-                  style={{
-                    justifyContent: "space-between",
-                    width: scale(180),
-                    marginLeft: 20,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 20,
-                      marginTop: 8,
-                    }}
-                  >
-                    {/* {this.props.name} */}
-                    name
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#ABB4BD",
-                      fontSize: 15,
-                      marginLeft: -4,
-                      marginTop: 6,
-                    }}
-                  >
-                    {/* {this.props.size.size} */} Brand name
-                  </Text>
-
-                  <View style={{ flex: 1, flexDirection: "row", marginTop: 8 }}>
-                    <Text
+              <ScrollView>
+                {this.state.products.map(e => {
+                  return (
+                    <View
+                      key={e.id}
                       style={{
-                        color: "#ABB4BD",
-                        fontSize: 15,
-                        marginRight: 10,
+                        backgroundColor: "#2A2C36",
+                        width: "100%",
+                        height: 130,
+                        borderRadius: 5,
+                        marginTop: scale(5),
+                        marginBottom: scale(5),
+                        flexDirection: "row",
                       }}
                     >
-                      Size:
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#fff",
-                        fontSize: 15,
-                      }}
-                    >
-                      {/* {this.props.size.size} */}L
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
+                      <Image
+                        source={{ uri: e.images[0].image }}
+                        style={{
+                          height: "100%",
+                          width: scale(110),
+                          borderRadius: 5,
+                          marginBottom: 0,
+                        }}
+                      />
+                      <View
+                        style={{
+                          justifyContent: "space-between",
+                          width: scale(180),
+                          marginLeft: 20,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 20,
+                            marginTop: 8,
+                          }}
+                        >
+                          {/* {this.props.name} */}
+                          {e.name}
+                        </Text>
+                        {/* <Text
+                          style={{
+                            color: "#ABB4BD",
+                            fontSize: 15,
+                            marginLeft: -4,
+                            marginTop: 6,
+                          }}
+                        >
+                          {e.brand}
+                        </Text> */}
 
-                      justifyContent: "space-between",
-                      marginBottom: 8,
-                    }}
-                  >
-                    <View style={{ flexDirection: "row" }}>
-                      <Text
-                        style={{
-                          color: "#ABB4BD",
-                          fontSize: 15,
-                          marginRight: 10,
-                        }}
-                      >
-                        Units:
-                      </Text>
-                      <Text
-                        style={{
-                          color: "#fff",
-                          fontSize: 15,
-                        }}
-                      >
-                        {/* {this.props.size.size} */}L
-                      </Text>
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: "column",
+                            marginTop: 8,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: "#ABB4BD",
+                              fontSize: 15,
+                              marginRight: 10,
+                            }}
+                          >
+                            Size: {e.size.size}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+
+                            justifyContent: "space-between",
+                            marginBottom: 8,
+                          }}
+                        >
+                          <View style={{ flexDirection: "row" }}>
+                            <Text
+                              style={{
+                                color: "#ABB4BD",
+                                fontSize: 15,
+                                marginRight: 10,
+                              }}
+                            >
+                              Units:
+                            </Text>
+                            <Text
+                              style={{
+                                color: "#fff",
+                                fontSize: 15,
+                              }}
+                            >
+                              {e.quantity}
+                            </Text>
+                          </View>
+                          <Text
+                            style={{
+                              color: "white",
+
+                              fontSize: 18,
+                            }}
+                          >
+                            {e.price
+                              .toFixed(2)
+                              .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                            EGP
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                    <Text
-                      style={{
-                        color: "white",
-
-                        fontSize: 18,
-                      }}
-                    >
-                      54
-                      {/* {this.props.price
-                    .toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "} */}
-                      EGP
-                    </Text>
-                  </View>
-                </View>
-              </View>
+                  );
+                })}
+              </ScrollView>
             </View>
             <Text style={{ color: "#fff", fontSize: 16, marginTop: 25 }}>
               Order Information
@@ -254,7 +276,9 @@ export default class Order extends Component {
                     width: scale(190),
                   }}
                 >
-                  3 Newbridge Court ,Chino Hills, CA 91709, United States
+                  {this.state.address.building_no} ,
+                  {this.state.address.street_name}, {this.state.address.region},{" "}
+                  {this.state.address.city}
                 </Text>
               </View>
               <View
@@ -278,9 +302,10 @@ export default class Order extends Component {
                     color: "#fff",
                     fontSize: 15,
                     width: scale(190),
+                    textTransform: "capitalize",
                   }}
                 >
-                  Cash On Delivery
+                  {this.state.order.payment_method}
                 </Text>
               </View>
               <View
@@ -306,10 +331,14 @@ export default class Order extends Component {
                     width: scale(190),
                   }}
                 >
-                  2 Days, 15EGP
+                  Within Two Days,{" "}
+                  {this.state.delivery
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                  EGP
                 </Text>
               </View>
-              <View
+              {/* <View
                 style={{
                   flex: 1,
                   flexDirection: "row",
@@ -334,7 +363,7 @@ export default class Order extends Component {
                 >
                   -
                 </Text>
-              </View>
+              </View> */}
               <View
                 style={{
                   flex: 1,
@@ -358,7 +387,10 @@ export default class Order extends Component {
                     width: scale(190),
                   }}
                 >
-                  300EGP
+                  {this.state.total_price
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                  EGP
                 </Text>
               </View>
             </View>

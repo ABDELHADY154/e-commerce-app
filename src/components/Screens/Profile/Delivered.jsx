@@ -7,268 +7,177 @@ import {
   ImageBackground,
   View,
   Platform,
+  Text,
 } from "react-native";
-import { Block, Text, theme, Button as GaButton } from "galio-framework";
+import { Block, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
-import { Avatar } from "react-native-elements";
 import { ListItem } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
+import { SafeAreaView } from "react-native";
+import { Header } from "react-native-elements/dist/header/Header";
+import { scale } from "react-native-size-matters";
+import { RefreshControl } from "react-native";
+import { Avatar, Card, Title, Paragraph } from "react-native-paper";
+import { Checkbox } from "galio-framework";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Profile extends Component {
   state = {
-    name: "",
-    email: "",
-    image: "",
-    pickedImage: "",
+    refresh: false,
+    orders: [],
   };
-
-  afterImageUpload = async () => {
-    await axios
-      .get("/clientProfile")
-      .then((res) => {
-        this.setState({
-          name: res.data.response.data.name,
-          email: res.data.response.data.email,
-          image: res.data.response.data.image,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   async componentDidMount() {
     await axios
-      .get("/clientProfile")
-      .then((res) => {
+      .get("/statusdelivered")
+      .then(res => {
         this.setState({
-          name: res.data.response.data.name,
-          email: res.data.response.data.email,
-          image: res.data.response.data.image,
+          orders: res.data.response.data,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {});
   }
-  uploadImage = async () => {
-    var formData = new FormData();
-    let uriParts = this.state.pickedImage.split(".");
-    let fileType = uriParts[uriParts.length - 1];
-    formData.append("image", {
-      uri: this.state.pickedImage,
-      name: `${this.state.name}.${fileType}`,
-      type: `image/${fileType}`,
+  onRefresh = async () => {
+    this.setState({
+      refresh: true,
     });
 
-    await axios({
-      method: "post",
-      url: "/clientUpdateImage",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((e) => {
-        // console.log(e);
-        this.afterImageUpload();
+    await axios
+      .get("/statusdelivered")
+      .then(res => {
+        this.setState({
+          orders: res.data.response.data,
+          refresh: false,
+        });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
-  pickImage = async () => {
-    // (async () => {
-    //   if (Platform.OS !== "web") {
-    //     const { status } =
-    //       await ImagePicker.requestMediaLibraryPermissionsAsync();
-    //     if (status !== "granted") {
-    //       alert(
-    //         "Sorry, we need camera roll permissions to upload your profile image!",
-    //       );
-    //     }
-    //   }
-    // })();
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 1,
-    });
-
-    // console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ pickedImage: result.uri });
-      this.uploadImage();
-    }
-  };
-
   render() {
-    console.log(this.state.image);
     return (
       <>
-        <View
-          style={{
-            // flex: 1,
-            flexDirection: "column",
-            justifyContent: "space-between",
-            shadowColor: "#1E1F28",
-            shadowRadius: 20,
-            // shadowOffset: 0.2,
-            shadowOpacity: 0.7,
-          }}
-        >
-          <ImageBackground
-            // source={Images.ProfileBackground}
-            style={styles.profileContainer}
-            imageStyle={styles.profileBackground}
+        <SafeAreaView>
+          <ScrollView
+            contentContainerStyle={{ height: "100%" }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={this.onRefresh}
+                tintColor="white"
+              />
+            }
           >
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              {/* <View> */}
-              <View
-                style={{
-                  marginTop: "18%",
-                  alignSelf: "center",
-                }}
-              >
-                {this.state.image != "" ? (
-                  <Avatar
-                    size="xlarge"
-                    color="#ABB4BD"
-                    containerStyle={{ justifyContent: "flex-end" }}
-                    rounded
-                    source={
-                      this.state.image !== "" ? { uri: this.state.image } : ""
-                    }
-                  >
-                    <Avatar.Accessory
-                      size={30}
-                      color="#2A2C36"
-                      onPress={this.pickImage}
-                    />
-                  </Avatar>
-                ) : (
-                  <Text></Text>
-                )}
-              </View>
-              <View
-                style={{
-                  alignSelf: "center",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: "5%",
-                }}
-              >
-                <View>
-                  <Text
+            <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
+              {this.state.orders.map(e => {
+                return (
+                  <Card
+                    key={e.id}
                     style={{
-                      fontWeight: "900",
-                      fontSize: 26,
+                      width: "96%",
                       alignSelf: "center",
-                    }}
-                    color="#fff"
-                  >
-                    {this.state.name}
-                  </Text>
-
-                  <Text
-                    size={16}
-                    color="white"
-                    style={{
-                      marginTop: 5,
-
-                      lineHeight: 20,
-                      fontWeight: "bold",
-                      fontSize: 18,
-                      opacity: 0.6,
+                      backgroundColor: "#2A2C36",
+                      marginTop: "3%",
                     }}
                   >
-                    {this.state.email}
-                  </Text>
-                </View>
-              </View>
-              {/* </View> */}
+                    <Card.Content>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Title style={{ color: "#fff", fontSize: 16 }}>
+                          Order No. {e.order_num}
+                        </Title>
+                        <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                          {e.created_at}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          color: "#ABB4BD",
+
+                          flexDirection: "column",
+                        }}
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                            Quantity:{"  "}
+                          </Text>
+                          <Text style={{ color: "#fff", fontSize: 16 }}>
+                            {e.quantity}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            // justifyContent: "space-between",
+                          }}
+                        >
+                          <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                            Total Amount:{"  "}
+                          </Text>
+                          <Text style={{ color: "#fff", fontSize: 16 }}>
+                            {e.total_price} EGP
+                          </Text>
+                        </View>
+                      </View>
+                    </Card.Content>
+
+                    <Card.Actions>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          flex: 1,
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Button
+                          iconSize={25}
+                          color="#EB2020"
+                          style={{
+                            width: 100,
+                            height: 40,
+                            borderWidth: 1,
+                            borderRadius: 18,
+                            backgroundColor: "transparent",
+                            borderColor: "#fff",
+                          }}
+                          onPress={() => {
+                            this.props.navigation.push("OrderDetailes", {
+                              id: e.id,
+                            });
+                          }}
+                        >
+                          Detalis
+                        </Button>
+                        <Text
+                          style={{
+                            color: "#2AA952",
+                            fontSize: 16,
+                            justifyContent: "flex-end",
+                            marginRight: "3%",
+                          }}
+                        >
+                          {e.status}
+                        </Text>
+                      </View>
+                    </Card.Actions>
+                  </Card>
+                );
+              })}
             </View>
-          </ImageBackground>
-        </View>
-        <ScrollView>
-          <View
-            style={{ flex: 1, justifyContent: "flex-start", marginTop: "2%" }}
-          >
-            <ListItem
-              bottomDivider
-              containerStyle={{ backgroundColor: "transparent" }}
-              onPress={() => {
-                this.props.navigation.push("Order");
-              }}
-            >
-              <ListItem.Content>
-                <ListItem.Title>
-                  <Text style={{ color: "white" }}>My Orders</Text>
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>already have 12 orders</Text>
-                </ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron color="white" />
-            </ListItem>
-            <ListItem
-              bottomDivider
-              containerStyle={{ backgroundColor: "transparent" }}
-              onPress={() => {
-                this.props.navigation.push("clientAddresses");
-              }}
-            >
-              <ListItem.Content>
-                <ListItem.Title>
-                  <Text style={{ color: "white" }}>My Addresses</Text>
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>
-                    already have 3 addresses
-                  </Text>
-                </ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron color="white" />
-            </ListItem>
-            <ListItem
-              bottomDivider
-              containerStyle={{ backgroundColor: "transparent" }}
-            >
-              <ListItem.Content>
-                <ListItem.Title>
-                  <Text style={{ color: "white" }}>Settings</Text>
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>
-                    Personal Information, Password
-                  </Text>
-                </ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron color="white" />
-            </ListItem>
-
-            <Button
-              onPress={() => {
-                this.props.logout();
-              }}
-              color="red"
-              round
-              style={{ alignSelf: "center", marginTop: "7%" }}
-            >
-              Logout
-            </Button>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </SafeAreaView>
       </>
     );
   }

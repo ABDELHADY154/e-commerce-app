@@ -18,15 +18,15 @@ import { scale } from "react-native-size-matters";
 
 const Tab = createMaterialTopTabNavigator();
 
-const DeliveredScreenTab = (props) => {
+const DeliveredScreenTab = props => {
   const navigation = useNavigation();
   return <DeliveredTab {...props} navigation={navigation} />;
 };
-const ProcessingScreenTab = (props) => {
+const ProcessingScreenTab = props => {
   const navigation = useNavigation();
   return <ProcessingTab {...props} navigation={navigation} />;
 };
-const OrderedScreenTab = (props) => {
+const OrderedScreenTab = props => {
   const navigation = useNavigation();
   return <OrderedTab {...props} navigation={navigation} />;
 };
@@ -37,8 +37,8 @@ export default class Order extends Component {
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/clientProfile`)
-      .then((res) => {})
-      .catch((err) => {
+      .then(res => {})
+      .catch(err => {
         if (err.response.data.status == 401) {
           AsyncStorage.removeItem("userData");
           AsyncStorage.removeItem("userToken");
