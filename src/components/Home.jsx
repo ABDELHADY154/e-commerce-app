@@ -11,16 +11,7 @@ import ShopScreen from "./Screens/Shop/Shop";
 import Favorite from "./Screens/Favorite/Favorite";
 const Tabs = AnimatedTabBarNavigator();
 export default class Home extends Component {
-  async storeToken() {
-    try {
-      await AsyncStorage.removeItem("userToken");
-      // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      // console.log(axios.defaults.headers.common);
-    } catch (error) {
-      console.log("Something went wrong", error);
-    }
-  }
-  Home = (props) => {
+  Home = props => {
     const navigation = useNavigation();
     return (
       <HomeScreen
@@ -33,7 +24,7 @@ export default class Home extends Component {
       />
     );
   };
-  Shop = (props) => {
+  Shop = props => {
     const navigation = useNavigation();
     return (
       <ShopScreen
@@ -46,7 +37,7 @@ export default class Home extends Component {
       />
     );
   };
-  Profile = (props) => {
+  Profile = props => {
     const navigation = useNavigation();
 
     return (
@@ -60,7 +51,7 @@ export default class Home extends Component {
       />
     );
   };
-  Bag = (props) => {
+  Bag = props => {
     const navigation = useNavigation();
     return (
       <BagScreen
@@ -73,7 +64,7 @@ export default class Home extends Component {
       />
     );
   };
-  FavoriteScreen = (props) => {
+  FavoriteScreen = props => {
     const navigation = useNavigation();
     return (
       <Favorite
@@ -121,7 +112,11 @@ export default class Home extends Component {
                 // color={color}
               />
             ),
+            unmountOnBlur: true,
           }}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
         />
         <Tabs.Screen
           name="Shop"
@@ -138,7 +133,11 @@ export default class Home extends Component {
                 // color={color}
               />
             ),
+            unmountOnBlur: true,
           }}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
         />
         <Tabs.Screen
           name="Cart"
@@ -150,12 +149,13 @@ export default class Home extends Component {
                 family="Feather"
                 size={26}
                 color="white"
-                // color={focused ? color : "#222222"}
-                // focused={focused}
-                // color={color}
               />
             ),
+            unmountOnBlur: true,
           }}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
         />
         <Tabs.Screen
           name="Favorites"
@@ -172,24 +172,24 @@ export default class Home extends Component {
                 // color={color}
               />
             ),
+            unmountOnBlur: true,
           }}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
         />
         <Tabs.Screen
           name="Profile"
           component={this.Profile}
           options={{
             tabBarIcon: () => (
-              <Icon
-                name="user"
-                family="AntDesign"
-                size={26}
-                color="white"
-                // color={focused ? color : "#222222"}
-                // focused={focused}
-                // color={color}
-              />
+              <Icon name="user" family="AntDesign" size={26} color="white" />
             ),
+            unmountOnBlur: true,
           }}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
         />
       </Tabs.Navigator>
       // </View>

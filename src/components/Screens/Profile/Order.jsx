@@ -95,7 +95,11 @@ export default class Order extends Component {
             options={{
               tabBarLabel: "Ordered",
               tabBarIndicatorStyle: { backgroundColor: "#28AE7B" },
+              unmountOnBlur: true,
             }}
+            listeners={({ navigation }) => ({
+              blur: () => navigation.setParams({ screen: undefined }),
+            })}
           />
           <Tab.Screen
             name="ProcessingTab"
@@ -103,7 +107,11 @@ export default class Order extends Component {
             options={{
               tabBarLabel: "Shipping",
               tabBarIndicatorStyle: { backgroundColor: "#28AE7B" },
+              unmountOnBlur: true,
             }}
+            listeners={({ navigation }) => ({
+              blur: () => navigation.setParams({ screen: undefined }),
+            })}
           />
           <Tab.Screen
             name="DeliveredTab"
@@ -111,7 +119,11 @@ export default class Order extends Component {
             options={{
               tabBarLabel: "Delivered",
               tabBarIndicatorStyle: { backgroundColor: "#28AE7B" },
+              unmountOnBlur: true,
             }}
+            listeners={({ navigation }) => ({
+              blur: () => navigation.setParams({ screen: undefined }),
+            })}
           />
         </Tab.Navigator>
       </>
