@@ -218,6 +218,7 @@ class Profile extends Component {
                       fontWeight: "bold",
                       fontSize: 18,
                       opacity: 0.6,
+                      alignSelf: "center",
                     }}
                   >
                     {this.state.email}

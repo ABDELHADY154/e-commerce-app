@@ -11,6 +11,13 @@ import ShopScreen from "./Screens/Shop/Shop";
 import Favorite from "./Screens/Favorite/Favorite";
 const Tabs = AnimatedTabBarNavigator();
 export default class Home extends Component {
+  async storeToken() {
+    try {
+      await AsyncStorage.removeItem("userToken");
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
   Home = props => {
     const navigation = useNavigation();
     return (

@@ -36,6 +36,7 @@ import { Pages } from "react-native-pages";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { RefreshControl } from "react-native";
 import { Modalize } from "react-native-modalize";
+import { Alert } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
