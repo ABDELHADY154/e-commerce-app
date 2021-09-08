@@ -12,10 +12,15 @@ import { scale } from "react-native-size-matters";
 import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
 import { RefreshControl } from "react-native";
+import Notification from "./Notification";
+
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
 export default class HomeScreen extends Component {
   state = {
     saleProducts: [],
     newProducts: [],
+    expoPushToken: "",
   };
 
   async componentDidMount() {
@@ -48,6 +53,34 @@ export default class HomeScreen extends Component {
         this.setState({ newProducts: res.data.response.data });
       })
       .catch(err => {});
+    // const registerForPushNotificationsAsync = async () => {
+    // if (Constants.isDevice) {
+    //   const { status: existingStatus } =
+    //     await Notifications.getPermissionsAsync();
+    //   let finalStatus = existingStatus;
+    //   if (existingStatus !== "granted") {
+    //     const { status } = await Notifications.requestPermissionsAsync();
+    //     finalStatus = status;
+    //   }
+    //   if (finalStatus !== "granted") {
+    //     alert("Failed to get push token for push notification!");
+    //     return;
+    //   }
+    //   const token = (await Notifications.getExpoPushTokenAsync()).data;
+    //   console.log(token);
+    //   this.setState({ expoPushToken: token });
+    // } else {
+    //   alert("Must use physical device for Push Notifications");
+    // }
+
+    // if (Platform.OS === "android") {
+    //   Notifications.setNotificationChannelAsync("default", {
+    //     name: "default",
+    //     importance: Notifications.AndroidImportance.MAX,
+    //     vibrationPattern: [0, 250, 250, 250],
+    //     lightColor: "#FF231F7C",
+    //   });
+    // }
   }
   onRefresh = async () => {
     await axios
@@ -139,7 +172,7 @@ export default class HomeScreen extends Component {
             >
               Sale
             </Text>
-
+            {/* <Notification /> */}
             <ScrollView
               contentContainerStyle={{
                 flexDirection: "row",

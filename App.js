@@ -12,7 +12,6 @@ import ForgetPass from "./src/components/Auth/forgetPassword";
 import PasswordVerify from "./src/components/Auth/passwordVerify";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import * as ImagePicker from "expo-image-picker";
 import Categories from "./src/components/Screens/Shop/Categories";
 import ProductView from "./src/components/Screens/Home/ProductView";
 import Products from "./src/components/Screens/Shop/Products";

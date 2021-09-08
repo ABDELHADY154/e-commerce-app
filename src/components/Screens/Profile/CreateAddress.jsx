@@ -300,19 +300,19 @@ export default class SignUp extends Component {
             flex: 1,
           }}
         >
-          <ScrollView>
-            <KeyboardAvoidingView behavior="padding">
-              <View
-                style={{
-                  width: "90%",
-                  flex: 1,
-                  alignSelf: "center",
-                  // marginTop: "10%",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View>
+          <View
+            style={{
+              width: "90%",
+              // flex: 1,
+              alignSelf: "center",
+              // marginTop: "10%",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <View>
+              <KeyboardAvoidingView behavior="padding">
+                <ScrollView showsVerticalScrollIndicator={false}>
                   <View style={styles.inputContainer}>
                     <Text style={styles.inputLabel}>Name</Text>
                     <Input
@@ -581,8 +581,10 @@ export default class SignUp extends Component {
                       Add Adress
                     </Button>
                   )}
-                </View>
-                {/* <View
+                </ScrollView>
+              </KeyboardAvoidingView>
+            </View>
+            {/* <View
             style={{
               // flex: 1,
               flexDirection: "column",
@@ -621,9 +623,7 @@ export default class SignUp extends Component {
               />
             </View>
           </View> */}
-              </View>
-            </KeyboardAvoidingView>
-          </ScrollView>
+          </View>
         </SafeAreaView>
       </>
     );

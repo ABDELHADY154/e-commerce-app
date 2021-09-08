@@ -6,7 +6,8 @@ import {
   BottomModal,
   ModalTitle,
 } from "react-native-modals";
-
+import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
 import {
   StyleSheet,
   Dimensions,
@@ -24,22 +25,22 @@ import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
-import { Avatar } from "react-native-elements";
-import { ListItem } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
-import { SafeAreaView } from "react-native";
 import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
-import { Entypo } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Pages } from "react-native-pages";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
-import { RefreshControl } from "react-native";
-import { Modalize } from "react-native-modalize";
 import { Alert } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 class ProductView extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +52,10 @@ class ProductView extends Component {
       sizeId: 0,
       quantity: 1,
       sizeErr: "",
+      expoPushToken: "",
+      notification: false,
+      notificationListener: {},
+      responseListener: {},
     };
   }
 
@@ -65,7 +70,102 @@ class ProductView extends Component {
         })
         .catch(err => {});
     }
+    this.getNotificationPerm();
   }
+  addToCartAlert = () => {
+    this.addToCart();
+    Alert.alert(
+      "Product Added To Cart Successfully",
+      "",
+      [
+        {
+          text: "Continue Shopping",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Go To Cart",
+          onPress: () => {
+            this.props.navigation.push("Home", { screen: "Cart" });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+  getNotificationPerm = async () => {
+    this.registerForPushNotificationsAsync().then(token =>
+      // setExpoPushToken(token),this.
+      this.setState({
+        expoPushToken: token,
+      }),
+    );
+
+    this.state.notificationListener.current =
+      Notifications.addNotificationReceivedListener(notification => {
+        this.setState({
+          notification: notification,
+        });
+      });
+
+    this.state.responseListener.current =
+      Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+
+    // return () => {
+    //   Notifications.removeNotificationSubscription(
+    //     notificationListener.current,
+    //   );
+    //   Notifications.removeNotificationSubscription(responseListener.current);
+    // };
+  };
+  schedulePushNotification = async () => {
+    // await Notifications.n
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Product Added To Cart Successfully 🎉",
+        // body: "Here is the notification body",
+        // data: {
+        //   data: () => {
+        //     console.log("hady");
+        //   },
+        // },
+      },
+      trigger: { seconds: 1 },
+    });
+  };
+  registerForPushNotificationsAsync = async () => {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
+    return token;
+  };
   onRefresh = async () => {
     if (this.props.route.params.id) {
       await axios
@@ -106,12 +206,13 @@ class ProductView extends Component {
     await axios
       .post("/addtocart", data)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({
           sizeId: 0,
           quantity: 1,
           visible: false,
         });
+        this.schedulePushNotification();
       })
       .catch(err => {
         // console.log(err.response.data.errors);
@@ -662,7 +763,7 @@ class ProductView extends Component {
                       color="#28AE7B"
                       style={{ width: "90%" }}
                       size="large"
-                      onPress={this.addToCart}
+                      onPress={this.addToCartAlert}
                       round
                     >
                       Add To Cart
