@@ -92,10 +92,12 @@ export default class CardEcomOne extends Component {
           {this.props.saleStatus == true ? (
             <Badge
               status="error"
-              value={
-                this.props.discount ? "-" + this.props.discount + "%" : "New"
-              }
+              value={this.props.discount ? this.props.discount + "%" : "New"}
               textStyle={{ fontSize: scale(12) }}
+              badgeStyle={{
+                height: scale(18),
+                width: scale(35),
+              }}
               containerStyle={{
                 position: "absolute",
                 top: scale(10),
@@ -107,6 +109,10 @@ export default class CardEcomOne extends Component {
               status="error"
               value={"New"}
               textStyle={{ fontSize: scale(12) }}
+              badgeStyle={{
+                height: scale(18),
+                width: scale(35),
+              }}
               containerStyle={{
                 position: "absolute",
                 top: scale(10),

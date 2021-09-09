@@ -104,24 +104,27 @@ class Bag extends Component {
             buttonDisable: false,
             quanErr: err.response.data.errors.quantity,
           });
-          Alert.alert(
-            `${this.state.quanErr}`,
-            "",
-            [
-              {
-                text: "OK",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              // {
-              //   text: "Go To Cart",
-              //   onPress: () => {
-              //     this.props.navigation.push("Home", { screen: "Cart" });
-              //   },
-              // },
-            ],
-            { cancelable: false },
-          );
+
+          if (err.response.data.errors.quantity) {
+            Alert.alert(
+              `${this.state.quanErr}`,
+              "",
+              [
+                {
+                  text: "OK",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                // {
+                //   text: "Go To Cart",
+                //   onPress: () => {
+                //     this.props.navigation.push("Home", { screen: "Cart" });
+                //   },
+                // },
+              ],
+              { cancelable: false },
+            );
+          }
         });
     }
   };
@@ -146,26 +149,61 @@ class Bag extends Component {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
+            quanErr: err.response.data.errors,
+          });
+          // if (condition) {
+
+          // } else if() {
+
+          // }
+          this.setState({
+            buttonDisable: false,
             quanErr: err.response.data.errors.quantity,
           });
-          Alert.alert(
-            `${this.state.quanErr}`,
-            "",
-            [
-              {
-                text: "OK",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              // {
-              //   text: "Go To Cart",
-              //   onPress: () => {
-              //     this.props.navigation.push("Home", { screen: "Cart" });
-              //   },
-              // },
-            ],
-            { cancelable: false },
-          );
+          if (err.response.data.errors.quantity) {
+            Alert.alert(
+              `${this.state.quanErr}`,
+              "",
+              [
+                {
+                  text: "OK",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+                // {
+                //   text: "Go To Cart",
+                //   onPress: () => {
+                //     this.props.navigation.push("Home", { screen: "Cart" });
+                //   },
+                // },
+              ],
+              { cancelable: false },
+            );
+          }
+          // else if (err.response.data.errors) {
+          //   this.setState({
+          //     buttonDisable: false,
+          //     quanErr: err.response.data.errors,
+          //   });
+          //   Alert.alert(
+          //     `${this.state.quanErr}`,
+          //     "",
+          //     [
+          //       {
+          //         text: "OK",
+          //         onPress: () => console.log("Cancel Pressed"),
+          //         style: "cancel",
+          //       },
+          //       // {
+          //       //   text: "Go To Cart",
+          //       //   onPress: () => {
+          //       //     this.props.navigation.push("Home", { screen: "Cart" });
+          //       //   },
+          //       // },
+          //     ],
+          //     { cancelable: false },
+          //   );
+          // }
         });
     }
   };

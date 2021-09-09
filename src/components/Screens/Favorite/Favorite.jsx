@@ -174,9 +174,10 @@ class Profile extends Component {
                   flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
+                  flexDirection: "column",
                 }}
               >
-                <Text style={{ color: "white" }} size={30}>
+                <Text style={{ color: "white", marginTop: "70%" }} size={15}>
                   {this.state.message}
                 </Text>
               </View>

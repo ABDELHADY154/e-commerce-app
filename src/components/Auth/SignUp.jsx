@@ -16,6 +16,9 @@ export default class SignUp extends Component {
     nameErr: "",
     emailErr: "",
     passwordErr: "",
+    phoneNumber: "",
+    phoneNumberErr: "",
+    phoneNumberBorder: "",
     userData: {},
     loading: false,
   };
@@ -46,11 +49,14 @@ export default class SignUp extends Component {
       passwordBorder: "",
       emailBorder: "",
       nameBorder: "",
+      phoneNumberErr: "",
+      phoneNumberBorder: "",
     });
     var body = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
+      phone_number: this.state.phoneNumber,
     };
 
     axios
@@ -61,6 +67,7 @@ export default class SignUp extends Component {
           emailErr: "",
           passwordErr: "",
           nameErr: "",
+          phoneNumberErr: "",
           loading: false,
         });
         let config = {
@@ -94,6 +101,13 @@ export default class SignUp extends Component {
             this.setState({
               nameErr: error.response.data.errors.name,
               nameBorder: "red",
+              loading: false,
+            });
+          }
+          if (error.response.data.errors.phone_number) {
+            this.setState({
+              phoneNumberErr: error.response.data.errors.phone_number,
+              phoneNumberBorder: "red",
               loading: false,
             });
           }
@@ -159,6 +173,26 @@ export default class SignUp extends Component {
                 style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
               >
                 {this.state.emailErr}
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Phone Number</Text>
+              <Input
+                placeholder="Phone Number"
+                placeholderTextColor="#ABB4BD"
+                type="number-pad"
+                bgColor="#2A2C36"
+                color="#F5F5F5"
+                style={{ borderColor: this.state.phoneNumberBorder }}
+                rounded
+                onChangeText={value => {
+                  this.setState({ phoneNumber: value });
+                }}
+              />
+              <Text
+                style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
+              >
+                {this.state.phoneNumberErr}
               </Text>
             </View>
             <View style={styles.inputContainer}>
