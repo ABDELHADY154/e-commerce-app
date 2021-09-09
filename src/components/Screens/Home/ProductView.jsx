@@ -56,6 +56,7 @@ class ProductView extends Component {
       notification: false,
       notificationListener: {},
       responseListener: {},
+      quanErr: "",
     };
   }
 
@@ -74,24 +75,6 @@ class ProductView extends Component {
   }
   addToCartAlert = () => {
     this.addToCart();
-    Alert.alert(
-      "Product Added To Cart Successfully",
-      "",
-      [
-        {
-          text: "Continue Shopping",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "Go To Cart",
-          onPress: () => {
-            this.props.navigation.push("Home", { screen: "Cart" });
-          },
-        },
-      ],
-      { cancelable: false },
-    );
   };
   getNotificationPerm = async () => {
     this.registerForPushNotificationsAsync().then(token =>
@@ -197,6 +180,7 @@ class ProductView extends Component {
   addToCart = async () => {
     this.setState({
       sizeErr: "",
+      quanErr: "",
     });
     let data = {
       product_id: this.state.product.id,
@@ -212,16 +196,41 @@ class ProductView extends Component {
           quantity: 1,
           visible: false,
         });
+        Alert.alert(
+          "Product Added To Cart Successfully",
+          "",
+          [
+            {
+              text: "Continue Shopping",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            {
+              text: "Go To Cart",
+              onPress: () => {
+                this.props.navigation.push("Home", { screen: "Cart" });
+              },
+            },
+          ],
+          { cancelable: false },
+        );
         this.schedulePushNotification();
       })
       .catch(err => {
-        // console.log(err.response.data.errors);
+        console.log(err.response.data.errors);
         if (err.response) {
           if (err.response.data.errors.size_id) {
             this.setState({
               sizeErr: "Please Select A Size",
               sizeId: 0,
               quantity: 1,
+            });
+          }
+          if (err.response.data.errors.quantity) {
+            this.setState({
+              quanErr: err.response.data.errors.quantity,
+              // sizeId: 0,
+              // quantity: 1,
             });
           }
         }
@@ -351,33 +360,46 @@ class ProductView extends Component {
                   <View
                     style={{ justifyContent: "flex-end", flexDirection: "row" }}
                   >
-                    <TouchableOpacity
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        marginRight: scale(10),
-                        alignSelf: "flex-start",
-                        width: 50,
-                        height: 50,
-                        shadowRadius: 5,
-                        borderRadius: 40,
-                        backgroundColor: "#28AE7B",
-                      }}
-                      onPress={() => {
-                        this.setState({ visible: true });
-                      }}
-                    >
-                      <Icon
-                        name="cart-plus"
-                        color="#fff"
-                        size={scale(18)}
+                    {this.state.product.quantity <= 0 ? (
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          color: "red",
+                          alignSelf: "center",
+                          marginRight: scale(5),
+                        }}
+                      >
+                        Product Out Of Sale
+                      </Text>
+                    ) : (
+                      <TouchableOpacity
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          marginRight: scale(10),
+                          alignSelf: "flex-start",
+                          width: 50,
+                          height: 50,
+                          shadowRadius: 5,
+                          borderRadius: 40,
+                          backgroundColor: "#28AE7B",
+                        }}
                         onPress={() => {
                           this.setState({ visible: true });
                         }}
-                      />
-                    </TouchableOpacity>
+                      >
+                        <Icon
+                          name="cart-plus"
+                          color="#fff"
+                          size={scale(18)}
+                          onPress={() => {
+                            this.setState({ visible: true });
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                     <TouchableOpacity
                       style={{
                         justifyContent: "center",
@@ -742,6 +764,11 @@ class ProductView extends Component {
                       <AntDesign name="plus" size={24} color="#fff" />
                     </TouchableOpacity>
                   </View>
+                  <Text
+                    style={{ fontSize: 15, color: "red", alignSelf: "center" }}
+                  >
+                    {this.state.quanErr}
+                  </Text>
                   <View
                     style={{
                       borderBottomColor: "#ABB4BD",

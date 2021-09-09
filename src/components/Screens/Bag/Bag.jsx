@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import { Block, Text, theme, Button as GaButton, Input } from "galio-framework";
 import { Component } from "react";
@@ -30,6 +31,7 @@ class Bag extends Component {
     total_price: 0,
     refresh: false,
     buttonDisable: false,
+    quanErr: "",
   };
 
   onRefresh = () => {
@@ -95,9 +97,31 @@ class Bag extends Component {
         })
         .catch(err => {
           this.onRefresh();
+
+          // console.log();
+
           this.setState({
             buttonDisable: false,
+            quanErr: err.response.data.errors.quantity,
           });
+          Alert.alert(
+            `${this.state.quanErr}`,
+            "",
+            [
+              {
+                text: "OK",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              // {
+              //   text: "Go To Cart",
+              //   onPress: () => {
+              //     this.props.navigation.push("Home", { screen: "Cart" });
+              //   },
+              // },
+            ],
+            { cancelable: false },
+          );
         });
     }
   };
@@ -122,7 +146,26 @@ class Bag extends Component {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
+            quanErr: err.response.data.errors.quantity,
           });
+          Alert.alert(
+            `${this.state.quanErr}`,
+            "",
+            [
+              {
+                text: "OK",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              // {
+              //   text: "Go To Cart",
+              //   onPress: () => {
+              //     this.props.navigation.push("Home", { screen: "Cart" });
+              //   },
+              // },
+            ],
+            { cancelable: false },
+          );
         });
     }
   };
