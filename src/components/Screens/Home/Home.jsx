@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
-import { Alert, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
@@ -16,16 +16,26 @@ import Notification from "./Notification";
 
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
+import { Pages } from "react-native-pages";
 export default class HomeScreen extends Component {
   state = {
     saleProducts: [],
     newProducts: [],
     expoPushToken: "",
+    images: [],
   };
 
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
+    await axios
+      .get(`/ads`)
+      .then(res => {
+        this.setState({
+          images: res.data.response.data,
+        });
+      })
+      .catch(err => {});
     await axios
       .get(`/clientProfile`)
       .then(res => {})
@@ -53,7 +63,9 @@ export default class HomeScreen extends Component {
         this.setState({ newProducts: res.data.response.data });
       })
       .catch(err => {});
-    // const registerForPushNotificationsAsync = async () => {
+    // this.notificiationPermission();
+  }
+  notificiationPermission = async () => {
     if (Constants.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -81,7 +93,7 @@ export default class HomeScreen extends Component {
         lightColor: "#FF231F7C",
       });
     }
-  }
+  };
   onRefresh = async () => {
     await axios
       .get("/saleproduct")
@@ -123,35 +135,36 @@ export default class HomeScreen extends Component {
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
       >
         <ParallaxHeader
-          maxHeight={400}
-          minHeight={80}
+          maxHeight={450}
+          minHeight={100}
           renderHeader={() => {
             return (
-              <Header
-                containerStyle={{ height: 510 }}
-                backgroundColor={"#2A2C36"}
-                backgroundImage={require("../../../assets/images/image.png")}
-                // leftContainerStyle={{
-                //   flexDirection: "column",
-                //   justifyContent: "flex-end",
-                //   alignSelf: "flex-end",
-                //   height: "100%",
-                // }}
-                // leftComponent={() => {
-                //   return (
-                //     <View>
-                //       {/* <Text
-                //         style={{ fontSize: 34, color: "white", width: "100%" }}
-                //       >
-                //         Fashion Sale
-                //       </Text> */}
-                //       {/* <Button color="#28AE7B" round>
-                //         Check Sales
-                //       </Button> */}
-                //     </View>
-                //   );
-                // }}
-              />
+              <Pages>
+                {this.state.images.length !== 0 ? (
+                  this.state.images.map(e => {
+                    return (
+                      // <>
+                      <Image
+                        key={e.id}
+                        resizeMode="stretch"
+                        source={{ uri: e.image }}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                        }}
+                      />
+                    );
+                  })
+                ) : (
+                  <Image
+                    source={require("../../../assets/images/image2.png")}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  />
+                )}
+              </Pages>
             );
           }}
           // heroImage={require("../../../assets/images/image.png")}
@@ -305,3 +318,28 @@ export default class HomeScreen extends Component {
     );
   }
 }
+// <Header
+//   containerStyle={{ height: 510 }}
+//   backgroundColor={"#2A2C36"}
+//   backgroundImage={require("../../../assets/images/image.png")}
+//   // leftContainerStyle={{
+//   //   flexDirection: "column",
+//   //   justifyContent: "flex-end",
+//   //   alignSelf: "flex-end",
+//   //   height: "100%",
+//   // }}
+//   // leftComponent={() => {
+//   //   return (
+//   //     <View>
+//   //       {/* <Text
+//   //         style={{ fontSize: 34, color: "white", width: "100%" }}
+//   //       >
+//   //         Fashion Sale
+//   //       </Text> */}
+//   //       {/* <Button color="#28AE7B" round>
+//   //         Check Sales
+//   //       </Button> */}
+//   //     </View>
+//   //   );
+//   // }}
+// />
