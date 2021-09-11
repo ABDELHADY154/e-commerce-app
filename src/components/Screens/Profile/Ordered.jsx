@@ -57,127 +57,127 @@ class Ordered extends Component {
   render() {
     return (
       <>
-        <SafeAreaView>
-          <ScrollView
-            contentContainerStyle={{ height: "100%" }}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refresh}
-                onRefresh={this.onRefresh}
-                tintColor="white"
-              />
-            }
-          >
-            <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
-              {this.state.orders.map(e => {
-                return (
-                  <Card
-                    key={e.id}
-                    style={{
-                      width: "96%",
-                      alignSelf: "center",
-                      backgroundColor: "#2A2C36",
-                      marginTop: "3%",
-                    }}
-                  >
-                    <Card.Content>
+        {/* <SafeAreaView> */}
+        <ScrollView
+          style={{ flex: 1, marginBottom: scale(30) }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refresh}
+              onRefresh={this.onRefresh}
+              tintColor="white"
+            />
+          }
+        >
+          <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
+            {this.state.orders.map(e => {
+              return (
+                <Card
+                  key={e.id}
+                  style={{
+                    width: "96%",
+                    alignSelf: "center",
+                    backgroundColor: "#2A2C36",
+                    marginTop: "3%",
+                  }}
+                >
+                  <Card.Content>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Title style={{ color: "#fff", fontSize: 16 }}>
+                        Order No. {e.order_num}
+                      </Title>
+                      <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                        {e.created_at}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        color: "#ABB4BD",
+
+                        flexDirection: "column",
+                      }}
+                    >
                       <View
                         style={{
                           flexDirection: "row",
                           alignItems: "center",
-                          justifyContent: "space-between",
                         }}
                       >
-                        <Title style={{ color: "#fff", fontSize: 16 }}>
-                          Order No. {e.order_num}
-                        </Title>
                         <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
-                          {e.created_at}
+                          Quantity:{"  "}
+                        </Text>
+                        <Text style={{ color: "#fff", fontSize: 16 }}>
+                          {e.quantity}
                         </Text>
                       </View>
-                      <View
-                        style={{
-                          color: "#ABB4BD",
-
-                          flexDirection: "column",
-                        }}
-                      >
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
-                            Quantity:{"  "}
-                          </Text>
-                          <Text style={{ color: "#fff", fontSize: 16 }}>
-                            {e.quantity}
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            // justifyContent: "space-between",
-                          }}
-                        >
-                          <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
-                            Total Amount:{"  "}
-                          </Text>
-                          <Text style={{ color: "#fff", fontSize: 16 }}>
-                            {e.total_price} EGP
-                          </Text>
-                        </View>
-                      </View>
-                    </Card.Content>
-
-                    <Card.Actions>
                       <View
                         style={{
                           flexDirection: "row",
-                          flex: 1,
                           alignItems: "center",
-                          justifyContent: "space-between",
+                          // justifyContent: "space-between",
                         }}
                       >
-                        <Button
-                          iconSize={25}
-                          color="#EB2020"
-                          style={{
-                            width: 100,
-                            height: 40,
-                            borderWidth: 1,
-                            borderRadius: 18,
-                            backgroundColor: "transparent",
-                            borderColor: "#fff",
-                          }}
-                          onPress={() => {
-                            this.props.navigation.push("OrderDetailes", {
-                              id: e.id,
-                            });
-                          }}
-                        >
-                          Detalis
-                        </Button>
-                        <Text
-                          style={{
-                            color: "#2AA952",
-                            fontSize: 16,
-                            justifyContent: "flex-end",
-                            marginRight: "3%",
-                          }}
-                        >
-                          {e.status}
+                        <Text style={{ color: "#ABB4BD", fontSize: 16 }}>
+                          Total Amount:{"  "}
+                        </Text>
+                        <Text style={{ color: "#fff", fontSize: 16 }}>
+                          {e.total_price} EGP
                         </Text>
                       </View>
-                    </Card.Actions>
-                  </Card>
-                );
-              })}
-            </View>
-          </ScrollView>
-        </SafeAreaView>
+                    </View>
+                  </Card.Content>
+
+                  <Card.Actions>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button
+                        iconSize={25}
+                        color="#EB2020"
+                        style={{
+                          width: 100,
+                          height: 40,
+                          borderWidth: 1,
+                          borderRadius: 18,
+                          backgroundColor: "transparent",
+                          borderColor: "#fff",
+                        }}
+                        onPress={() => {
+                          this.props.navigation.push("OrderDetailes", {
+                            id: e.id,
+                          });
+                        }}
+                      >
+                        Detalis
+                      </Button>
+                      <Text
+                        style={{
+                          color: "#2AA952",
+                          fontSize: 16,
+                          justifyContent: "flex-end",
+                          marginRight: "3%",
+                        }}
+                      >
+                        {e.status}
+                      </Text>
+                    </View>
+                  </Card.Actions>
+                </Card>
+              );
+            })}
+          </View>
+        </ScrollView>
+        {/* </SafeAreaView> */}
       </>
     );
   }

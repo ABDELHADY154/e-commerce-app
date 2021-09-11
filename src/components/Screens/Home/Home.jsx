@@ -30,16 +30,16 @@ export default class HomeScreen extends Component {
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/ads`)
-      .then((res) => {
+      .then(res => {
         this.setState({
           images: res.data.response.data,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get(`/clientProfile`)
-      .then((res) => {})
-      .catch((err) => {
+      .then(res => {})
+      .catch(err => {
         console.log(err.response.status);
         if (err.response.status == 401) {
           AsyncStorage.removeItem("userData");
@@ -51,18 +51,18 @@ export default class HomeScreen extends Component {
       });
     await axios
       .get("/saleproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ saleProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get("/newproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ newProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     // this.notificiationPermission();
   }
   notificiationPermission = async () => {
@@ -97,36 +97,36 @@ export default class HomeScreen extends Component {
   onRefresh = async () => {
     await axios
       .get("/saleproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ saleProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get("/newproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ newProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  favoriteProduct = async (id) => {
+  favoriteProduct = async id => {
     await axios
       .post("/favorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  unfavoriteProduct = async (id) => {
+  unfavoriteProduct = async id => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
   render() {
     // console.log(this.state.saleProducts);
@@ -141,7 +141,7 @@ export default class HomeScreen extends Component {
             return (
               <Pages>
                 {this.state.images.length !== 0 ? (
-                  this.state.images.map((e) => {
+                  this.state.images.map(e => {
                     return (
                       // <>
                       <Image
@@ -186,16 +186,17 @@ export default class HomeScreen extends Component {
               Sale
             </Text>
             {/* <Notification /> */}
-            <ScrollView
-              contentContainerStyle={{
-                flexDirection: "row",
-                height: scale(320),
-              }}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              {this.state.saleProducts.length != 0 ? (
-                this.state.saleProducts.map((e) => {
+
+            {this.state.saleProducts.length != 0 ? (
+              <ScrollView
+                contentContainerStyle={{
+                  flexDirection: "row",
+                  height: scale(320),
+                }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                {this.state.saleProducts.map(e => {
                   return (
                     <Card
                       key={e.id}
@@ -231,29 +232,29 @@ export default class HomeScreen extends Component {
                       onClickButton={() => Alert("Has clicked")}
                     />
                   );
-                })
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
-                    source={require("../../../assets/images/sale.png")}
-                    style={
-                      {
-                        // marginVertical: 10,
-                      }
+                })}
+              </ScrollView>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/sale.png")}
+                  style={
+                    {
+                      // marginVertical: 10,
                     }
-                  />
-                  <Text style={{ color: "white", marginTop: -25 }}>
-                    There is no sale for now!
-                  </Text>
-                </View>
-              )}
-            </ScrollView>
+                  }
+                />
+                <Text style={{ color: "white", marginTop: -25 }}>
+                  There is no sale for now!
+                </Text>
+              </View>
+            )}
           </View>
           <View
             style={{
@@ -274,17 +275,18 @@ export default class HomeScreen extends Component {
             >
               New
             </Text>
-            <ScrollView
-              contentContainerStyle={{
-                flexDirection: "row",
-                height: scale(320),
-              }}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              {/* <View style={{ flexDirection: "row", height: 400 }}> */}
-              {this.state.newProducts.length != 0 ? (
-                this.state.newProducts.map((e) => {
+
+            {/* <View style={{ flexDirection: "row", height: 400 }}> */}
+            {this.state.newProducts.length != 0 ? (
+              <ScrollView
+                contentContainerStyle={{
+                  flexDirection: "row",
+                  height: scale(320),
+                }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                {this.state.newProducts.map(e => {
                   return (
                     <Card
                       key={e.id}
@@ -321,29 +323,29 @@ export default class HomeScreen extends Component {
                       onClickButton={() => Alert("Has clicked")}
                     />
                   );
-                })
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
-                    source={require("../../../assets/images/new.png")}
-                    style={
-                      {
-                        // marginVertical: 10,
-                      }
+                })}
+              </ScrollView>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/new.png")}
+                  style={
+                    {
+                      // marginVertical: 10,
                     }
-                  />
-                  <Text style={{ color: "white", marginTop: 20 }}>
-                    There is no new items for now!
-                  </Text>
-                </View>
-              )}
-            </ScrollView>
+                  }
+                />
+                <Text style={{ color: "white", marginTop: 20 }}>
+                  There is no new items for now!
+                </Text>
+              </View>
+            )}
           </View>
         </ParallaxHeader>
       </SafeAreaView>

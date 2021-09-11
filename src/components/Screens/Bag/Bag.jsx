@@ -40,7 +40,7 @@ class Bag extends Component {
     });
     axios
       .get("cart")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -49,12 +49,16 @@ class Bag extends Component {
           refresh: false,
         });
       })
-      .catch((err) => {});
+      .catch(err => {
+        this.setState({
+          refresh: false,
+        });
+      });
   };
   async componentDidMount() {
     axios
       .get("cart")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -62,7 +66,7 @@ class Bag extends Component {
           total_price: res.data.response.data.total_price,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
   }
 
   deleteItem = (productId, sizeId) => {
@@ -71,10 +75,10 @@ class Bag extends Component {
         product_id: productId,
         size_id: sizeId,
       })
-      .then((res) => {
+      .then(res => {
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         this.onRefresh();
       });
   };
@@ -89,13 +93,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity + 1,
         })
-        .then((res) => {
+        .then(res => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.onRefresh();
 
           // console.log();
@@ -122,7 +126,7 @@ class Bag extends Component {
                 //   },
                 // },
               ],
-              { cancelable: false }
+              { cancelable: false },
             );
           }
         });
@@ -139,13 +143,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity - 1,
         })
-        .then((res) => {
+        .then(res => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -177,7 +181,7 @@ class Bag extends Component {
                 //   },
                 // },
               ],
-              { cancelable: false }
+              { cancelable: false },
             );
           }
           // else if (err.response.data.errors) {
