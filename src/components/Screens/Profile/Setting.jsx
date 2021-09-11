@@ -16,11 +16,9 @@ import { Alert, View, TouchableOpacity } from "react-native";
 import { CardEcomOne } from "react-native-card-ui";
 import { ScrollView } from "react-native-gesture-handler";
 import { Header } from "react-native-elements/dist/header/Header";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import DeliveredTab from "./Delivered";
-import ProcessingTab from "./Processing";
-import OrderedTab from "./Ordered";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Feather } from "@expo/vector-icons";
+
 import { scale } from "react-native-size-matters";
 
 export default class Setting extends Component {
@@ -47,6 +45,12 @@ export default class Setting extends Component {
         }
       });
   }
+  showFromDatePicker = () => {
+    this.setState({ isFromDatePickerVisible: true });
+  };
+  hideFromDatePicker = () => {
+    this.setState({ isFromDatePickerVisible: false });
+  };
   render() {
     return (
       <>
@@ -111,7 +115,7 @@ export default class Setting extends Component {
             >
               {/* {this.state.emailErr}email */}
             </Text>
-            <Input
+            {/* <Input
               placeholder="Date Of Birth"
               placeholderTextColor="#ABB4BD"
               type="email-address"
@@ -119,20 +123,58 @@ export default class Setting extends Component {
               color="#F5F5F5"
               // style={{ borderColor: this.state.emailBorder }}
               rounded
+              onPress={this.showFromDatePicker}
               // onChangeText={value => {
               //   this.setState({ email: value });
               // }}
-            />
-            <Text
+            /> */}
+            <View style={{ marginLeft: -7, marginTop: "-4%" }}>
+              <DateTimePickerModal
+                isVisible={this.state.isFromDatePickerVisible}
+                mode="date"
+                // onConfirm={this.handleFromConfirm}
+                onCancel={this.hideFromDatePicker}
+              />
+
+              <Button
+                accessible={true}
+                accessibilityLabel=" select date from"
+                // accessibilityHint={this.state.from}
+                onPress={this.showFromDatePicker}
+                color="#2A2C36"
+                style={{
+                  width: "97.5%",
+                  borderColor: "#7E7E7F",
+                  borderWidth: 1,
+
+                  borderRadius: 50,
+                }}
+              >
+                <Text
+                  style={{
+                    alignSelf: "flex-start",
+                    marginLeft: 12,
+                    color: "#ABB4BD",
+                  }}
+                >
+                  {/* {this.state.EducationFrom} */} Date Of Birth
+                </Text>
+              </Button>
+            </View>
+            {/* <Text
               style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
             >
-              {/* {this.state.emailErr}email */}
-            </Text>
+              {this.state.emailErr}email
+            </Text> */}
           </View>
 
           <View>
             <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: "2%",
+              }}
             >
               <Text
                 style={{ fontSize: 20, color: "#F5F5F5", marginBottom: "2%" }}
