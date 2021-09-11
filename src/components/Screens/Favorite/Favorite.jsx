@@ -33,14 +33,14 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get(`/favorite`)
-      .then(res => {
+      .then((res) => {
         this.setState({
           products: res.data.response.data,
           refresh: false,
           message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -51,34 +51,34 @@ class Profile extends Component {
     });
     await axios
       .get(`/favorite`)
-      .then(res => {
+      .then((res) => {
         this.setState({
           products: res.data.response.data,
           refresh: false,
           message: res.data.response.data.length == 0 ? "No Results !" : "",
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  favoriteProduct = async id => {
+  favoriteProduct = async (id) => {
     await axios
       .post("/favorite", { product_id: id })
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
-  unfavoriteProduct = async id => {
+  unfavoriteProduct = async (id) => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 
   render() {
@@ -124,7 +124,7 @@ class Profile extends Component {
             }}
           >
             {this.state.products.length != 0 ? (
-              this.state.products.map(e => {
+              this.state.products.map((e) => {
                 return (
                   <View
                     style={{
@@ -171,16 +171,37 @@ class Profile extends Component {
             ) : (
               <View
                 style={{
+                  marginTop: 130,
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
                   flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Text style={{ color: "white", marginTop: "70%" }} size={15}>
-                  {this.state.message}
+                <Image
+                  source={require("../../../assets/images/favorite.png")}
+                  style={
+                    {
+                      // marginVertical: 10,
+                    }
+                  }
+                />
+                <Text style={{ color: "white", marginTop: 20 }}>
+                  There is no favorite items
                 </Text>
               </View>
+              // <View
+              //   style={{
+              //     flex: 1,
+              //     justifyContent: "center",
+              //     alignItems: "center",
+              //     flexDirection: "column",
+              //   }}
+              // >
+              //   <Text style={{ color: "white", marginTop: "70%" }} size={15}>
+              //     {this.state.message}
+              //   </Text>
+              // </View>
             )}
           </View>
         </ScrollView>

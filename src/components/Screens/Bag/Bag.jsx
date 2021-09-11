@@ -40,7 +40,7 @@ class Bag extends Component {
     });
     axios
       .get("cart")
-      .then(res => {
+      .then((res) => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -49,12 +49,12 @@ class Bag extends Component {
           refresh: false,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
   async componentDidMount() {
     axios
       .get("cart")
-      .then(res => {
+      .then((res) => {
         // console.log(res.data.response.data);
         this.setState({
           products: res.data.response.data.products,
@@ -62,7 +62,7 @@ class Bag extends Component {
           total_price: res.data.response.data.total_price,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   }
 
   deleteItem = (productId, sizeId) => {
@@ -71,10 +71,10 @@ class Bag extends Component {
         product_id: productId,
         size_id: sizeId,
       })
-      .then(res => {
+      .then((res) => {
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         this.onRefresh();
       });
   };
@@ -89,13 +89,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity + 1,
         })
-        .then(res => {
+        .then((res) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           this.onRefresh();
 
           // console.log();
@@ -122,7 +122,7 @@ class Bag extends Component {
                 //   },
                 // },
               ],
-              { cancelable: false },
+              { cancelable: false }
             );
           }
         });
@@ -139,13 +139,13 @@ class Bag extends Component {
           size_id: sizeId,
           quantity: quantity - 1,
         })
-        .then(res => {
+        .then((res) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
           });
         })
-        .catch(err => {
+        .catch((err) => {
           this.onRefresh();
           this.setState({
             buttonDisable: false,
@@ -177,7 +177,7 @@ class Bag extends Component {
                 //   },
                 // },
               ],
-              { cancelable: false },
+              { cancelable: false }
             );
           }
           // else if (err.response.data.errors) {
@@ -279,81 +279,91 @@ class Bag extends Component {
           ) : (
             <View
               style={{
+                marginTop: 130,
                 flex: 1,
-                justifyContent: "center",
+                flexDirection: "column",
                 alignItems: "center",
-                alignSelf: "center",
-                marginTop: "50%",
+                justifyContent: "center",
               }}
             >
-              <Text color="white">Your Cart Is Empty</Text>
+              <Image
+                source={require("../../../assets/images/cart.png")}
+                style={
+                  {
+                    // marginVertical: 10,
+                  }
+                }
+              />
+              <Text style={{ color: "white", marginTop: 20 }}>
+                Your Cart Is Empty{" "}
+              </Text>
             </View>
           )}
         </ScrollView>
-        <KeyboardAvoidingView
-          // style={styles.container}
-          behavior="padding"
-        >
-          <View style={{ alignItems: "center", marginBottom: scale(15) }}>
-            <View style={{ marginTop: 30, width: "95%" }}>
-              {/* <Input
-                placeholder="Enter Your Promo Code"
-                placeholderTextColor="#ABB4BD"
-                right
-                icon="chevron-right"
-                family="Entypo"
-                iconSize={26}
-                iconColor="#ABB4BD"
-                style={{ backgroundColor: "#1E1F28", borderWidth: 0 }}
-              /> */}
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                alignSelf: "flex-start",
-                marginLeft: scale(14),
-              }}
-            >
-              <Text
+
+        {this.state.products.length !== 0 ? (
+          <KeyboardAvoidingView
+            // style={styles.container}
+            behavior="padding"
+          >
+            <View style={{ alignItems: "center", marginBottom: scale(15) }}>
+              <View style={{ marginTop: 30, width: "95%" }}>
+                {/* <Input
+                    placeholder="Enter Your Promo Code"
+                    placeholderTextColor="#ABB4BD"
+                    right
+                    icon="chevron-right"
+                    family="Entypo"
+                    iconSize={26}
+                    iconColor="#ABB4BD"
+                    style={{ backgroundColor: "#1E1F28", borderWidth: 0 }}
+                  /> */}
+              </View>
+              <View
                 style={{
-                  color: "#ABB4BD",
-                  fontSize: 18,
-                  // marginLeft: 20,
-                  marginTop: 10,
-                  textAlign: "left",
-                  // alignItems: "flex-start",
-                  // alignSelf: "flex-start",
-                  // alignContent: "flex-start",
-                  // justifyContent: "flex-start",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  alignSelf: "flex-start",
+                  marginLeft: scale(14),
                 }}
               >
-                Cart Price:{" "}
-                {this.state.total_price
-                  .toFixed(2)
-                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-                EGP
-              </Text>
-              <Text
-                style={{
-                  color: "#ABB4BD",
-                  fontSize: 18,
-                  // marginLeft: 20,
-                  marginTop: 10,
-                  textAlign: "left",
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 18,
+                    // marginLeft: 20,
+                    marginTop: 10,
+                    textAlign: "left",
+                    // alignItems: "flex-start",
+                    // alignSelf: "flex-start",
+                    // alignContent: "flex-start",
+                    // justifyContent: "flex-start",
+                  }}
+                >
+                  Cart Price:{" "}
+                  {this.state.total_price
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+                  EGP
+                </Text>
+                <Text
+                  style={{
+                    color: "#ABB4BD",
+                    fontSize: 18,
+                    // marginLeft: 20,
+                    marginTop: 10,
+                    textAlign: "left",
 
-                  // alignItems: "flex-end",
-                  // alignSelf: "flex-end",
-                  // alignContent: "flex-end",
-                  // justifyContent: "flex-end",
-                }}
-              >
-                Count: {this.state.quantity}
-              </Text>
-            </View>
-
-            {this.state.products.length !== 0 ? (
+                    // alignItems: "flex-end",
+                    // alignSelf: "flex-end",
+                    // alignContent: "flex-end",
+                    // justifyContent: "flex-end",
+                  }}
+                >
+                  Count: {this.state.quantity}
+                </Text>
+              </View>
               <TouchableOpacity
                 style={{
                   backgroundColor: "#28AE7B",
@@ -382,32 +392,33 @@ class Bag extends Component {
                   Check out
                 </Text>
               </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#28AE7B",
-                  borderRadius: 50,
-                  // height: 40,
-                  width: "90%",
-                  paddingVertical: 15,
-                  marginTop: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 18,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Check out
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </KeyboardAvoidingView>
+            </View>
+          </KeyboardAvoidingView>
+        ) : (
+          <Text></Text>
+          // <TouchableOpacity
+          //   style={{
+          //     backgroundColor: "#28AE7B",
+          //     borderRadius: 50,
+          //     // height: 40,
+          //     width: "90%",
+          //     paddingVertical: 15,
+          //     marginTop: 20,
+          //     justifyContent: "center",
+          //     alignItems: "center",
+          //   }}
+          // >
+          //   <Text
+          //     style={{
+          //       color: "#fff",
+          //       fontSize: 18,
+          //       textTransform: "uppercase",
+          //     }}
+          //   >
+          //     Check out
+          //   </Text>
+          // </TouchableOpacity>
+        )}
 
         {/* </ScrollView> */}
       </>
