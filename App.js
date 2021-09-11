@@ -21,6 +21,7 @@ import CreateAddress from "./src/components/Screens/Profile/CreateAddress";
 import Checkout from "./src/components/Screens/Bag/Checkout";
 import Success from "./src/components/Screens/Bag/Success";
 import Order from "./src/components/Screens/Profile/Order";
+import Setting from "./src/components/Screens/Profile/Setting";
 import OrderDetailes from "./src/components/Screens/Profile/OrderDetailes";
 
 const MyTheme = {
@@ -82,7 +83,7 @@ export default function App({ navigation }) {
       isSignout: false,
       userToken: null,
       isVerified: false,
-    },
+    }
   );
 
   React.useEffect(() => {
@@ -105,7 +106,7 @@ export default function App({ navigation }) {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async data => {
+      signIn: async (data) => {
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore`
@@ -114,7 +115,7 @@ export default function App({ navigation }) {
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
-      signUp: async data => {
+      signUp: async (data) => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `SecureStore`
@@ -123,9 +124,9 @@ export default function App({ navigation }) {
         dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
     }),
-    [],
+    []
   );
-  const HomeScreen = props => {
+  const HomeScreen = (props) => {
     const navigation = useNavigation();
 
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
@@ -139,55 +140,60 @@ export default function App({ navigation }) {
       />
     );
   };
-  const ProductScreen = props => {
+  const ProductScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
     return <ProductView {...props} navigation={navigation} route={route} />;
   };
-  const ClientAddressScreen = props => {
+  const ClientAddressScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
 
     return <ClientAddress {...props} navigation={navigation} route={route} />;
   };
-  const CreateAddressScreen = props => {
+  const CreateAddressScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
 
     return <CreateAddress {...props} navigation={navigation} route={route} />;
   };
-  const CategoriesScreen = props => {
+  const CategoriesScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Categories {...props} navigation={navigation} route={route} />;
   };
-  const ProductsScreen = props => {
+  const ProductsScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Products {...props} navigation={navigation} route={route} />;
   };
-  const CheckoutScreen = props => {
+  const CheckoutScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Checkout {...props} navigation={navigation} route={route} />;
   };
-  const SuccessScreen = props => {
+  const SuccessScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Success {...props} navigation={navigation} route={route} />;
   };
-  const OrderScreen = props => {
+  const OrderScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <Order {...props} navigation={navigation} route={route} />;
   };
-  const OrderDetailesrScreen = props => {
+  const OrderDetailesrScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return <OrderDetailes {...props} navigation={navigation} route={route} />;
   };
-  const ForgetPasswordScreen = props => {
+  const SettingScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Setting {...props} navigation={navigation} route={route} />;
+  };
+  const ForgetPasswordScreen = (props) => {
     const navigation = useNavigation();
     // const { signIn } = React.useContext(AuthContext);userLogin={signIn}
     return (
@@ -201,7 +207,7 @@ export default function App({ navigation }) {
     );
   };
 
-  const PasswordVerifyScreen = props => {
+  const PasswordVerifyScreen = (props) => {
     const navigation = useNavigation();
     const route = useRoute();
     return (
@@ -367,6 +373,16 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="OrderDetailes"
                   component={OrderDetailesrScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Setting"
+                  component={SettingScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

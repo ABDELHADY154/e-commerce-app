@@ -30,14 +30,14 @@ class Profile extends Component {
   afterImageUpload = async () => {
     await axios
       .get("/clientProfile")
-      .then(res => {
+      .then((res) => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -45,14 +45,14 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get("/clientProfile")
-      .then(res => {
+      .then((res) => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -62,7 +62,7 @@ class Profile extends Component {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         alert(
-          "Sorry, we need camera roll permissions to upload your profile image!",
+          "Sorry, we need camera roll permissions to upload your profile image!"
         );
       }
       if (status == "granted") {
@@ -89,7 +89,7 @@ class Profile extends Component {
             },
           },
         ],
-        { cancelable: false },
+        { cancelable: false }
       );
     } else {
       this.pickImage();
@@ -111,11 +111,11 @@ class Profile extends Component {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then(e => {
+      .then((e) => {
         // console.log(e);
         this.afterImageUpload();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -272,6 +272,9 @@ class Profile extends Component {
             <ListItem
               bottomDivider
               containerStyle={{ backgroundColor: "transparent" }}
+              onPress={() => {
+                this.props.navigation.push("Setting");
+              }}
             >
               <ListItem.Content>
                 <ListItem.Title>
