@@ -32,13 +32,13 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get("/clientAddress")
-      .then(res => {
+      .then((res) => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
     if (this.props.route.params.refresh == true) {
@@ -54,41 +54,41 @@ class Profile extends Component {
     });
     await axios
       .get("/clientAddress")
-      .then(res => {
+      .then((res) => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  onDelete = id => {
+  onDelete = (id) => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then(res => {
+      .then((res) => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
-  onDelete = id => {
+  onDelete = (id) => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then(res => {
+      .then((res) => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -102,7 +102,7 @@ class Profile extends Component {
     floor,
     appartmentNumber,
     region,
-    streetName,
+    streetName
   ) => {
     var body = {
       name: name,
@@ -116,14 +116,14 @@ class Profile extends Component {
     };
     axios
       .put(`/clientAddress/${id}}`, body)
-      .then(res => {
+      .then((res) => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -173,7 +173,7 @@ class Profile extends Component {
           >
             <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
               {this.state.addresses.length != 0 ? (
-                this.state.addresses.map(e => {
+                this.state.addresses.map((e) => {
                   return (
                     <Card
                       key={e.id}
@@ -221,7 +221,7 @@ class Profile extends Component {
                                 e.floor,
                                 e.appartment_no,
                                 e.region,
-                                e.street_name,
+                                e.street_name
                               );
                             }}
                           />
@@ -267,14 +267,24 @@ class Profile extends Component {
               ) : (
                 <View
                   style={{
-                    // flex: 1,
-                    justifyContent: "center",
+                    flex: 1,
+                    flexDirection: "column",
                     alignItems: "center",
-                    marginTop: "80%",
+                    justifyContent: "center",
+                    marginBottom: "3%",
+                    marginTop: "40%",
                   }}
                 >
-                  <Text style={{ color: "white" }} size={30}>
-                    No Address !
+                  <Image
+                    source={require("../../../assets/images/address.png")}
+                    style={
+                      {
+                        // marginVertical: 10,
+                      }
+                    }
+                  />
+                  <Text style={{ color: "white", marginTop: 20 }}>
+                    No Adresses!
                   </Text>
                 </View>
               )}

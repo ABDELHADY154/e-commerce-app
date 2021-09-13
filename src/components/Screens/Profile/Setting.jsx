@@ -57,14 +57,14 @@ export default class Setting extends Component {
   async componentDidMount() {
     await axios
       .get(`/clientProfile`)
-      .then(res => {
+      .then((res) => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           phoneNumber: res.data.response.data.phone_number,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   }
 
   submit = async () => {
@@ -81,13 +81,13 @@ export default class Setting extends Component {
     };
     await axios
       .put("/updateclientdata", data)
-      .then(res => {
+      .then((res) => {
         this.setState({
           loading: false,
         });
         this.props.navigation.push("Home", { screen: "Profile" });
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
           if (error.response.data.errors.email) {
             this.setState({
@@ -136,14 +136,14 @@ export default class Setting extends Component {
     };
     await axios
       .put("/changePassword", data)
-      .then(res => {
+      .then((res) => {
         this.setState({
           loading: false,
           visible: false,
         });
         this.props.navigation.push("Home", { screen: "Profile" });
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
           // console.log(error.response.data.errors );
 
@@ -231,7 +231,7 @@ export default class Setting extends Component {
                   value={this.state.name}
                   style={{ borderColor: this.state.nameBorder }}
                   rounded
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ name: value, edited: true });
                   }}
                 />
@@ -259,7 +259,7 @@ export default class Setting extends Component {
                   color="#F5F5F5"
                   style={{ borderColor: this.state.emailBorder }}
                   rounded
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ email: value, edited: true });
                   }}
                   value={this.state.email}
@@ -288,7 +288,7 @@ export default class Setting extends Component {
                   color="#F5F5F5"
                   style={{ borderColor: this.state.phoneNumberBorder }}
                   rounded
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ phoneNumber: value, edited: true });
                   }}
                   value={this.state.phoneNumber}
@@ -357,7 +357,7 @@ export default class Setting extends Component {
                   rounded
                   password
                   viewPass
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ oldPassword: value });
                   }}
                 />
@@ -386,7 +386,7 @@ export default class Setting extends Component {
                   viewPass
                   style={{ borderColor: this.state.newPasswordBorder }}
                   rounded
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ newPassword: value });
                   }}
                 />
@@ -409,7 +409,7 @@ export default class Setting extends Component {
                   rounded
                   password
                   viewPass
-                  onChangeText={value => {
+                  onChangeText={(value) => {
                     this.setState({ confirmPassword: value });
                   }}
                 />
@@ -428,7 +428,7 @@ export default class Setting extends Component {
               >
                 <Button
                   color="#28AE7B"
-                  style={{ width: "90%" }}
+                  // style={{ width: "90%" }}
                   size="large"
                   onPress={this.updatePassword}
                   round

@@ -77,14 +77,14 @@ export default class SignUp extends Component {
 
     axios
       .post("/clientAddress", body)
-      .then(response => {
+      .then((response) => {
         this.setState({
           loading: false,
         });
         this.props.navigation.goBack(); //push("clientAddresses", { refresh: true });
       })
 
-      .catch(error => {
+      .catch((error) => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -143,7 +143,7 @@ export default class SignUp extends Component {
     if (this.props.route.params.id) {
       axios
         .get(`clientAddress/${this.props.route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.setState({
             name: res.data.response.data.address.name,
             region: res.data.response.data.address.region,
@@ -156,28 +156,28 @@ export default class SignUp extends Component {
               res.data.response.data.address.default == 1 ? true : false,
           });
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
   }
-  setOpen = open => {
+  setOpen = (open) => {
     this.setState({
       open,
     });
   };
 
-  setValue = callback => {
-    this.setState(state => ({
+  setValue = (callback) => {
+    this.setState((state) => ({
       city: callback(state.value),
     }));
   };
 
-  setItems = callback => {
-    this.setState(state => ({
+  setItems = (callback) => {
+    this.setState((state) => ({
       items: callback(state.items),
     }));
   };
 
-  onUpdateHandler = id => {
+  onUpdateHandler = (id) => {
     this.setState({
       nameErr: "",
       loading: true,
@@ -208,14 +208,14 @@ export default class SignUp extends Component {
 
     axios
       .put(`/clientAddress/${id}`, body)
-      .then(response => {
+      .then((response) => {
         this.setState({
           loading: false,
         });
         this.props.navigation.goBack(); //("clientAddresses", { refresh: true });
       })
 
-      .catch(error => {
+      .catch((error) => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -311,7 +311,7 @@ export default class SignUp extends Component {
             }}
           >
             <View>
-              <KeyboardAvoidingView behavior="padding">
+              <KeyboardAvoidingView>
                 <ScrollView showsVerticalScrollIndicator={false}>
                   <View style={styles.inputContainer}>
                     <Text style={styles.inputLabel}>Name</Text>
@@ -323,7 +323,7 @@ export default class SignUp extends Component {
                       style={{ borderColor: this.state.nameBorder }}
                       rounded
                       value={this.state.name}
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ name: value });
                       }}
                     />
@@ -401,7 +401,7 @@ export default class SignUp extends Component {
                       color="#F5F5F5"
                       style={{ borderColor: this.state.regionBorder }}
                       rounded
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ region: value });
                       }}
                     />
@@ -425,7 +425,7 @@ export default class SignUp extends Component {
                       color="#F5F5F5"
                       style={{ borderColor: this.state.streetNameBorder }}
                       rounded
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ streetName: value });
                       }}
                     />
@@ -449,7 +449,7 @@ export default class SignUp extends Component {
                       value={this.state.buildingNumber}
                       style={{ borderColor: this.state.buildingNumberBorder }}
                       rounded
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ buildingNumber: value });
                       }}
                     />
@@ -473,7 +473,7 @@ export default class SignUp extends Component {
                       color="#F5F5F5"
                       style={{ borderColor: this.state.floorBorder }}
                       rounded
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ floor: value });
                       }}
                     />
@@ -497,7 +497,7 @@ export default class SignUp extends Component {
                       value={this.state.appartmentNumber}
                       style={{ borderColor: this.state.appartmentNumberBorder }}
                       rounded
-                      onChangeText={value => {
+                      onChangeText={(value) => {
                         this.setState({ appartmentNumber: value });
                       }}
                     />

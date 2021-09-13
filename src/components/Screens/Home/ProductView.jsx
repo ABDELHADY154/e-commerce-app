@@ -64,12 +64,12 @@ class ProductView extends Component {
     if (this.props.route.params.id) {
       await axios
         .get(`/product/${this.props.route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.setState({
             product: res.data.response.data,
           });
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
     this.getNotificationPerm();
   }
@@ -77,22 +77,22 @@ class ProductView extends Component {
     this.addToCart();
   };
   getNotificationPerm = async () => {
-    this.registerForPushNotificationsAsync().then(token =>
+    this.registerForPushNotificationsAsync().then((token) =>
       // setExpoPushToken(token),this.
       this.setState({
         expoPushToken: token,
-      }),
+      })
     );
 
     this.state.notificationListener.current =
-      Notifications.addNotificationReceivedListener(notification => {
+      Notifications.addNotificationReceivedListener((notification) => {
         this.setState({
           notification: notification,
         });
       });
 
     this.state.responseListener.current =
-      Notifications.addNotificationResponseReceivedListener(response => {
+      Notifications.addNotificationResponseReceivedListener((response) => {
         console.log(response);
       });
 
@@ -153,29 +153,29 @@ class ProductView extends Component {
     if (this.props.route.params.id) {
       await axios
         .get(`/product/${this.props.route.params.id}`)
-        .then(res => {
+        .then((res) => {
           this.setState({
             product: res.data.response.data,
           });
         })
-        .catch(err => {});
+        .catch((err) => {});
     }
   };
-  favoriteProduct = async id => {
+  favoriteProduct = async (id) => {
     await axios
       .post("/favorite", { product_id: id })
-      .then(res => {
+      .then((res) => {
         this.onRefresh();
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
-  unfavoriteProduct = async id => {
+  unfavoriteProduct = async (id) => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then(res => {
+      .then((res) => {
         this.onRefresh();
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
   addToCart = async () => {
     this.setState({
@@ -189,7 +189,7 @@ class ProductView extends Component {
     };
     await axios
       .post("/addtocart", data)
-      .then(res => {
+      .then((res) => {
         // console.log(res.data);
         this.setState({
           sizeId: 0,
@@ -212,11 +212,11 @@ class ProductView extends Component {
               },
             },
           ],
-          { cancelable: false },
+          { cancelable: false }
         );
         this.schedulePushNotification();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.response.data.errors);
         if (err.response) {
           if (err.response.data.errors.size_id) {
@@ -643,7 +643,7 @@ class ProductView extends Component {
                     }}
                   >
                     {this.state.product.sizes ? (
-                      this.state.product.sizes.map(e => {
+                      this.state.product.sizes.map((e) => {
                         return (
                           <Button
                             key={e.id}
