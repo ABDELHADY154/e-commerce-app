@@ -146,7 +146,7 @@ export default class HomeScreen extends Component {
                       // <>
                       <Image
                         key={e.id}
-                        resizeMode="stretch"
+                        resizeMode="cover"
                         source={{ uri: e.image }}
                         style={{
                           height: "100%",
