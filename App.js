@@ -22,6 +22,7 @@ import Checkout from "./src/components/Screens/Bag/Checkout";
 import Success from "./src/components/Screens/Bag/Success";
 import Order from "./src/components/Screens/Profile/Order";
 import Setting from "./src/components/Screens/Profile/Setting";
+import Contact from "./src/components/Screens/Profile/Contact";
 import OrderDetailes from "./src/components/Screens/Profile/OrderDetailes";
 
 const MyTheme = {
@@ -192,6 +193,11 @@ export default function App({ navigation }) {
     const navigation = useNavigation();
     const route = useRoute();
     return <Setting {...props} navigation={navigation} route={route} />;
+  };
+  const ContactScreen = (props) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    return <Contact {...props} navigation={navigation} route={route} />;
   };
   const ForgetPasswordScreen = (props) => {
     const navigation = useNavigation();
@@ -383,6 +389,16 @@ export default function App({ navigation }) {
                 <Stack.Screen
                   name="Setting"
                   component={SettingScreen}
+                  options={{
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                    header: () => {
+                      "none";
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="Contact"
+                  component={ContactScreen}
                   options={{
                     animationTypeForReplace: state.isSignout ? "pop" : "push",
                     header: () => {

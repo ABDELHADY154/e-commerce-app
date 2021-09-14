@@ -288,6 +288,23 @@ class Profile extends Component {
               </ListItem.Content>
               <ListItem.Chevron color="white" />
             </ListItem>
+            <ListItem
+              bottomDivider
+              containerStyle={{ backgroundColor: "transparent" }}
+              onPress={() => {
+                this.props.navigation.push("Contact");
+              }}
+            >
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text style={{ color: "white" }}>Contact Us</Text>
+                </ListItem.Title>
+                {/* <ListItem.Subtitle>
+                  <Text style={{ color: "white" }}>Email, Social media</Text>
+                </ListItem.Subtitle> */}
+              </ListItem.Content>
+              <ListItem.Chevron color="white" />
+            </ListItem>
 
             <Button
               onPress={() => {
@@ -295,7 +312,7 @@ class Profile extends Component {
               }}
               color="red"
               round
-              style={{ alignSelf: "center", marginTop: "7%" }}
+              style={{ alignSelf: "center", marginTop: "10%" }}
             >
               Logout
             </Button>
@@ -309,7 +326,7 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   profileContainer: {
     width: "100%",
-    height: 350,
+    height: 325,
     padding: 0,
     backgroundColor: "#2F7C6E",
     borderBottomLeftRadius: 50,

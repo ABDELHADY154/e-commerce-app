@@ -242,7 +242,16 @@ class ProductView extends Component {
     const onShare = async () => {
       try {
         const result = await Share.share({
-          message: "BEAM Store APP",
+          message: `Download Beam Store App And Shop The Latest Fashion Trends Of The Biggest Clothing Stores And All Your Favorite Brands. 
+Download On Google Play:
+https://play.google.com/store/apps/details?id=com.abdelhady154.beam 
+Download On App Store:
+https://apps.apple.com/gb/app/beam-store/id1582700851?ign-mpt=uo%3D2
+Follow Us For Latest Fashion Trends On Social Media
+Facebook:
+https://www.facebook.com/beamstoreapp/ 
+Instagram:
+https://www.instagram.com/beamstoreapp/ `,
         });
         if (result.action === Share.sharedAction) {
           if (result.activityType) {

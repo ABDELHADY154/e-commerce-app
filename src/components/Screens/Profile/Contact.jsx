@@ -17,16 +17,17 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Linking,
 } from "react-native";
 import { CardEcomOne } from "react-native-card-ui";
 import { ScrollView } from "react-native-gesture-handler";
 import { Header } from "react-native-elements/dist/header/Header";
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
-
+import { AntDesign } from "@expo/vector-icons";
 import { scale } from "react-native-size-matters";
 
-export default class Setting extends Component {
+export default class Contact extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -184,7 +185,7 @@ export default class Setting extends Component {
             width: "98%",
           }}
           centerComponent={{
-            text: "Settings",
+            text: "Contact Us",
             style: { color: "#fff", fontSize: scale(20) },
           }}
           leftComponent={{
@@ -220,16 +221,25 @@ export default class Setting extends Component {
                 <Text
                   style={{ fontSize: 20, color: "#F5F5F5", marginBottom: "2%" }}
                 >
-                  Full Name
+                  Write your message
                 </Text>
                 <Input
-                  placeholder="Full Name"
+                  numberOfLines={10}
+                  multiline={true}
+                  placeholder="Write your message"
                   placeholderTextColor="#ABB4BD"
+                  // placeholderTextSize={20}
+                  fontSize={18}
+                  // marginTop={-50}
                   type="default"
                   bgColor="#2A2C36"
                   color="#F5F5F5"
                   value={this.state.name}
-                  style={{ borderColor: this.state.nameBorder }}
+                  style={{
+                    borderColor: this.state.nameBorder,
+                    height: 100,
+                    // fontSize: 20,
+                  }}
                   rounded
                   onChangeText={(value) => {
                     this.setState({ name: value, edited: true });
@@ -237,7 +247,7 @@ export default class Setting extends Component {
                 />
                 <Text
                   style={{
-                    fontSize: 15,
+                    // fontSize: 20,
                     color: "red",
                     alignSelf: "flex-start",
                   }}
@@ -245,64 +255,7 @@ export default class Setting extends Component {
                   {this.state.nameErr}
                 </Text>
               </View>
-              <View>
-                <Text
-                  style={{ fontSize: 20, color: "#F5F5F5", marginBottom: "2%" }}
-                >
-                  Email
-                </Text>
-                <Input
-                  placeholder="Email"
-                  placeholderTextColor="#ABB4BD"
-                  type="email-address"
-                  bgColor="#2A2C36"
-                  color="#F5F5F5"
-                  style={{ borderColor: this.state.emailBorder }}
-                  rounded
-                  onChangeText={(value) => {
-                    this.setState({ email: value, edited: true });
-                  }}
-                  value={this.state.email}
-                />
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "red",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  {this.state.emailErr}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{ fontSize: 20, color: "#F5F5F5", marginBottom: "2%" }}
-                >
-                  Phone Number
-                </Text>
-                <Input
-                  placeholder="Phone Number"
-                  placeholderTextColor="#ABB4BD"
-                  type="phone-pad"
-                  bgColor="#2A2C36"
-                  color="#F5F5F5"
-                  style={{ borderColor: this.state.phoneNumberBorder }}
-                  rounded
-                  onChangeText={(value) => {
-                    this.setState({ phoneNumber: value, edited: true });
-                  }}
-                  value={this.state.phoneNumber}
-                />
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "red",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  {this.state.phoneNumberErr}
-                </Text>
-              </View>
+
               {this.state.edited == false ? (
                 <Button
                   round
@@ -316,7 +269,7 @@ export default class Setting extends Component {
                   loading={this.state.loading}
                   loadingSize="small"
                 >
-                  Update
+                  Send
                 </Button>
               ) : (
                 <Button
@@ -331,132 +284,43 @@ export default class Setting extends Component {
                   loadingSize="small"
                   onPress={this.submit}
                 >
-                  Update
+                  Send
                 </Button>
               )}
 
               <View
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
+                  // justifyContent: "center",
+                  // alignItems: "center",
                   marginBottom: scale(10),
                 }}
               >
-                <Text style={{ color: "#fff", fontSize: 25 }}>
-                  Change Password
+                <Text style={{ color: "#fff", fontSize: 18 }}>
+                  Contact us through social media
                 </Text>
-              </View>
-              <View>
-                <Input
-                  placeholder="Current Password"
-                  placeholderTextColor="#ABB4BD"
-                  type="visible-password"
-                  bgColor="#2A2C36"
-                  color="#F5F5F5"
-                  style={{ borderColor: this.state.oldPasswordBorder }}
-                  rounded
-                  password
-                  viewPass
-                  onChangeText={(value) => {
-                    this.setState({ oldPassword: value });
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "red",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  {this.state.oldPasswordErr}
-                </Text>
-                {/* <View
-                style={{
-                  flexDirection: "row-reverse",
-                  justifyContent: "space-between",
-                }}
-              ></View> */}
-                <Input
-                  placeholder="New Password"
-                  placeholderTextColor="#ABB4BD"
-                  type="visible-password"
-                  bgColor="#2A2C36"
-                  color="#F5F5F5"
-                  password
-                  viewPass
-                  style={{ borderColor: this.state.newPasswordBorder }}
-                  rounded
-                  onChangeText={(value) => {
-                    this.setState({ newPassword: value });
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: "red",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  {this.state.newPasswordErr}
-                </Text>
-                <Input
-                  placeholder="Repeat New Password"
-                  placeholderTextColor="#ABB4BD"
-                  type="visible-password"
-                  bgColor="#2A2C36"
-                  color="#F5F5F5"
-                  style={{ borderColor: this.state.confirmPasswordBorder }}
-                  rounded
-                  password
-                  viewPass
-                  onChangeText={(value) => {
-                    this.setState({ confirmPassword: value });
-                  }}
-                />
-              </View>
-              {/* <Text
-              style={{ fontSize: 15, color: "red", alignSelf: "flex-start" }}
-            >
-              {this.state.confirmPasswordErr}
-            </Text> */}
-              <View
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: scale(10),
-                }}
-              >
-                <Button
-                  color="#28AE7B"
-                  // style={{ width: "90%" }}
-                  size="large"
-                  onPress={this.updatePassword}
-                  round
-                >
-                  Save Password
-                </Button>
+                <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
+                  <AntDesign
+                    name="facebook-square"
+                    size={40}
+                    color="#28AE7B"
+                    style={{ marginRight: 20 }}
+                    onPress={() => {
+                      Linking.openURL("https://www.facebook.com/beamstoreapp/");
+                    }}
+                  />
+                  <AntDesign
+                    name="instagram"
+                    size={40}
+                    color="#28AE7B"
+                    onPress={() => {
+                      Linking.openURL("https://www.instagram.com/beamstoreapp/");
+                    }}
+                  />
+                </View>
               </View>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-        {/* <Modal
-          visible={this.state.visible}
-          onTouchOutside={() => this.setState({ visible: false })}
-          height={scale(300)}
-          width={1}
-          onSwipeOut={() => this.setState({ visible: false })}
-          // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
-        >
-          <ModalContent
-            style={{
-              flex: 1,
-              backgroundColor: "#1E1F28",
-              // flexDirection: "row",
-            }}
-          > */}
-
-        {/* </ModalContent>
-        </Modal> */}
       </>
     );
   }
