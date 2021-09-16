@@ -77,14 +77,14 @@ export default class SignUp extends Component {
 
     axios
       .post("/clientAddress", body)
-      .then((response) => {
+      .then(response => {
         this.setState({
           loading: false,
         });
         this.props.navigation.goBack(); //push("clientAddresses", { refresh: true });
       })
 
-      .catch((error) => {
+      .catch(error => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -143,7 +143,7 @@ export default class SignUp extends Component {
     if (this.props.route.params.id) {
       axios
         .get(`clientAddress/${this.props.route.params.id}`)
-        .then((res) => {
+        .then(res => {
           this.setState({
             name: res.data.response.data.address.name,
             region: res.data.response.data.address.region,
@@ -156,28 +156,28 @@ export default class SignUp extends Component {
               res.data.response.data.address.default == 1 ? true : false,
           });
         })
-        .catch((err) => {});
+        .catch(err => {});
     }
   }
-  setOpen = (open) => {
+  setOpen = open => {
     this.setState({
       open,
     });
   };
 
-  setValue = (callback) => {
-    this.setState((state) => ({
+  setValue = callback => {
+    this.setState(state => ({
       city: callback(state.value),
     }));
   };
 
-  setItems = (callback) => {
-    this.setState((state) => ({
+  setItems = callback => {
+    this.setState(state => ({
       items: callback(state.items),
     }));
   };
 
-  onUpdateHandler = (id) => {
+  onUpdateHandler = id => {
     this.setState({
       nameErr: "",
       loading: true,
@@ -208,14 +208,14 @@ export default class SignUp extends Component {
 
     axios
       .put(`/clientAddress/${id}`, body)
-      .then((response) => {
+      .then(response => {
         this.setState({
           loading: false,
         });
         this.props.navigation.goBack(); //("clientAddresses", { refresh: true });
       })
 
-      .catch((error) => {
+      .catch(error => {
         // console.log(error.response.data);
         if (error.response) {
           if (error.response.data.errors.name) {
@@ -300,238 +300,239 @@ export default class SignUp extends Component {
             flex: 1,
           }}
         >
-          <View
-            style={{
-              width: "90%",
-              // flex: 1,
-              alignSelf: "center",
-              // marginTop: "10%",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <View>
-              <KeyboardAvoidingView>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Name</Text>
-                    <Input
-                      placeholder="Name"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      color="#F5F5F5"
-                      style={{ borderColor: this.state.nameBorder }}
-                      rounded
-                      value={this.state.name}
-                      onChangeText={(value) => {
-                        this.setState({ name: value });
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.nameErr}
-                    </Text>
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>City</Text>
+          <KeyboardAvoidingView behavior="position">
+            <View
+              style={{
+                width: "90%",
+                // flex: 1,
+                alignSelf: "center",
+                // marginTop: "10%",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/* <View> */}
 
-                    <DropDownPicker
-                      open={this.state.open}
-                      value={this.state.city}
-                      items={this.state.citiesList}
-                      setOpen={this.setOpen}
-                      setValue={this.setValue}
-                      placeholderStyle={{
-                        color: "#ABB4BD",
-                      }}
-                      style={{
-                        backgroundColor: "#2A2C36",
-                        borderRadius: 50,
-                        borderWidth: 1,
-                        borderColor: this.state.cityBorder,
-                      }}
-                      listMode="MODAL"
-                      modalContentContainerStyle={{
-                        backgroundColor: "#2A2C36",
-                      }}
-                      modalProps={{
-                        animationType: "slide",
-                      }}
-                      listItemLabelStyle={{
-                        color: "#fff",
-                        fontSize: scale(20),
-                      }}
-                      iconContainerStyle={{
-                        backgroundColor: "#fff",
-                      }}
-                      theme="DARK"
-                      textStyle={{
-                        color: this.state.open ? "#000" : "#F5F5F5",
-                      }}
-                      containerStyle={{
-                        backgroundColor: "#2A2C36",
-                        borderRadius: 50,
-                        borderWidth: 0,
-                      }}
-                      placeholder="Select City"
-                    />
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Name</Text>
+                  <Input
+                    placeholder="Name"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    color="#F5F5F5"
+                    style={{ borderColor: this.state.nameBorder }}
+                    rounded
+                    value={this.state.name}
+                    onChangeText={value => {
+                      this.setState({ name: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.nameErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>City</Text>
 
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.cityErr}
-                    </Text>
-                  </View>
+                  <DropDownPicker
+                    open={this.state.open}
+                    value={this.state.city}
+                    items={this.state.citiesList}
+                    setOpen={this.setOpen}
+                    setValue={this.setValue}
+                    placeholderStyle={{
+                      color: "#ABB4BD",
+                    }}
+                    style={{
+                      backgroundColor: "#2A2C36",
+                      borderRadius: 50,
+                      borderWidth: 1,
+                      borderColor: this.state.cityBorder,
+                    }}
+                    listMode="MODAL"
+                    modalContentContainerStyle={{
+                      backgroundColor: "#2A2C36",
+                    }}
+                    modalProps={{
+                      animationType: "slide",
+                    }}
+                    listItemLabelStyle={{
+                      color: "#fff",
+                      fontSize: scale(20),
+                    }}
+                    iconContainerStyle={{
+                      backgroundColor: "#fff",
+                    }}
+                    theme="DARK"
+                    textStyle={{
+                      color: this.state.open ? "#000" : "#F5F5F5",
+                    }}
+                    containerStyle={{
+                      backgroundColor: "#2A2C36",
+                      borderRadius: 50,
+                      borderWidth: 0,
+                    }}
+                    placeholder="Select City"
+                  />
+
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.cityErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Region</Text>
+                  <Input
+                    placeholder="Region"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    value={this.state.region}
+                    color="#F5F5F5"
+                    style={{ borderColor: this.state.regionBorder }}
+                    rounded
+                    onChangeText={value => {
+                      this.setState({ region: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.regionErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Street Name</Text>
+                  <Input
+                    placeholder="Street Name"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    value={this.state.streetName}
+                    color="#F5F5F5"
+                    style={{ borderColor: this.state.streetNameBorder }}
+                    rounded
+                    onChangeText={value => {
+                      this.setState({ streetName: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.streetNameErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Building Number</Text>
+                  <Input
+                    placeholder="Building Number"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    color="#F5F5F5"
+                    value={this.state.buildingNumber}
+                    style={{ borderColor: this.state.buildingNumberBorder }}
+                    rounded
+                    onChangeText={value => {
+                      this.setState({ buildingNumber: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.buildingNumberErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Floor</Text>
+                  <Input
+                    placeholder="Floor"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    value={this.state.floor}
+                    color="#F5F5F5"
+                    style={{ borderColor: this.state.floorBorder }}
+                    rounded
+                    onChangeText={value => {
+                      this.setState({ floor: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {this.state.floorErr}
+                  </Text>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.inputLabel}>Appartment Number</Text>
+                  <Input
+                    placeholder="Appartment Number"
+                    placeholderTextColor="#ABB4BD"
+                    bgColor="#2A2C36"
+                    color="#F5F5F5"
+                    value={this.state.appartmentNumber}
+                    style={{ borderColor: this.state.appartmentNumberBorder }}
+                    rounded
+                    onChangeText={value => {
+                      this.setState({ appartmentNumber: value });
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: "red",
+                      alignSelf: "flex-start",
+                      marginBottom: scale(10),
+                    }}
+                  >
+                    {this.state.appartmentNumberErr}
+                  </Text>
+                </View>
+                {!this.props.route.params.id ? (
                   <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Region</Text>
-                    <Input
-                      placeholder="Region"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      value={this.state.region}
-                      color="#F5F5F5"
-                      style={{ borderColor: this.state.regionBorder }}
-                      rounded
-                      onChangeText={(value) => {
-                        this.setState({ region: value });
+                    {/* <Text style={styles.inputLabel}>Appartment Number</Text> */}
+                    <Checkbox
+                      color="white"
+                      checkboxStyle={{ marginLeft: scale(5) }}
+                      iconFamily="font-awesome"
+                      iconName="check"
+                      iconColor="#2A2C36"
+                      initialValue={this.state.checkBox}
+                      value={this.state.checkBox}
+                      label="Use as the default shipping address"
+                      labelStyle={{ color: "#fff" }}
+                      onChange={() => {
+                        this.setState({
+                          checkBox: !this.state.checkBox,
+                        });
                       }}
                     />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.regionErr}
-                    </Text>
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Street Name</Text>
-                    <Input
-                      placeholder="Street Name"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      value={this.state.streetName}
-                      color="#F5F5F5"
-                      style={{ borderColor: this.state.streetNameBorder }}
-                      rounded
-                      onChangeText={(value) => {
-                        this.setState({ streetName: value });
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.streetNameErr}
-                    </Text>
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Building Number</Text>
-                    <Input
-                      placeholder="Building Number"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      color="#F5F5F5"
-                      value={this.state.buildingNumber}
-                      style={{ borderColor: this.state.buildingNumberBorder }}
-                      rounded
-                      onChangeText={(value) => {
-                        this.setState({ buildingNumber: value });
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.buildingNumberErr}
-                    </Text>
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Floor</Text>
-                    <Input
-                      placeholder="Floor"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      value={this.state.floor}
-                      color="#F5F5F5"
-                      style={{ borderColor: this.state.floorBorder }}
-                      rounded
-                      onChangeText={(value) => {
-                        this.setState({ floor: value });
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      {this.state.floorErr}
-                    </Text>
-                  </View>
-                  <View style={styles.inputContainer}>
-                    <Text style={styles.inputLabel}>Appartment Number</Text>
-                    <Input
-                      placeholder="Appartment Number"
-                      placeholderTextColor="#ABB4BD"
-                      bgColor="#2A2C36"
-                      color="#F5F5F5"
-                      value={this.state.appartmentNumber}
-                      style={{ borderColor: this.state.appartmentNumberBorder }}
-                      rounded
-                      onChangeText={(value) => {
-                        this.setState({ appartmentNumber: value });
-                      }}
-                    />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        color: "red",
-                        alignSelf: "flex-start",
-                        marginBottom: scale(10),
-                      }}
-                    >
-                      {this.state.appartmentNumberErr}
-                    </Text>
-                  </View>
-                  {!this.props.route.params.id ? (
-                    <View style={styles.inputContainer}>
-                      {/* <Text style={styles.inputLabel}>Appartment Number</Text> */}
-                      <Checkbox
-                        color="white"
-                        checkboxStyle={{ marginLeft: scale(5) }}
-                        iconFamily="font-awesome"
-                        iconName="check"
-                        iconColor="#2A2C36"
-                        initialValue={this.state.checkBox}
-                        value={this.state.checkBox}
-                        label="Use as the default shipping address"
-                        labelStyle={{ color: "#fff" }}
-                        onChange={() => {
-                          this.setState({
-                            checkBox: !this.state.checkBox,
-                          });
-                        }}
-                      />
-                      {/* <Text
+                    {/* <Text
                     style={{
                       fontSize: 15,
                       color: "red",
@@ -540,51 +541,52 @@ export default class SignUp extends Component {
                   >
                     {this.state.nameErr}
                   </Text> */}
-                    </View>
-                  ) : (
-                    <Text></Text>
-                  )}
-                  {this.props.route.params.id ? (
-                    <Button
-                      round
-                      // uppercase
-                      style={{
-                        alignSelf: "center",
-                        marginTop: "5%",
-                        marginBottom: "10%",
-                      }}
-                      color="#28AE7B"
-                      size="large"
-                      loading={this.state.loading}
-                      loadingSize="small"
-                      onPress={() => {
-                        this.onUpdateHandler(this.props.route.params.id);
-                      }}
-                    >
-                      Save Adress
-                    </Button>
-                  ) : (
-                    <Button
-                      round
-                      // uppercase
-                      style={{
-                        alignSelf: "center",
-                        marginTop: "5%",
-                        marginBottom: "10%",
-                      }}
-                      color="#28AE7B"
-                      size="large"
-                      loading={this.state.loading}
-                      loadingSize="small"
-                      onPress={this.submit}
-                    >
-                      Add Adress
-                    </Button>
-                  )}
-                </ScrollView>
-              </KeyboardAvoidingView>
-            </View>
-            {/* <View
+                  </View>
+                ) : (
+                  <Text></Text>
+                )}
+                {this.props.route.params.id ? (
+                  <Button
+                    round
+                    // uppercase
+                    style={{
+                      alignSelf: "center",
+                      marginTop: "5%",
+                      marginBottom: "10%",
+                    }}
+                    color="#28AE7B"
+                    size="large"
+                    loading={this.state.loading}
+                    loadingSize="small"
+                    onPress={() => {
+                      this.onUpdateHandler(this.props.route.params.id);
+                    }}
+                  >
+                    Save Adress
+                  </Button>
+                ) : (
+                  <Button
+                    round
+                    // uppercase
+                    style={{
+                      alignSelf: "center",
+                      marginTop: "5%",
+                      marginBottom: "10%",
+                    }}
+                    color="#28AE7B"
+                    size="large"
+                    loading={this.state.loading}
+                    loadingSize="small"
+                    onPress={this.submit}
+                  >
+                    Add Adress
+                  </Button>
+                )}
+                {/* </KeyboardAvoidingView> */}
+                {/* </View> */}
+              </ScrollView>
+
+              {/* <View
             style={{
               // flex: 1,
               flexDirection: "column",
@@ -623,7 +625,8 @@ export default class SignUp extends Component {
               />
             </View>
           </View> */}
-          </View>
+            </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
       </>
     );
