@@ -24,6 +24,13 @@ import { Checkbox } from "galio-framework";
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigation.addListener("didFocus", payload => {
+      this.setState({ is_updated: true });
+    });
+  }
+
   state = {
     addresses: [],
     refresh: true,
@@ -32,19 +39,21 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get("/clientAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
-    if (this.props.route.params.refresh == true) {
+
+    this.focusListener = this.props.navigation.addListener("focus", () => {
       this.onRefresh();
-      this.props.route.params.refresh = false;
-    }
+
+      //Put your Data loading function here instead of my this.loadData()
+    });
   }
 
   onRefresh = async () => {
@@ -54,41 +63,41 @@ class Profile extends Component {
     });
     await axios
       .get("/clientAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           addresses: res.data.response.data.addresses,
           refresh: false,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-  onDelete = (id) => {
+  onDelete = id => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then((res) => {
+      .then(res => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-  onDelete = (id) => {
+  onDelete = id => {
     axios
       .delete(`/clientAddress/${id}}`)
-      .then((res) => {
+      .then(res => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -102,7 +111,7 @@ class Profile extends Component {
     floor,
     appartmentNumber,
     region,
-    streetName
+    streetName,
   ) => {
     var body = {
       name: name,
@@ -116,14 +125,14 @@ class Profile extends Component {
     };
     axios
       .put(`/clientAddress/${id}}`, body)
-      .then((res) => {
+      .then(res => {
         // this.setState({
         //   // addresses: res.data.response.data.addresses,
         //   refresh: false,
         // });
         this.onRefresh();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -173,7 +182,7 @@ class Profile extends Component {
           >
             <View style={{ justifyContent: "flex-start", marginTop: "2%" }}>
               {this.state.addresses.length != 0 ? (
-                this.state.addresses.map((e) => {
+                this.state.addresses.map(e => {
                   return (
                     <Card
                       key={e.id}
@@ -221,7 +230,7 @@ class Profile extends Component {
                                 e.floor,
                                 e.appartment_no,
                                 e.region,
-                                e.street_name
+                                e.street_name,
                               );
                             }}
                           />

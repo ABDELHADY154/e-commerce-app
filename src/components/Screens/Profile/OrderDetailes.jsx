@@ -23,6 +23,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { scale } from "react-native-size-matters";
 
 export default class Order extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigation.addListener("didFocus", payload => {
+      this.setState({ is_updated: true });
+    });
+  }
+
   state = {
     refresh: false,
     order: {},
@@ -47,6 +54,39 @@ export default class Order extends Component {
         .catch(err => {});
     }
   }
+
+  onCancelOrder = async () => {
+    // Alert.alert();
+    Alert.alert(
+      "Cancel Order",
+      "Are you sure you want to cancel your order?",
+
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Cancel Order",
+          onPress: async () => {
+            let data = {
+              order_id: this.state.order.id,
+            };
+            await axios
+              .post("cancelorder", data)
+              .then(res => {
+                this.props.navigation.goBack();
+              })
+              .catch(err => {});
+            // this.props.navigation.push("Home", { screen: "Cart" });
+          },
+        },
+      ],
+      { cancelable: false },
+    );
+  };
+
   render() {
     console.log(this.state.products);
     return (
@@ -401,28 +441,34 @@ export default class Order extends Component {
                 marginTop: 30,
               }}
             >
-              <Button
-                color="error"
-                style={{
-                  width: scale(150),
-                  height: 40,
-                  borderWidth: 1,
-                  borderRadius: 18,
-                  backgroundColor: "transparent",
-                  borderColor: "#EB2020",
-                  color: "#EB2020",
-                  // justifyContent: "flex-start",
-                }}
-                // onPress={() => {
-                //   this.props.navigation.push("OrderDetailes");
-                // }}
-              >
-                <Text style={{ color: "#EB2020", fontSize: 16 }}>Cancel</Text>
-              </Button>
+              {this.state.order.status == "ordered" ? (
+                <Button
+                  color="error"
+                  style={{
+                    width: scale(150),
+                    height: 40,
+                    borderWidth: 1,
+                    borderRadius: 18,
+                    backgroundColor: "transparent",
+                    borderColor: "#EB2020",
+                    color: "#EB2020",
+                    // justifyContent: "flex-start",
+                  }}
+                  onPress={this.onCancelOrder}
+                  // onPress={() => {
+                  //   this.props.navigation.push("OrderDetailes");
+                  // }}
+                >
+                  <Text style={{ color: "#EB2020", fontSize: 16 }}>Cancel</Text>
+                </Button>
+              ) : (
+                <Text></Text>
+              )}
               <Button
                 color="#28AE7B"
                 style={{
-                  width: scale(150),
+                  width:
+                    this.state.order.status == "ordered" ? scale(150) : "100%",
                   height: 40,
                   // borderWidth: 1,
                   borderRadius: 18,

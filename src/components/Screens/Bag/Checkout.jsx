@@ -60,12 +60,17 @@ class Checkout extends Component {
     }
     await axios
       .get("/defaultAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           address: res.data.response.data.address,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      this.onRefresh();
+
+      //Put your Data loading function here instead of my this.loadData()
+    });
   }
   onRefresh = async () => {
     this.setState({
@@ -81,18 +86,18 @@ class Checkout extends Component {
     }
     await axios
       .get("/defaultAddress")
-      .then((res) => {
+      .then(res => {
         this.setState({
           address: res.data.response.data.address,
           refresh: false,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
 
   submitOrder = async () => {
     var products = [];
-    this.state.products.map((e) => {
+    this.state.products.map(e => {
       products.push({
         product_id: e.id,
         size_id: e.size.id,
@@ -100,17 +105,17 @@ class Checkout extends Component {
       });
     });
     var data = {
-      address_id: this.state.address.id,
+      address_id: this.state.address ? this.state.address.id : "",
       price: this.state.price,
       delivery: this.state.delivery,
       products: products,
     };
     await axios
       .post("/checkoutorder", data)
-      .then((res) => {
+      .then(res => {
         this.props.navigation.push("Success");
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.response.data.errors) {
           if (err.response.data.errors.address_id) {
             this.setState({

@@ -25,19 +25,21 @@ class Profile extends Component {
     email: "",
     image: "",
     pickedImage: "",
+    orders: 0,
+    addresses: 0,
   };
 
   afterImageUpload = async () => {
     await axios
       .get("/clientProfile")
-      .then((res) => {
+      .then(res => {
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -45,16 +47,37 @@ class Profile extends Component {
   async componentDidMount() {
     await axios
       .get("/clientProfile")
-      .then((res) => {
+      .then(res => {
+        console.log(res.data.response.data);
         this.setState({
           name: res.data.response.data.name,
           email: res.data.response.data.email,
           image: res.data.response.data.image,
+          orders: res.data.response.data.orders,
+          addresses: res.data.response.data.addresses,
         });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      axios
+        .get("/clientProfile")
+        .then(res => {
+          console.log(res.data.response.data);
+          this.setState({
+            name: res.data.response.data.name,
+            email: res.data.response.data.email,
+            image: res.data.response.data.image,
+            orders: res.data.response.data.orders,
+            addresses: res.data.response.data.addresses,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      //Put your Data loading function here instead of my this.loadData()
+    });
   }
   grantAccess = async () => {
     if (Platform.OS !== "web") {
@@ -62,7 +85,7 @@ class Profile extends Component {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         alert(
-          "Sorry, we need camera roll permissions to upload your profile image!"
+          "Sorry, we need camera roll permissions to upload your profile image!",
         );
       }
       if (status == "granted") {
@@ -89,7 +112,7 @@ class Profile extends Component {
             },
           },
         ],
-        { cancelable: false }
+        { cancelable: false },
       );
     } else {
       this.pickImage();
@@ -111,11 +134,11 @@ class Profile extends Component {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then((e) => {
+      .then(e => {
         // console.log(e);
         this.afterImageUpload();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
@@ -245,7 +268,12 @@ class Profile extends Component {
                   <Text style={{ color: "white" }}>My Orders</Text>
                 </ListItem.Title>
                 <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>already have 12 orders</Text>
+                  <Text style={{ color: "white" }}>
+                    already have{" "}
+                    {this.state.orders > 1
+                      ? this.state.orders + " orders"
+                      : this.state.orders + " order"}
+                  </Text>
                 </ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron color="white" />
@@ -263,7 +291,10 @@ class Profile extends Component {
                 </ListItem.Title>
                 <ListItem.Subtitle>
                   <Text style={{ color: "white" }}>
-                    already have 3 addresses
+                    already have{" "}
+                    {this.state.addresses >= 2
+                      ? this.state.addresses + " addresses"
+                      : this.state.addresses + " address"}
                   </Text>
                 </ListItem.Subtitle>
               </ListItem.Content>

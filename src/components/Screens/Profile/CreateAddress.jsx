@@ -15,6 +15,13 @@ import { Checkbox } from "galio-framework";
 import { KeyboardAvoidingView } from "react-native";
 
 export default class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigation.addListener("didFocus", payload => {
+      this.setState({ is_updated: true });
+    });
+  }
+
   state = {
     nameBorder: "",
     name: "",
@@ -300,7 +307,7 @@ export default class SignUp extends Component {
             flex: 1,
           }}
         >
-          <KeyboardAvoidingView behavior="position">
+          <KeyboardAvoidingView behavior="padding">
             <View
               style={{
                 width: "90%",

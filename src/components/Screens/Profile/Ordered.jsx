@@ -38,7 +38,19 @@ class Ordered extends Component {
         });
       })
       .catch(err => {});
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      axios
+        .get("/statusordered")
+        .then(res => {
+          this.setState({
+            orders: res.data.response.data,
+          });
+        })
+        .catch(err => {});
+      //Put your Data loading function here instead of my this.loadData()
+    });
   }
+
   onRefresh = async () => {
     this.setState({
       refresh: true,
