@@ -316,9 +316,9 @@ export default class Order extends Component {
                     width: scale(190),
                   }}
                 >
-                  {this.state.address.building_no} ,
-                  {this.state.address.street_name}, {this.state.address.region},{" "}
-                  {this.state.address.city}
+                  {this.state.address
+                    ? `${this.state.address.building_no} , ${this.state.address.street_name}, ${this.state.address.region}, ${this.state.address.city}`
+                    : ""}
                 </Text>
               </View>
               <View

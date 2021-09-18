@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import {
   Block,
@@ -39,6 +40,13 @@ import {
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Checkout extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigation.addListener("didFocus", payload => {
+      this.setState({ is_updated: true });
+    });
+  }
+
   state = {
     address: null,
     refresh: false,
@@ -116,11 +124,28 @@ class Checkout extends Component {
         this.props.navigation.push("Success");
       })
       .catch(err => {
+        // console.log(err.response.data.errors);
         if (err.response.data.errors) {
           if (err.response.data.errors.address_id) {
             this.setState({
               addressErr: "Please Choose An Address",
             });
+          }
+          if (err.response.data.errors.product) {
+            Alert.alert(
+              "This Product Is not availble any more and it will be removed from your cart!",
+              "",
+              [
+                {
+                  text: "Ok",
+                  onPress: () => {
+                    this.props.navigation.goBack();
+                  },
+                  style: "cancel",
+                },
+              ],
+              { cancelable: false },
+            );
           }
         }
       });

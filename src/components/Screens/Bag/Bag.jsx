@@ -67,6 +67,9 @@ class Bag extends Component {
         });
       })
       .catch(err => {});
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      this.onRefresh();
+    });
   }
 
   deleteItem = (productId, sizeId) => {
