@@ -268,12 +268,16 @@ class Profile extends Component {
                   <Text style={{ color: "white" }}>My Orders</Text>
                 </ListItem.Title>
                 <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>
-                    already have{" "}
-                    {this.state.orders > 1
-                      ? this.state.orders + " orders"
-                      : this.state.orders + " order"}
-                  </Text>
+                  {this.state.orders == 0 ? (
+                    <Text></Text>
+                  ) : (
+                    <Text style={{ color: "white" }}>
+                      already have{" "}
+                      {this.state.orders > 1
+                        ? this.state.orders + " orders"
+                        : this.state.orders + " order"}
+                    </Text>
+                  )}
                 </ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron color="white" />
@@ -290,12 +294,16 @@ class Profile extends Component {
                   <Text style={{ color: "white" }}>My Addresses</Text>
                 </ListItem.Title>
                 <ListItem.Subtitle>
-                  <Text style={{ color: "white" }}>
-                    already have{" "}
-                    {this.state.addresses >= 2
-                      ? this.state.addresses + " addresses"
-                      : this.state.addresses + " address"}
-                  </Text>
+                  {this.state.addresses == 0 ? (
+                    <Text></Text>
+                  ) : (
+                    <Text style={{ color: "white" }}>
+                      already have{" "}
+                      {this.state.addresses >= 2
+                        ? this.state.addresses + " addresses"
+                        : this.state.addresses + " address"}
+                    </Text>
+                  )}
                 </ListItem.Subtitle>
               </ListItem.Content>
               <ListItem.Chevron color="white" />

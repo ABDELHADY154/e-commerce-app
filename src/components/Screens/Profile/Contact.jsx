@@ -32,68 +32,55 @@ export default class Contact extends Component {
     super(props);
     this.state = {
       visible: false,
-      name: "",
-      nameBorder: "",
-      nameErr: "",
-      email: "",
-      emailBorder: "",
-      emailErr: "",
-      phoneNumber: "",
-      phoneNumberBorder: "",
-      phoneNumberErr: "",
-      loading: false,
-      oldPassword: "",
-      oldPasswordBorder: "",
-      oldPasswordErr: "",
-      newPassword: "",
-      newPasswordBorder: "",
-      newPasswordErr: "",
-      confirmPassword: "",
-      confirmPasswordBorder: "",
-      confirmPasswordErr: "",
+      message: "",
+      messageBorder: "",
+      messageErr: "",
+
       edited: false,
     };
-  }
-
-  async componentDidMount() {
-    await axios
-      .get(`/clientProfile`)
-      .then((res) => {
-        this.setState({
-          name: res.data.response.data.name,
-          email: res.data.response.data.email,
-          phoneNumber: res.data.response.data.phone_number,
-        });
-      })
-      .catch((err) => {});
   }
 
   submit = async () => {
     this.setState({
       loading: true,
-      nameErr: "",
-      emailErr: "",
-      phoneNumberErr: "",
+      visible: false,
+      message: "",
+      messageBorder: "",
+      messageErr: "",
+
+      edited: false,
     });
     var data = {
-      name: this.state.name,
-      email: this.state.email,
-      phone_number: this.state.phoneNumber,
+      message: this.state.message,
     };
     await axios
-      .put("/updateclientdata", data)
-      .then((res) => {
+      .post("/message", data)
+      .then(res => {
         this.setState({
           loading: false,
         });
-        this.props.navigation.push("Home", { screen: "Profile" });
+        Alert.alert(
+          "Contact Us",
+          "Your message has been sent successfully",
+          [
+            {
+              text: "Go Back",
+              onPress: () => this.props.navigation.goBack(),
+              style: "cancel",
+            },
+            {
+              text: "Ok",
+            },
+          ],
+          { cancelable: false },
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         if (error.response) {
-          if (error.response.data.errors.email) {
+          if (error.response.data.errors.message) {
             this.setState({
-              emailErr: error.response.data.errors.email,
-              emailBorder: "red",
+              messageErr: error.response.data.errors.message,
+              messageBorder: "red",
               loading: false,
             });
           }
@@ -104,72 +91,6 @@ export default class Contact extends Component {
           //     loading: false,
           //   });
           // }
-          if (error.response.data.errors.name) {
-            this.setState({
-              nameErr: error.response.data.errors.name,
-              nameBorder: "red",
-              loading: false,
-            });
-          }
-          if (error.response.data.errors.phone_number) {
-            this.setState({
-              phoneNumberErr: error.response.data.errors.phone_number,
-              phoneNumberBorder: "red",
-              loading: false,
-            });
-          }
-        }
-      });
-  };
-  updatePassword = async () => {
-    this.setState({
-      // loading: true,
-      oldPasswordErr: "",
-      newPasswordErr: "",
-      confirmPasswordErr: "",
-      oldPasswordBorder: "",
-      newPasswordBorder: "",
-    });
-    var data = {
-      old_password: this.state.oldPassword,
-      password: this.state.newPassword,
-      password_confirmation: this.state.confirmPassword,
-    };
-    await axios
-      .put("/changePassword", data)
-      .then((res) => {
-        this.setState({
-          loading: false,
-          visible: false,
-        });
-        this.props.navigation.push("Home", { screen: "Profile" });
-      })
-      .catch((error) => {
-        if (error.response) {
-          // console.log(error.response.data.errors );
-
-          if (error.response.data.errors.old_password) {
-            this.setState({
-              oldPasswordErr: "Current Password Is Required",
-              oldPasswordBorder: "red",
-              loading: false,
-            });
-          }
-
-          if (error.response.data.errors.password) {
-            this.setState({
-              newPasswordErr: error.response.data.errors.password,
-              newPasswordBorder: "red",
-              loading: false,
-            });
-          }
-          if (error.response.data.status == 403) {
-            this.setState({
-              oldPasswordErr: "Password is not valid",
-              oldPasswordBorder: "red",
-              loading: false,
-            });
-          }
         }
       });
   };
@@ -208,15 +129,6 @@ export default class Contact extends Component {
         <KeyboardAvoidingView style={{ flex: 1 }}>
           <ScrollView>
             <View style={{ marginHorizontal: 20 }}>
-              {/* <Text
-            style={{ fontSize: scale(26), color: "#fff", marginBottom: "2%" }}
-          >
-            Settings
-          </Text> */}
-              {/* <Text style={{ fontSize: scale(16), color: "#fff", marginTop: 10 }}>
-            Personal Information
-          </Text> */}
-
               <View>
                 <Text
                   style={{ fontSize: 20, color: "#F5F5F5", marginBottom: "2%" }}
@@ -234,15 +146,15 @@ export default class Contact extends Component {
                   type="default"
                   bgColor="#2A2C36"
                   color="#F5F5F5"
-                  value={this.state.name}
+                  value={this.state.message}
                   style={{
-                    borderColor: this.state.nameBorder,
+                    borderColor: this.state.messageBorder,
                     height: 100,
                     // fontSize: 20,
                   }}
                   rounded
-                  onChangeText={(value) => {
-                    this.setState({ name: value, edited: true });
+                  onChangeText={value => {
+                    this.setState({ message: value, edited: true });
                   }}
                 />
                 <Text
@@ -252,7 +164,7 @@ export default class Contact extends Component {
                     alignSelf: "flex-start",
                   }}
                 >
-                  {this.state.nameErr}
+                  {this.state.messageErr}
                 </Text>
               </View>
 
@@ -313,7 +225,9 @@ export default class Contact extends Component {
                     size={40}
                     color="#28AE7B"
                     onPress={() => {
-                      Linking.openURL("https://www.instagram.com/beamstoreapp/");
+                      Linking.openURL(
+                        "https://www.instagram.com/beamstoreapp/",
+                      );
                     }}
                   />
                 </View>

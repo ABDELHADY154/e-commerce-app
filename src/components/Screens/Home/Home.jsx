@@ -30,16 +30,16 @@ export default class HomeScreen extends Component {
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/ads`)
-      .then((res) => {
+      .then(res => {
         this.setState({
           images: res.data.response.data,
         });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get(`/clientProfile`)
-      .then((res) => {})
-      .catch((err) => {
+      .then(res => {})
+      .catch(err => {
         console.log(err.response.status);
         if (err.response.status == 401) {
           AsyncStorage.removeItem("userData");
@@ -51,18 +51,18 @@ export default class HomeScreen extends Component {
       });
     await axios
       .get("/saleproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ saleProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get("/newproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ newProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     // this.notificiationPermission();
   }
   notificiationPermission = async () => {
@@ -97,36 +97,36 @@ export default class HomeScreen extends Component {
   onRefresh = async () => {
     await axios
       .get("/saleproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ saleProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
     await axios
       .get("/newproduct")
-      .then((res) => {
+      .then(res => {
         // console.log(res.data.response.data, "hady");
         this.setState({ newProducts: res.data.response.data });
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  favoriteProduct = async (id) => {
+  favoriteProduct = async id => {
     await axios
       .post("/favorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
-  unfavoriteProduct = async (id) => {
+  unfavoriteProduct = async id => {
     await axios
       .post("/unfavorite", { product_id: id })
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
         this.onRefresh();
       })
-      .catch((err) => {});
+      .catch(err => {});
   };
   render() {
     // console.log(this.state.saleProducts);
@@ -141,7 +141,7 @@ export default class HomeScreen extends Component {
             return (
               <Pages>
                 {this.state.images.length !== 0 ? (
-                  this.state.images.map((e) => {
+                  this.state.images.map(e => {
                     return (
                       // <>
                       <Image
@@ -157,7 +157,7 @@ export default class HomeScreen extends Component {
                   })
                 ) : (
                   <Image
-                    source={require("../../../assets/images/image2.png")}
+                    source={require("../../../assets/images/image.png")}
                     style={{
                       height: "100%",
                       width: "100%",
@@ -196,7 +196,7 @@ export default class HomeScreen extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                {this.state.saleProducts.map((e) => {
+                {this.state.saleProducts.map(e => {
                   return (
                     <Card
                       key={e.id}
@@ -286,7 +286,7 @@ export default class HomeScreen extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                {this.state.newProducts.map((e) => {
+                {this.state.newProducts.map(e => {
                   return (
                     <Card
                       key={e.id}
