@@ -31,7 +31,7 @@ export default class CardEcomOne extends Component {
       color: this.props.selectColor,
     };
   }
-  colorSelect = (color) => {
+  colorSelect = color => {
     this.props.getSelectColor(color);
     this.setState({ color: color });
   };
@@ -228,7 +228,7 @@ export default class CardEcomOne extends Component {
               >
                 {brand}
               </Text>
-              <View
+              {/* <View
                 style={{
                   backgroundColor: "#fff",
                   // flex: 1,
@@ -252,7 +252,7 @@ export default class CardEcomOne extends Component {
                     size={scale(12)}
                   />
                 ))}
-              </View>
+              </View> */}
               <View
                 style={{
                   flexDirection: "row",

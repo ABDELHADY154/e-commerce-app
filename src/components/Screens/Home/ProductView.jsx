@@ -574,7 +574,7 @@ https://www.instagram.com/beamstoreapp/ `,
                   )}
                 </View>
 
-                <View
+                {/* <View
                   style={{
                     // backgroundColor: "#fff",
                     // flex: 1,
@@ -599,7 +599,7 @@ https://www.instagram.com/beamstoreapp/ `,
                       size={scale(14)}
                     />
                   ))}
-                </View>
+                </View> */}
 
                 <View style={{ flex: 1 }}>
                   <Text
