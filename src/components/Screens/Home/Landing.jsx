@@ -13,21 +13,36 @@ import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
 import { RefreshControl } from "react-native";
 import Notification from "./Notification";
-
+import { FloatingAction } from "react-native-floating-action";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Pages } from "react-native-pages";
+import { Icon } from "react-native-elements/dist/icons/Icon";
 export default class HomeScreen extends Component {
   state = {
     saleProducts: [],
     newProducts: [],
     expoPushToken: "",
     images: [],
+    actions: [
+      {
+        text: "Sign In",
+        icon: <Icon onPress={() => console.log("pressed")} />,
+        name: "SignIn",
+        position: 1,
+        color: "#28AE7B",
+      },
+      {
+        text: "Sign Up",
+        icon: <Icon onPress={() => console.log("pressed")} />,
+        name: "SignUp",
+        position: 2,
+        color: "#28AE7B",
+      },
+    ],
   };
 
   async componentDidMount() {
-    var userToken = await AsyncStorage.getItem("userToken");
-    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     await axios
       .get(`/ads`)
       .then(res => {
@@ -36,19 +51,7 @@ export default class HomeScreen extends Component {
         });
       })
       .catch(err => {});
-    await axios
-      .get(`/clientProfile`)
-      .then(res => {})
-      .catch(err => {
-        console.log(err.response.status);
-        if (err.response.status == 401) {
-          AsyncStorage.removeItem("userData");
-          AsyncStorage.removeItem("userToken");
-          AsyncStorage.removeItem("config");
-          axios.defaults.headers.common["Authorization"] = ``;
-          this.props.logout();
-        }
-      });
+
     await axios
       .get("/saleproduct")
       .then(res => {
@@ -63,47 +66,9 @@ export default class HomeScreen extends Component {
         this.setState({ newProducts: res.data.response.data });
       })
       .catch(err => {});
-    this.notificiationPermission();
+    // this.notificiationPermission();
   }
-  notificiationPermission = async () => {
-    if (Constants.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
-      }
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      // console.log(token);
-      this.setState({ expoPushToken: token });
-    } else {
-      alert("Must use physical device for Push Notifications");
-    }
 
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
-    axios
-      .post("/exponent/devices/subscribe", {
-        expo_token: this.state.expoPushToken,
-      })
-      .then(res => {
-        // console.log(res, "hady");
-      })
-      .catch(err => {
-        // console.log(err, "test");
-      });
-  };
   onRefresh = async () => {
     await axios
       .get("/saleproduct")
@@ -121,22 +86,10 @@ export default class HomeScreen extends Component {
       .catch(err => {});
   };
   favoriteProduct = async id => {
-    await axios
-      .post("/favorite", { product_id: id })
-      .then(res => {
-        console.log(res.data);
-        this.onRefresh();
-      })
-      .catch(err => {});
+    this.props.navigation.push("SignIn");
   };
   unfavoriteProduct = async id => {
-    await axios
-      .post("/unfavorite", { product_id: id })
-      .then(res => {
-        console.log(res.data);
-        this.onRefresh();
-      })
-      .catch(err => {});
+    this.props.navigation.push("SignIn");
   };
   render() {
     // console.log(this.state.saleProducts);
@@ -156,7 +109,7 @@ export default class HomeScreen extends Component {
                       // <>
                       <Image
                         key={e.id}
-                        resizeMode="stretch"
+                        resizeMode="cover"
                         source={{ uri: e.image }}
                         style={{
                           height: "100%",
@@ -219,7 +172,7 @@ export default class HomeScreen extends Component {
                       price={e.price}
                       brand={e.brand}
                       onPress={() => {
-                        this.props.navigation.push("ProductView", { id: e.id });
+                        this.props.navigation.push("SignIn");
                       }}
                       image={e.images[0] ? { uri: e.images[0].image } : ""}
                       buttonText={"VIEW DETAILS"}
@@ -236,7 +189,7 @@ export default class HomeScreen extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        this.props.navigation.push("ProductView", { id: e.id });
+                        this.props.navigation.push("SignIn");
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}
@@ -359,6 +312,13 @@ export default class HomeScreen extends Component {
             )}
           </View>
         </ParallaxHeader>
+        <FloatingAction
+          actions={this.state.actions}
+          onPressItem={name => {
+            this.props.navigation.push(name);
+          }}
+          color="#28AE7B"
+        />
       </SafeAreaView>
     );
   }

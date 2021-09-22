@@ -322,7 +322,7 @@ https://www.instagram.com/beamstoreapp/ `,
                     })
                   ) : (
                     <Image
-                      source={require("../../../assets/images/image2.png")}
+                      source={require("../../../assets/images/image2.jpeg")}
                       style={{
                         height: "100%",
                         width: "100%",

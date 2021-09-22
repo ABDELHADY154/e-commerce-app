@@ -52,13 +52,25 @@ class Checkout extends Component {
     refresh: false,
     products: [],
     quantity: 0,
-    delivery: 30,
+    delivery: 0,
     price: 0,
     total_price: 0,
     addressErr: "",
   };
 
   async componentDidMount() {
+    await axios
+      .get("/defaultAddress")
+      .then(res => {
+        if (res.data.response.data.address) {
+          this.setState({
+            address: res.data.response.data.address,
+            delivery:
+              res.data.response.data.address.city == "Alexandria" ? 50 : 70,
+          });
+        }
+      })
+      .catch(err => {});
     if (this.props.route.params) {
       this.setState({
         products: this.props.route.params.products,
@@ -66,14 +78,7 @@ class Checkout extends Component {
         total_price: this.props.route.params.price + this.state.delivery,
       });
     }
-    await axios
-      .get("/defaultAddress")
-      .then(res => {
-        this.setState({
-          address: res.data.response.data.address,
-        });
-      })
-      .catch(err => {});
+
     this.focusListener = this.props.navigation.addListener("focus", () => {
       this.onRefresh();
 
@@ -84,23 +89,30 @@ class Checkout extends Component {
     this.setState({
       refresh: true,
       addressErr: "",
+      address: null,
+      delivery: 0,
     });
+    await axios
+      .get("/defaultAddress")
+      .then(res => {
+        if (res.data.response.data.address) {
+          this.setState({
+            address: res.data.response.data.address,
+            delivery:
+              res.data.response.data.address.city == "Alexandria" ? 50 : 70,
+          });
+        } else {
+        }
+      })
+      .catch(err => {});
     if (this.props.route.params) {
       this.setState({
         products: this.props.route.params.products,
         price: this.props.route.params.price,
         total_price: this.props.route.params.price + this.state.delivery,
+        refresh: false,
       });
     }
-    await axios
-      .get("/defaultAddress")
-      .then(res => {
-        this.setState({
-          address: res.data.response.data.address,
-          refresh: false,
-        });
-      })
-      .catch(err => {});
   };
 
   submitOrder = async () => {

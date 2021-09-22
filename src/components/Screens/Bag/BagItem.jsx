@@ -8,8 +8,9 @@ import {
   View,
   TouchableOpacity,
   Platform,
+  Text,
 } from "react-native";
-import { Block, Text, theme, Button as GaButton, Input } from "galio-framework";
+import { Block, theme, Button as GaButton, Input } from "galio-framework";
 import { Component } from "react";
 import { axios } from "../../../Config/Axios";
 import { Header } from "react-native-elements/dist/header/Header";
@@ -50,13 +51,25 @@ class Bag extends Component {
               marginBottom: 0,
             }}
           />
-          <View>
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignSelf: "center",
+              width: "100%",
+            }}
+          >
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
-                width: scale(220),
+                width: "65%",
+
+                // alignItems: "center",
+
+                // width: "68%",
+                // justifyContent: "space-between",
                 // width: "100%",
               }}
             >
@@ -66,6 +79,7 @@ class Bag extends Component {
                   fontSize: 20,
                   marginLeft: 20,
                   marginTop: 10,
+                  flexWrap: "wrap",
                   // width: "50%",
                 }}
               >
@@ -75,7 +89,9 @@ class Bag extends Component {
                 style={{
                   color: "white",
                   fontSize: 20,
-                  marginLeft: 20,
+                  marginTop: "40%",
+                  alignSelf: "flex-end",
+                  // marginLeft: 20,
 
                   // width: "50%",
                 }}

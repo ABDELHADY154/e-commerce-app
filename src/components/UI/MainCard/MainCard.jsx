@@ -96,8 +96,8 @@ export default class CardEcomOne extends Component {
               value={this.props.discount ? this.props.discount + "%" : "New"}
               textStyle={{ fontSize: scale(12) }}
               badgeStyle={{
-                height: scale(18),
-                width: scale(35),
+                height: "110%",
+                width: "110%",
               }}
               containerStyle={{
                 position: "absolute",
@@ -111,8 +111,8 @@ export default class CardEcomOne extends Component {
               value={"New"}
               textStyle={{ fontSize: scale(12) }}
               badgeStyle={{
-                height: scale(18),
-                width: scale(35),
+                height: "110%",
+                width: "110%",
               }}
               containerStyle={{
                 position: "absolute",
@@ -253,14 +253,14 @@ export default class CardEcomOne extends Component {
                   />
                 ))}
               </View> */}
-              <View
+              {/* <View
                 style={{
                   flexDirection: "row",
                   // marginLeft: scale(12),
                   // marginTop: scale(5),
                 }}
-              >
-                {/* {colorList.map((item, index) => {
+              > */}
+              {/* {colorList.map((item, index) => {
                   return (
                     <TouchableOpacity
                       onPress={() => this.colorSelect(item)}
@@ -279,7 +279,7 @@ export default class CardEcomOne extends Component {
                     />
                   );
                 })} */}
-              </View>
+              {/* </View> */}
               <View
                 style={{
                   justifyContent: "space-evenly",

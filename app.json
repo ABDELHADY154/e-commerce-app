@@ -2,7 +2,7 @@
   "expo": {
     "name": "Beam",
     "slug": "Beam",
-    "version": "1.2.3",
+    "version": "1.2.6",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
@@ -16,7 +16,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.abdelhady154.beam"
+      "bundleIdentifier": "com.abdelhady154.beam",
+      "infoPlist": {
+        "NSPhotoLibraryAddUsageDescription": "Beam Store Uses the Gallery to let you change your profile Image"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +27,7 @@
         "backgroundColor": "#2A2C36"
       },
       "package": "com.abdelhady154.beam",
-      "versionCode": 13
+      "versionCode": 16
     },
     "web": {
       "favicon": "./assets/logo.png"

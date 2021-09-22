@@ -5,6 +5,7 @@ import { Button } from "galio-framework";
 import { Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../Config/Axios";
+import { ScrollView } from "react-native-gesture-handler";
 export default class SignUp extends Component {
   state = {
     nameBorder: "",
@@ -116,7 +117,7 @@ export default class SignUp extends Component {
   };
   render() {
     return (
-      <SafeAreaView
+      <ScrollView
         style={{
           backgroundColor: "#1E1F28",
           flex: 1,
@@ -290,7 +291,7 @@ export default class SignUp extends Component {
             </View>
           </View> */}
         </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }
