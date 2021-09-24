@@ -86,10 +86,14 @@ export default class HomeScreen extends Component {
       .catch(err => {});
   };
   favoriteProduct = async id => {
-    this.props.navigation.push("SignIn");
+    this.props.navigation.push("LandingProductView", {
+      id: id,
+    });
   };
   unfavoriteProduct = async id => {
-    this.props.navigation.push("SignIn");
+    this.props.navigation.push("LandingProductView", {
+      id: id,
+    });
   };
   render() {
     // console.log(this.state.saleProducts);
@@ -172,7 +176,9 @@ export default class HomeScreen extends Component {
                       price={e.price}
                       brand={e.brand}
                       onPress={() => {
-                        this.props.navigation.push("SignIn");
+                        this.props.navigation.push("LandingProductView", {
+                          id: e.id,
+                        });
                       }}
                       image={e.images[0] ? { uri: e.images[0].image } : ""}
                       buttonText={"VIEW DETAILS"}
@@ -189,7 +195,9 @@ export default class HomeScreen extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        this.props.navigation.push("SignIn");
+                        this.props.navigation.push("LandingProductView", {
+                          id: e.id,
+                        });
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}
@@ -255,7 +263,9 @@ export default class HomeScreen extends Component {
                       key={e.id}
                       id={e.id}
                       onPress={() => {
-                        this.props.navigation.push("ProductView", { id: e.id });
+                        this.props.navigation.push("LandingProductView", {
+                          id: e.id,
+                        });
                       }}
                       title={e.name}
                       badgeStatus={"new"}
@@ -280,7 +290,9 @@ export default class HomeScreen extends Component {
                       iconColor2={"white"}
                       iconBackground2={"#28AE7B"}
                       onClicked2={() => {
-                        this.props.navigation.push("ProductView", { id: e.id });
+                        this.props.navigation.push("LandingProductView", {
+                          id: e.id,
+                        });
                       }}
                       buttonColor={"#4383FF"}
                       onClickButton={() => Alert("Has clicked")}

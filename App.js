@@ -25,6 +25,8 @@ import Setting from "./src/components/Screens/Profile/Setting";
 import Contact from "./src/components/Screens/Profile/Contact";
 import OrderDetailes from "./src/components/Screens/Profile/OrderDetailes";
 import Landing from "./src/components/Screens/Home/Landing";
+import LandingProductView from "./src/components/Screens/Home/LandingProductView";
+
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -161,6 +163,16 @@ export default function App({ navigation }) {
     // const { signOut } = dispatch({ type: "SIGN_OUT" });
     return <ProductView {...props} navigation={navigation} route={route} />;
   };
+
+  const LandingProductViewScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    // const { signOut } = dispatch({ type: "SIGN_OUT" });
+    return (
+      <LandingProductView {...props} navigation={navigation} route={route} />
+    );
+  };
+
   const ClientAddressScreen = props => {
     const navigation = useNavigation();
     const route = useRoute();
@@ -252,6 +264,16 @@ export default function App({ navigation }) {
                   <Stack.Screen
                     name="Landing"
                     component={LandingScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="LandingProductView"
+                    component={LandingProductViewScreen}
                     options={{
                       animationTypeForReplace: state.isSignout ? "pop" : "push",
                       header: () => {

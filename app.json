@@ -2,7 +2,7 @@
   "expo": {
     "name": "Beam",
     "slug": "Beam",
-    "version": "1.2.6",
+    "version": "1.2.8",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
@@ -18,7 +18,13 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.abdelhady154.beam",
       "infoPlist": {
-        "NSPhotoLibraryAddUsageDescription": "Beam Store Uses the Gallery to let you change your profile Image"
+        "NSCameraUsageDescription": "Beam Store requires access to your camera to let you add pictures to post to your social media channels",
+        "NSPhotoLibraryUsageDescription": "Beam Store needs to access your camera roll so that you can upload images. Your images will not be shared without your permission",
+        "NSPhotoLibraryAddUsageDescription": "Beam Store needs to access your camera roll so that you can upload images. Your images will not be shared without your permission",
+        "NSLocationWhenInUseUsageDescription": "Beam Store requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationAlwaysUsageDescription": "Beam Store requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Beam Store requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationUsageDescription": "Beam Store requires your location so that we can centre the map on you & show you where [x] is"
       }
     },
     "android": {
@@ -27,7 +33,7 @@
         "backgroundColor": "#2A2C36"
       },
       "package": "com.abdelhady154.beam",
-      "versionCode": 16
+      "versionCode": 18
     },
     "web": {
       "favicon": "./assets/logo.png"
