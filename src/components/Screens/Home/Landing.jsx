@@ -1,6 +1,6 @@
 import { Button } from "galio-framework";
 import React, { Component } from "react";
-import { Text } from "react-native-elements";
+import { Icon, Text } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
@@ -17,7 +17,7 @@ import { FloatingAction } from "react-native-floating-action";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Pages } from "react-native-pages";
-import { Icon } from "react-native-elements/dist/icons/Icon";
+
 export default class HomeScreen extends Component {
   state = {
     saleProducts: [],
@@ -329,6 +329,9 @@ export default class HomeScreen extends Component {
           onPressItem={name => {
             this.props.navigation.push(name);
           }}
+          floatingIcon={
+            <Icon type="antdesign" name="user" size={30} color="#fff" />
+          }
           color="#28AE7B"
         />
       </SafeAreaView>

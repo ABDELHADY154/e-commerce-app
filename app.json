@@ -2,7 +2,7 @@
   "expo": {
     "name": "Beam",
     "slug": "Beam",
-    "version": "1.2.8",
+    "version": "1.2.9",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
@@ -33,7 +33,7 @@
         "backgroundColor": "#2A2C36"
       },
       "package": "com.abdelhady154.beam",
-      "versionCode": 18
+      "versionCode": 19
     },
     "web": {
       "favicon": "./assets/logo.png"
