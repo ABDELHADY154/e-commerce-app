@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Platform } from "react-native";
 import { Input } from "galio-framework";
 import { Button } from "galio-framework";
 import { Icon } from "react-native-elements";
@@ -307,7 +307,9 @@ export default class SignUp extends Component {
             flex: 1,
           }}
         >
-          <KeyboardAvoidingView behavior="padding">
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "default"}
+          >
             <View
               style={{
                 width: "90%",
