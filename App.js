@@ -24,8 +24,10 @@ import Order from "./src/components/Screens/Profile/Order";
 import Setting from "./src/components/Screens/Profile/Setting";
 import Contact from "./src/components/Screens/Profile/Contact";
 import OrderDetailes from "./src/components/Screens/Profile/OrderDetailes";
-import Landing from "./src/components/Screens/Home/Landing";
+import Landing from "./src/components/Screens/Home/LandingHome";
 import LandingProductView from "./src/components/Screens/Home/LandingProductView";
+import LandingCategories from "./src/components/Screens/Home/landingShop/Categories";
+import LandingProducts from "./src/components/Screens/Home/landingShop/Products";
 
 const MyTheme = {
   ...DefaultTheme,
@@ -157,6 +159,20 @@ export default function App({ navigation }) {
       />
     );
   };
+  const LandingCategoryScreen = props => {
+    const navigation = useNavigation();
+
+    // const { signOut } = dispatch({ type: "SIGN_OUT" });
+    return (
+      <LandingCategories
+        {...props}
+        navigation={navigation}
+        logout={() => {
+          dispatch({ type: "SIGN_OUT" });
+        }}
+      />
+    );
+  };
   const ProductScreen = props => {
     const navigation = useNavigation();
     const route = useRoute();
@@ -171,6 +187,12 @@ export default function App({ navigation }) {
     return (
       <LandingProductView {...props} navigation={navigation} route={route} />
     );
+  };
+  const LandingProductsScreen = props => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    // const { signOut } = dispatch({ type: "SIGN_OUT" });
+    return <LandingProducts {...props} navigation={navigation} route={route} />;
   };
 
   const ClientAddressScreen = props => {
@@ -274,6 +296,26 @@ export default function App({ navigation }) {
                   <Stack.Screen
                     name="LandingProductView"
                     component={LandingProductViewScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="LandingCategory"
+                    component={LandingCategoryScreen}
+                    options={{
+                      animationTypeForReplace: state.isSignout ? "pop" : "push",
+                      header: () => {
+                        "none";
+                      },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="LandingProducts"
+                    component={LandingProductsScreen}
                     options={{
                       animationTypeForReplace: state.isSignout ? "pop" : "push",
                       header: () => {

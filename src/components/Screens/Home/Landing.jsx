@@ -324,7 +324,7 @@ export default class HomeScreen extends Component {
             )}
           </View>
         </ParallaxHeader>
-        <FloatingAction
+        {/* <FloatingAction
           actions={this.state.actions}
           onPressItem={name => {
             this.props.navigation.push(name);
@@ -333,7 +333,7 @@ export default class HomeScreen extends Component {
             <Icon type="antdesign" name="user" size={30} color="#fff" />
           }
           color="#28AE7B"
-        />
+        /> */}
       </SafeAreaView>
     );
   }
