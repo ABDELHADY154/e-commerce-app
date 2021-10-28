@@ -10,6 +10,9 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import ShopScreen from "./Screens/Shop/Shop";
 import Favorite from "./Screens/Favorite/Favorite";
 const Tabs = AnimatedTabBarNavigator();
+import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+
 export default class Home extends Component {
   async storeToken() {
     try {
@@ -130,15 +133,7 @@ export default class Home extends Component {
           component={this.Shop}
           options={{
             tabBarIcon: () => (
-              <Icon
-                name="shop"
-                family="Entypo"
-                size={26}
-                color="white"
-                // color={focused ? color : "#222222"}
-                // focused={focused}
-                // color={color}
-              />
+              <Ionicons name="shirt-outline" size={26} color="white" />
             ),
             unmountOnBlur: true,
           }}
@@ -151,12 +146,13 @@ export default class Home extends Component {
           component={this.Bag}
           options={{
             tabBarIcon: () => (
-              <Icon
-                name="shopping-bag"
-                family="Feather"
-                size={26}
-                color="white"
-              />
+              // <Icon
+              //   name="shopping-bag"
+              //   family="Feather"
+              //   size={26}
+              //   color="white"
+              // />
+              <AntDesign name="shoppingcart" size={26} color="white" />
             ),
             unmountOnBlur: true,
           }}
