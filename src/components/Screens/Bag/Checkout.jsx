@@ -56,6 +56,7 @@ class Checkout extends Component {
     price: 0,
     total_price: 0,
     addressErr: "",
+    loading: false,
   };
 
   async componentDidMount() {
@@ -116,6 +117,9 @@ class Checkout extends Component {
   };
 
   submitOrder = async () => {
+    this.setState({
+      loading: true,
+    });
     var products = [];
     this.state.products.map(e => {
       products.push({
@@ -133,6 +137,7 @@ class Checkout extends Component {
     await axios
       .post("/checkoutorder", data)
       .then(res => {
+        this.setState({ loading: false });
         this.props.navigation.push("Success");
       })
       .catch(err => {
@@ -140,6 +145,7 @@ class Checkout extends Component {
         if (err.response.data.errors) {
           if (err.response.data.errors.address_id) {
             this.setState({
+              loading: false,
               addressErr: "Please Choose An Address",
             });
           }
@@ -159,6 +165,7 @@ class Checkout extends Component {
               { cancelable: false },
             );
           }
+          this.setState({ loading: false });
         }
       });
   };
@@ -460,21 +467,24 @@ class Checkout extends Component {
                 EGP
               </Text>
             </View>
-            <TouchableOpacity
+            <GaButton
               style={{
                 backgroundColor: "#28AE7B",
                 borderRadius: 50,
                 // height: 40,
                 width: "90%",
-                paddingVertical: 15,
+                // paddingVertical: 15,
                 marginTop: 20,
                 marginBottom: "10%",
-                justifyContent: "center",
-                alignItems: "center",
+                // justifyContent: "center",
+                // alignItems: "center",
               }}
+              loading={this.state.loading}
               onPress={this.submitOrder}
+              shadowless={true}
+              disabled={this.state.loading}
             >
-              <Text
+              {/* <Text
                 style={{
                   color: "#fff",
                   fontSize: 18,
@@ -483,10 +493,10 @@ class Checkout extends Component {
                 // onPress={() => {
                 //   this.props.navigation.push("Success");
                 // }}
-              >
-                Submit Order
-              </Text>
-            </TouchableOpacity>
+              > */}
+              Submit Order
+              {/* </Text> */}
+            </GaButton>
           </View>
         </KeyboardAvoidingView>
 

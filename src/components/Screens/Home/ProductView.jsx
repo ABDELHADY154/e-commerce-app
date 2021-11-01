@@ -57,6 +57,7 @@ class ProductView extends Component {
       notificationListener: {},
       responseListener: {},
       quanErr: "",
+      loading: false,
     };
   }
 
@@ -181,6 +182,7 @@ class ProductView extends Component {
     this.setState({
       sizeErr: "",
       quanErr: "",
+      loading: true,
     });
     let data = {
       product_id: this.state.product.id,
@@ -195,6 +197,7 @@ class ProductView extends Component {
           sizeId: 0,
           quantity: 1,
           visible: false,
+          loading: false,
         });
         Alert.alert(
           "Product Added To Cart Successfully",
@@ -224,6 +227,7 @@ class ProductView extends Component {
               sizeErr: "Please Select A Size",
               sizeId: 0,
               quantity: 1,
+              loading: false,
             });
           }
           if (err.response.data.errors.quantity) {
@@ -231,6 +235,7 @@ class ProductView extends Component {
               quanErr: err.response.data.errors.quantity,
               // sizeId: 0,
               // quantity: 1,
+              loading: false,
             });
           }
         }
@@ -800,6 +805,8 @@ https://www.instagram.com/beamstoreapp/ `,
                       style={{ width: "90%" }}
                       size="large"
                       onPress={this.addToCartAlert}
+                      loading={this.state.loading}
+                      disabled={this.state.loading}
                       round
                     >
                       Add To Cart
