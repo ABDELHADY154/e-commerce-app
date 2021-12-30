@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // var getToken = token();
 // console.log(getToken);
 export const axios = Axios.create({
-  baseURL: "http://admin.beamstore.net/api",
+  baseURL: "https://admin.beamstore.net/api",
 });
 
 // console.log(getToken);

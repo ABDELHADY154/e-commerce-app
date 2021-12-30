@@ -7,6 +7,7 @@ import {
   ImageBackground,
   View,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
@@ -20,7 +21,16 @@ import { Header } from "react-native-elements/dist/header/Header";
 import { scale } from "react-native-size-matters";
 import { RefreshControl } from "react-native";
 import Card from "../../../UI/MainCard/MainCard";
+import { AntDesign } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 
+import {
+  Modal,
+  SlideAnimation,
+  ModalContent,
+  BottomModal,
+  ModalTitle,
+} from "react-native-modals";
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 class Profile extends Component {
@@ -28,12 +38,16 @@ class Profile extends Component {
     products: [],
     refresh: true,
     message: "",
+    visible: false,
+    selectedSize: "",
   };
 
   async componentDidMount() {
     if (this.props.route.params.catId) {
       await axios
-        .get(`/categoryProducts/${this.props.route.params.catId}`)
+        .get(
+          `/categoryProducts/${this.props.route.params.catId}?size=${this.state.selectedSize}`,
+        )
         .then(res => {
           this.setState({
             products: res.data.response.data,
@@ -47,7 +61,9 @@ class Profile extends Component {
     } else {
       if (this.props.route.params.id) {
         await axios
-          .get(`/allProduct/${this.props.route.params.id}`)
+          .get(
+            `/allProduct/${this.props.route.params.id}?size=${this.state.selectedSize}`,
+          )
           .then(res => {
             // console.log(res.data.response.data[0].images[0].image);
             this.setState({
@@ -70,11 +86,13 @@ class Profile extends Component {
     });
     if (this.props.route.params.catId) {
       await axios
-        .get(`/categoryProducts/${this.props.route.params.catId}`)
+        .get(
+          `/categoryProducts/${this.props.route.params.catId}?size=${this.state.selectedSize}`,
+        )
         .then(res => {
           this.setState({
             products: res.data.response.data,
-            refresh: false,
+
             message: res.data.response.data.length == 0 ? "No Results !" : "",
           });
         })
@@ -84,12 +102,13 @@ class Profile extends Component {
     } else {
       if (this.props.route.params.id) {
         await axios
-          .get(`/allProduct/${this.props.route.params.id}`)
+          .get(
+            `/allProduct/${this.props.route.params.id}?size=${this.state.selectedSize}`,
+          )
           .then(res => {
             // console.log(res.data.response.data[0].images[0].image);
             this.setState({
               products: res.data.response.data,
-              refresh: false,
               message: res.data.response.data.length == 0 ? "No Results !" : "",
             });
           })
@@ -98,6 +117,9 @@ class Profile extends Component {
           });
       }
     }
+    this.setState({
+      refresh: false,
+    });
   };
   favoriteProduct = async id => {
     await axios
@@ -119,7 +141,6 @@ class Profile extends Component {
   };
 
   render() {
-    // console.log()
     return (
       <>
         <Header
@@ -132,6 +153,14 @@ class Profile extends Component {
           centerComponent={{
             text: this.props.route.params.name,
             style: { color: "#fff", fontSize: scale(25) },
+          }}
+          rightComponent={{
+            icon: "sort",
+            color: "#fff",
+            size: scale(30),
+            onPress: () => {
+              this.setState({ visible: true });
+            },
           }}
           leftComponent={{
             icon: "arrow-back",
@@ -232,6 +261,67 @@ class Profile extends Component {
               </View>
             )}
           </View>
+          <BottomModal
+            visible={this.state.visible}
+            onTouchOutside={() => this.setState({ visible: false })}
+            height={scale(350)}
+            width={1}
+            onSwipeOut={() => this.setState({ visible: false })}
+            // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
+          >
+            <ModalContent
+              style={{
+                flex: 1,
+                backgroundColor: "#1E1F28",
+                // flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  // marginBottom: scale(10),
+                }}
+              >
+                <Text style={{ color: "#fff", fontSize: 25 }}>Select Size</Text>
+              </View>
+
+              <Picker
+                selectedValue={this.state.selectedSize}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({
+                    selectedSize: itemValue,
+                    products: [],
+                    visible: false,
+                    refresh: true,
+                  });
+                  setTimeout(() => {
+                    this.onRefresh();
+                  }, 2000);
+                }}
+              >
+                <Picker.Item label="Not Set" value="" color="white" />
+                <Picker.Item label="XS" value="XS" color="white" />
+                <Picker.Item label="M" value="M" color="white" />
+                <Picker.Item label="L" value="L" color="white" />
+                <Picker.Item label="XL" value="XL" color="white" />
+                <Picker.Item label="XXL" value="XXL" color="white" />
+                <Picker.Item label="XXXL" value="XXXL" color="white" />
+              </Picker>
+              {/* </View> */}
+
+              <View
+                style={{
+                  borderBottomColor: "#ABB4BD",
+                  borderBottomWidth: 1,
+                  marginTop: scale(5),
+                  width: "100%",
+                  alignSelf: "center",
+                  marginBottom: scale(5),
+                }}
+              />
+            </ModalContent>
+          </BottomModal>
         </ScrollView>
         {/* </SafeAreaView> */}
       </>
