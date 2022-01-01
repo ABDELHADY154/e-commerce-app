@@ -273,34 +273,65 @@ class Profile extends Component {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  // marginBottom: scale(10),
                 }}
               >
                 <Text style={{ color: "#fff", fontSize: 25 }}>Select Size</Text>
               </View>
 
-              <Picker
-                selectedValue={this.state.selectedSize}
-                onValueChange={(itemValue, itemIndex) => {
-                  this.setState({
-                    selectedSize: itemValue,
-                    products: [],
-                    visible: false,
-                    refresh: true,
-                  });
-                  setTimeout(() => {
-                    this.onRefresh();
-                  }, 2000);
-                }}
-              >
-                <Picker.Item label="Not Set" value="" color="white" />
-                <Picker.Item label="XS" value="XS" color="white" />
-                <Picker.Item label="M" value="M" color="white" />
-                <Picker.Item label="L" value="L" color="white" />
-                <Picker.Item label="XL" value="XL" color="white" />
-                <Picker.Item label="XXL" value="XXL" color="white" />
-                <Picker.Item label="XXXL" value="XXXL" color="white" />
-              </Picker>
+              {Platform.OS == "ios" ? (
+                <Picker
+                  selectedValue={this.state.selectedSize}
+                  onValueChange={(itemValue, itemIndex) => {
+                    this.setState({
+                      selectedSize: itemValue,
+                      products: [],
+                      visible: false,
+                      refresh: true,
+                    });
+                    setTimeout(() => {
+                      this.onRefresh();
+                    }, 2000);
+                  }}
+                >
+                  <Picker.Item label="Not Set" value="" color="white" />
+                  <Picker.Item label="XS" value="XS" color="white" />
+                  <Picker.Item label="S" value="S" color="white" />
+                  <Picker.Item label="M" value="M" color="white" />
+                  <Picker.Item label="L" value="L" color="white" />
+                  <Picker.Item label="XL" value="XL" color="white" />
+                  <Picker.Item label="XXL" value="XXL" color="white" />
+                  <Picker.Item label="XXXL" value="XXXL" color="white" />
+                </Picker>
+              ) : (
+                <Picker
+                  selectedValue={this.state.selectedSize}
+                  onValueChange={(itemValue, itemIndex) => {
+                    this.setState({
+                      selectedSize: itemValue,
+                      products: [],
+                      visible: false,
+                      refresh: true,
+                    });
+                    setTimeout(() => {
+                      this.onRefresh();
+                    }, 2000);
+                  }}
+                  mode="dialog"
+                  dropdownIconColor="white"
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  <Picker.Item label="All" value="" />
+                  <Picker.Item label="XS" value="XS" />
+                  <Picker.Item label="S" value="S" />
+                  <Picker.Item label="M" value="M" />
+                  <Picker.Item label="L" value="L" />
+                  <Picker.Item label="XL" value="XL" />
+                  <Picker.Item label="XXL" value="XXL" />
+                  <Picker.Item label="XXXL" value="XXXL" />
+                </Picker>
+              )}
               {/* </View> */}
 
               <View
