@@ -20,6 +20,7 @@ import {
   Share,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import ImageView from "react-native-image-viewing";
 
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
@@ -57,10 +58,14 @@ class ProductView extends Component {
       notificationListener: {},
       responseListener: {},
       quanErr: "",
+      visible: false,
+      images: [],
+      imageIndex: 0,
     };
   }
 
   async componentDidMount() {
+    var imagesArr = [];
     if (this.props.route.params.id) {
       await axios
         .get(`/product/${this.props.route.params.id}`)
@@ -70,6 +75,10 @@ class ProductView extends Component {
           });
         })
         .catch(err => {});
+      this.state.product.images.forEach(el => {
+        imagesArr.push({ uri: el.image });
+      });
+      this.setState({ images: imagesArr });
     }
   }
   addToCartAlert = () => {
@@ -166,17 +175,22 @@ https://www.instagram.com/beamstoreapp/ `,
                 <Pages containerStyle={{}}>
                   {this.state.product.images ? (
                     this.state.product.images.map((e, i) => {
-                      console.log(e);
                       return (
                         <>
-                          <Image
-                            key={i}
-                            source={{ uri: e.image }}
-                            style={{
-                              height: "120%",
-                              width: "100%",
-                            }}
-                          />
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.setState({ imageIndex: i, visible: true })
+                            }
+                          >
+                            <Image
+                              key={i}
+                              source={{ uri: e.image }}
+                              style={{
+                                height: "120%",
+                                width: "100%",
+                              }}
+                            />
+                          </TouchableOpacity>
                         </>
                       );
                     })
@@ -225,7 +239,12 @@ https://www.instagram.com/beamstoreapp/ `,
                       {this.state.product.brand}
                     </Text>
                   </View>
-
+                  <ImageView
+                    images={this.state.images}
+                    imageIndex={this.state.imageIndex}
+                    visible={this.state.visible}
+                    onRequestClose={() => this.setState({ visible: false })}
+                  />
                   <View
                     style={{ justifyContent: "flex-end", flexDirection: "row" }}
                   >

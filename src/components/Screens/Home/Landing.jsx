@@ -7,7 +7,7 @@ import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { Alert, Image, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
 import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
@@ -17,6 +17,7 @@ import { FloatingAction } from "react-native-floating-action";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Pages } from "react-native-pages";
+import ImageView from "react-native-image-viewing";
 
 export default class HomeScreen extends Component {
   state = {
@@ -40,9 +41,13 @@ export default class HomeScreen extends Component {
         color: "#28AE7B",
       },
     ],
+    imagesURI: [],
+    visibile: false,
+    imageIndex: 0,
   };
 
   async componentDidMount() {
+    var images = [];
     await axios
       .get(`/ads`)
       .then(res => {
@@ -51,7 +56,12 @@ export default class HomeScreen extends Component {
         });
       })
       .catch(err => {});
-
+    this.state.images.forEach(el => {
+      images.push({ uri: el.image });
+    });
+    this.setState({
+      imagesURI: images,
+    });
     await axios
       .get("/saleproduct")
       .then(res => {
@@ -96,7 +106,6 @@ export default class HomeScreen extends Component {
     });
   };
   render() {
-    // console.log(this.state.saleProducts);
     return (
       <SafeAreaView
       // style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
@@ -108,18 +117,33 @@ export default class HomeScreen extends Component {
             return (
               <Pages>
                 {this.state.images.length !== 0 ? (
-                  this.state.images.map(e => {
+                  this.state.images.map((e, i) => {
                     return (
                       // <>
-                      <Image
+                      // <Image
+                      //   key={e.id}
+                      //   resizeMode="cover"
+                      //   source={{ uri: e.image }}
+                      //   style={{
+                      //     height: "100%",
+                      //     width: "100%",
+                      //   }}
+                      // />
+                      <TouchableOpacity
                         key={e.id}
-                        resizeMode="cover"
-                        source={{ uri: e.image }}
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                        }}
-                      />
+                        onPress={() =>
+                          this.setState({ imageIndex: i, visible: true })
+                        }
+                      >
+                        <Image
+                          key={e.id}
+                          source={{ uri: e.image }}
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                          }}
+                        />
+                      </TouchableOpacity>
                     );
                   })
                 ) : (
@@ -134,8 +158,13 @@ export default class HomeScreen extends Component {
               </Pages>
             );
           }}
-          // heroImage={require("../../../assets/images/image.png")}
         >
+          <ImageView
+            images={this.state.imagesURI}
+            imageIndex={this.state.imageIndex}
+            visible={this.state.visible}
+            onRequestClose={() => this.setState({ visible: false })}
+          />
           <View
             style={{
               justifyContent: "center",
