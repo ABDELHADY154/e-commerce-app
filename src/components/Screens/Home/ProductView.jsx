@@ -49,7 +49,7 @@ class ProductView extends Component {
       icon: "star",
       nbStar: 0,
       product: {},
-      visible: false,
+      visibleAddToCart: false,
       sizeId: 0,
       quantity: 1,
       sizeErr: "",
@@ -422,7 +422,7 @@ https://www.instagram.com/beamstoreapp/ `,
                           backgroundColor: "#28AE7B",
                         }}
                         onPress={() => {
-                          this.setState({ visible: true });
+                          this.setState({ visibleAddToCart: true });
                         }}
                       >
                         <Icon
@@ -430,7 +430,7 @@ https://www.instagram.com/beamstoreapp/ `,
                           color="#fff"
                           size={scale(18)}
                           onPress={() => {
-                            this.setState({ visible: true });
+                            this.setState({ visibleAddToCart: true });
                           }}
                         />
                       </TouchableOpacity>
@@ -644,11 +644,13 @@ https://www.instagram.com/beamstoreapp/ `,
               </View>
 
               <BottomModal
-                visible={this.state.visible}
-                onTouchOutside={() => this.setState({ visible: false })}
+                visible={this.state.visibleAddToCart}
+                onTouchOutside={() =>
+                  this.setState({ visibleAddToCart: false })
+                }
                 height={scale(400)}
                 width={1}
-                onSwipeOut={() => this.setState({ visible: false })}
+                onSwipeOut={() => this.setState({ visibleAddToCart: false })}
                 // modalTitle={<ModalTitle title="Bottom Modal" hasTitleBar />}
               >
                 <ModalContent

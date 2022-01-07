@@ -7,12 +7,13 @@ import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
 import { Alert, Image, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
 import StickyParallaxHeader from "react-native-sticky-parallax-header";
 import { Header } from "react-native-elements";
 import { RefreshControl } from "react-native";
 import Notification from "./Notification";
+import ImageView from "react-native-image-viewing";
 
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
@@ -23,11 +24,15 @@ export default class HomeScreen extends Component {
     newProducts: [],
     expoPushToken: "",
     images: [],
+    imagesURI: [],
+    visibile: false,
+    imageIndex: 0,
   };
 
   async componentDidMount() {
     var userToken = await AsyncStorage.getItem("userToken");
     axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
+    var images = [];
     await axios
       .get(`/ads`)
       .then(res => {
@@ -36,6 +41,12 @@ export default class HomeScreen extends Component {
         });
       })
       .catch(err => {});
+    this.state.images.forEach(el => {
+      images.push({ uri: el.image });
+    });
+    this.setState({
+      imagesURI: images,
+    });
     await axios
       .get(`/clientProfile`)
       .then(res => {})
@@ -151,18 +162,24 @@ export default class HomeScreen extends Component {
             return (
               <Pages>
                 {this.state.images.length !== 0 ? (
-                  this.state.images.map(e => {
+                  this.state.images.map((e, i) => {
                     return (
                       // <>
-                      <Image
+                      <TouchableOpacity
                         key={e.id}
-                        resizeMode="stretch"
-                        source={{ uri: e.image }}
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                        }}
-                      />
+                        onPress={() =>
+                          this.setState({ imageIndex: i, visible: true })
+                        }
+                      >
+                        <Image
+                          key={e.id}
+                          source={{ uri: e.image }}
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                          }}
+                        />
+                      </TouchableOpacity>
                     );
                   })
                 ) : (
@@ -179,6 +196,12 @@ export default class HomeScreen extends Component {
           }}
           // heroImage={require("../../../assets/images/image.png")}
         >
+          <ImageView
+            images={this.state.imagesURI}
+            imageIndex={this.state.imageIndex}
+            visible={this.state.visible}
+            onRequestClose={() => this.setState({ visible: false })}
+          />
           <View
             style={{
               justifyContent: "center",
