@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
-import { Alert, Image, View } from "react-native";
+import { Alert, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
@@ -14,6 +14,7 @@ import { Header } from "react-native-elements";
 import { RefreshControl } from "react-native";
 import Notification from "./Notification";
 import ImageView from "react-native-image-viewing";
+import { Image } from "react-native-expo-image-cache";
 
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
@@ -173,11 +174,14 @@ export default class HomeScreen extends Component {
                       >
                         <Image
                           key={e.id}
-                          source={{ uri: e.image }}
+                          // source={{ uri: e.image }}
+                          // transitionDuration={50}
+                          // tint="dark"
                           style={{
                             height: "100%",
                             width: "100%",
                           }}
+                          {...{ preview: "", uri: e.image }}
                         />
                       </TouchableOpacity>
                     );
@@ -185,6 +189,7 @@ export default class HomeScreen extends Component {
                 ) : (
                   <Image
                     source={require("../../../assets/images/image.png")}
+                    transitionDuration={50}
                     style={{
                       height: "100%",
                       width: "100%",
@@ -244,7 +249,7 @@ export default class HomeScreen extends Component {
                       onPress={() => {
                         this.props.navigation.push("ProductView", { id: e.id });
                       }}
-                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      image={e.images[0] ? e.images[0].image : ""}
                       buttonText={"VIEW DETAILS"}
                       icon1={"heart"}
                       iconColor1={e.favourited == true ? "white" : "#fff"}
@@ -335,7 +340,7 @@ export default class HomeScreen extends Component {
                       sale={e.total_price}
                       price={e.price}
                       brand={e.brand}
-                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      image={e.images[0] ? e.images[0].image : ""}
                       buttonText={"VIEW DETAILS"}
                       icon1={"heart"}
                       iconColor1={e.favourited == true ? "white" : "#fff"}

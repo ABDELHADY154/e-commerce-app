@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 // import Androw from "react-native-androw";
 import { ScreenWidth } from "@freakycoder/react-native-helpers";
 // import LinearGradient from "react-native-linear-gradient";
@@ -8,6 +8,7 @@ import Text from "@freakycoder/react-native-custom-text";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
 import styles, { _shadowStyle, _container } from "./CategoryCard.style";
+import { Image } from "react-native-expo-image-cache";
 
 export default class CategoryCard extends Component {
   constructor(props) {
@@ -61,7 +62,8 @@ export default class CategoryCard extends Component {
             {customImageComponent || (
               <ImageComponent
                 style={imageStyle || styles.imageStyle}
-                source={imageSource}
+                // source={imageSource}
+                {...{ preview: "", uri: imageSource }}
               />
             )}
           </View>

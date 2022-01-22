@@ -217,7 +217,7 @@ class Profile extends Component {
                       sale={e.total_price}
                       price={e.price}
                       brand={e.brand}
-                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      image={e.images[0] ? e.images[0].image : ""}
                       buttonText={"VIEW DETAILS"}
                       icon1={"heart"}
                       iconColor1={e.favourited == true ? "white" : "#fff"}

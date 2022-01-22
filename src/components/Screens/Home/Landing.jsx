@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axios } from "../../../Config/Axios";
 import ParallaxHeader from "@fabfit/react-native-parallax-header";
-import { Alert, Image, View } from "react-native";
+import { Alert, View } from "react-native";
 import Card from "../../UI/MainCard/MainCard";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { scale } from "react-native-size-matters";
@@ -18,6 +18,9 @@ import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Pages } from "react-native-pages";
 import ImageView from "react-native-image-viewing";
+import { Image } from "react-native-expo-image-cache";
+
+// import CachedImage from "react-native-expo-cached-image";
 
 export default class HomeScreen extends Component {
   state = {
@@ -137,7 +140,8 @@ export default class HomeScreen extends Component {
                       >
                         <Image
                           key={e.id}
-                          source={{ uri: e.image }}
+                          // source={{ uri: e.image }}
+                          {...{ preview: "", uri: e.image }}
                           style={{
                             height: "100%",
                             width: "100%",
@@ -209,7 +213,7 @@ export default class HomeScreen extends Component {
                           id: e.id,
                         });
                       }}
-                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      image={e.images[0] ? e.images[0].image : ""}
                       buttonText={"VIEW DETAILS"}
                       icon1={"heart"}
                       iconColor1={e.favourited == true ? "white" : "#fff"}
@@ -304,7 +308,7 @@ export default class HomeScreen extends Component {
                       sale={e.total_price}
                       price={e.price}
                       brand={e.brand}
-                      image={e.images[0] ? { uri: e.images[0].image } : ""}
+                      image={e.images[0] ? e.images[0].image : ""}
                       buttonText={"VIEW DETAILS"}
                       icon1={"heart"}
                       iconColor1={e.favourited == true ? "white" : "#fff"}

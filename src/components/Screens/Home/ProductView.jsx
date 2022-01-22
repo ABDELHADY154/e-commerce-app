@@ -12,7 +12,6 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image,
   ImageBackground,
   View,
   TouchableOpacity,
@@ -21,6 +20,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ImageView from "react-native-image-viewing";
+import { Image } from "react-native-expo-image-cache";
 
 import { Block, Text, theme, Button as GaButton } from "galio-framework";
 import { Button } from "galio-framework";
@@ -205,7 +205,7 @@ class ProductView extends Component {
         this.setState({
           sizeId: 0,
           quantity: 1,
-          visible: false,
+          visibleAddToCart: false,
           loading: false,
         });
         Alert.alert(
@@ -330,7 +330,8 @@ https://www.instagram.com/beamstoreapp/ `,
                           >
                             <Image
                               key={i}
-                              source={{ uri: e.image }}
+                              // source={{ uri: e.image }}
+                              {...{ preview: "", uri: e.image }}
                               style={{
                                 height: "120%",
                                 width: "100%",

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Image,
   Dimensions,
   ImageBackground,
   TouchableOpacity,
@@ -15,6 +14,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 let screenWidth = Dimensions.get("window").width;
 let screenHeight = Dimensions.get("window").height;
+// import CachedImage from "react-native-expo-cached-image";
+import { Image } from "react-native-expo-image-cache";
 
 export default class CardEcomOne extends Component {
   constructor(props) {
@@ -83,7 +84,8 @@ export default class CardEcomOne extends Component {
           <Image
             borderTopRightRadius={12}
             borderTopLeftRadius={12}
-            source={image}
+            // source={image}
+            {...{ preview: "", uri: image }}
             style={{
               width: screenWidth - screenWidth * 0.53,
               height: "95%",

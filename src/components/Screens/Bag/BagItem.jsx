@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image,
   ImageBackground,
   View,
   TouchableOpacity,
@@ -22,6 +21,8 @@ import { Button } from "react-native-elements/dist/buttons/Button";
 import { Icon } from "react-native-elements/dist/icons/Icon";
 const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
+import { Image } from "react-native-expo-image-cache";
+
 class Bag extends Component {
   state = {};
 
@@ -43,7 +44,8 @@ class Bag extends Component {
           }}
         >
           <Image
-            source={{ uri: this.props.image }} //{require("../../../assets/images/image2.png")}
+            // source={{ uri: this.props.image }} //{require("../../../assets/images/image2.png")}
+            {...{ preview: "", uri: this.props.image }}
             style={{
               height: "100%",
               width: scale(110),

@@ -93,7 +93,7 @@ export default class ShopScreen extends Component {
                     titleText={e.brand}
                     width={scale(300)}
                     height={scale(80)}
-                    imageSource={{ uri: e.brand_image }}
+                    imageSource={e.brand_image}
                     onPress={() =>
                       this.props.navigation.push("LandingCategory", {
                         id: e.id,
